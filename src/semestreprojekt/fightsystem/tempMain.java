@@ -14,11 +14,11 @@ public class tempMain {
         AttackCatalogue browser = new AttackCatalogue();
         
         Character protagonist = new Character();
-        System.out.println(protagonist.getHp());
+        //System.out.println(protagonist.getHp());
         Attack[] attack = {browser.getAttack("Hack"), browser.getAttack("Slice"), browser.getAttack("Chop")};
         protagonist.setAttacks(attack);
         Character wombat = new Character("Tobias", 25, 200, 50);
-        System.out.println(wombat.getName() + wombat.getHp() + wombat.getReactionTime());
+        //System.out.println(wombat.getName() + wombat.getHp() + wombat.getReactionTime());
         wombat.setAttacks(attack);
         
         Fight fight = new Fight(protagonist, wombat);

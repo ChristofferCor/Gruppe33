@@ -17,7 +17,7 @@ public class AttackCatalogue {
 
     public AttackCatalogue() {
         initiateAttacks();
-        System.out.println(toString());
+        //System.out.println(toString());
     }
 
     private void initiateAttacks() {
