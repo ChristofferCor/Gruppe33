@@ -1,5 +1,6 @@
 package semestreprojekt;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,7 +13,7 @@ public class Room
     private HashMap<String, Room> exits;
     private int visitCounter = 0; // Attribute for visit counter
     private int id = 0; // Attribute for id
-    // private ArrayList<Item> items = new ArrayList<>(); used for items placed in the rooms.
+    private ArrayList<Item> items = new ArrayList<>(); //used for items placed in the rooms.
 
     // Constructor for Room with 3 variables (used for rooms with a first time event)
     public Room(String description, boolean firstTime, int id) 
@@ -33,6 +34,11 @@ public class Room
     {
         exits.put(direction, neighbor);
     }
+    
+    // adds item to room.
+    public void setItems(Item newItem) {
+        items.add(newItem);
+    }
 
     public String getShortDescription()
     {
@@ -41,7 +47,7 @@ public class Room
 
     public String getLongDescription()
     {
-        return description + ".\n" + getExitString(); // + getItemList;
+        return description + ".\n" + getExitString() + "\n" + getItemList();
     }
 
     private String getExitString()
@@ -83,15 +89,15 @@ public class Room
         return firstTime;
     }
     
-    /*
-    Method for displaying items in the room.
+    
+    // Method for displaying items in the room.
     public String getItemList() {
-        String returnString = "Items: ";
+        String returnString = "Items in room: ";
         for (Item i : items) {
             returnString += " " + i.getName();
         }
     return returnString;
     }
-    */
+    
 }
 

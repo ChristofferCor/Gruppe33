@@ -60,9 +60,12 @@ public class Game
         cave2.setExit("east", cave8);
         cave2.setExit("north", cave1);
         
+        Materials iron = new Materials("Iron", 1, "Piece of iron.", 10);
+        
         cave3.setExit("south", cave1);
         cave3.setExit("north", cave4);
         cave3.setExit("east", cave5);
+        cave3.setItems(iron);
         
         cave4.setExit("south", cave3);
         cave4.setExit("east", cave6);
@@ -137,6 +140,12 @@ public class Game
         }
         else if (commandWord == CommandWord.QUIT) {
             wantToQuit = quit(command);
+        } else if (commandWord == CommandWord.INVENTORY) {
+            // Checks inventory
+        } else if (commandWord == CommandWord.USE) {
+            // Use an item in the inventory
+        } else if (commandWord == CommandWord.TAKE) {
+            // Take item from room and add to inventory. Deletes the item from the room after.
         }
         return wantToQuit;
     }
@@ -172,6 +181,7 @@ public class Game
             if (currentRoom.getVisitCounter() == 1 && currentRoom.isFirstTimeEvent()) { // If the visit count is 1 and there's a first time event, run first time event.
                 currentRoom.firstTimeEvent();
             }
+            // Start fight
         }
     }
 
