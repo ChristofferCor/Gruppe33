@@ -104,9 +104,9 @@ public class Fight {
 
     private void takeDamage(double dmg) {
         double health = this.player.getHp(); //See dealDamage()
-        health -= (dmg *(this.monster.getStrength())/100);
-        health = (int) (health * 10);
-        health = ((double) health) / 10;
+        health -= dmg;
+        //health = (int) (health * 10);
+        //health = ((double) health) / 10;
         this.player.setHp(health);
         if (this.player.getHp() <= 0) { //See dealDamage(). Status '1' is defeat.
             this.player.setHp(0);
@@ -116,9 +116,9 @@ public class Fight {
 
     private void dealDamage(double dmg) {
         double health = this.monster.getHp();
-        health -= (dmg *(this.player.getStrength())/100); //These extra assignments of the variable is used to remove truncating errors, eg: 1.200000003 -> 1.2
-        health = (int) (health * 10);
-        health = ((double) health) / 10;
+        health -= dmg; //These extra assignments of the variable is used to remove truncating errors, eg: 1.200000003 -> 1.2
+        //health = (int) (health * 10);
+        //health = ((double) health) / 10;
         this.monster.setHp(health);
         if (health <= 0) { //Checks if the monsters HP fell below or hit zero. If so the status is changed to '2' which means victory.
             this.monster.setHp(0);
@@ -130,6 +130,8 @@ public class Fight {
         int rng = (int) (Math.random() * 100);
         int atkNumber = (int) (rng / (100d / this.numAtk));
         double damage = ((this.monster.getAttacks()[atkNumber].getDmg())*(this.monster.getStrength())/100);
+        damage = (double)((int)damage*10)/10;
+        System.out.println("DAMAGE DEALT BY WOMBAT: "+damage);
         takeDamage(damage);
         String[] array = {"The " + this.monster.getName() + " uses " + this.monster.getAttacks()[atkNumber].getName() + " against you and dealt " + damage + " DMG"};
         CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
@@ -150,8 +152,9 @@ public class Fight {
                 }
                 
                 if (atk.getName().equals(attack) & (end - start) <= (atk.getCastTime() * (this.monster.getReactionTime() / 100d)) & !accuracyMiss) {
-                    dealDamage(atk.getDmg());
                     double damage = ((atk.getDmg())*(this.player.getStrength())/100);
+                    damage = (double)((int)damage*10)/10;
+                    dealDamage(damage);
                     String[] array = {"Your " + attack + " succeded! You dealt " + damage + " DMG"};
                     CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
                     correctAtk = true;
