@@ -12,14 +12,14 @@ import java.util.Date;
  *
  * @author Simon Holland Flarup
  */
-public class FightInitiater {
+public class Fight {
 
     //public double health = 100;
     //public int monsterId;
     //public double monsterHealth = 10;
     private int status;
     private int numAtk = 0;
-    private final Characters monster, player;
+    private final Character monster, player;
     private Scanner speedTyper;
 
     /**
@@ -30,12 +30,12 @@ public class FightInitiater {
      * @param player
      * @param monster takes a Character object
      */
-    public FightInitiater(Characters player, Characters monster) {
+    public Fight(Character player, Character monster) {
         this.monster = monster;
         this.player = player;
         this.status = 0;
 
-        for (Attacks atk : this.monster.getAttacks()) {
+        for (Attack atk : this.monster.getAttacks()) {
             if (atk != null) {
                 this.numAtk++;
             }
@@ -82,7 +82,7 @@ public class FightInitiater {
     private void yourTurn() {
 
         String tempString = "";
-        for (Attacks atk : this.player.getAttacks()) {
+        for (Attack atk : this.player.getAttacks()) {
             if (atk != null) {
                 tempString += atk.getName();
                 tempString += "    ";
@@ -104,7 +104,7 @@ public class FightInitiater {
 
     private void takeDamage(double dmg) {
         double health = this.player.getHp(); //See dealDamage()
-        health -= dmg;
+        health -= (dmg *(this.monster.getStrength())/100);
         health = (int) (health * 10);
         health = ((double) health) / 10;
         this.player.setHp(health);
@@ -116,7 +116,7 @@ public class FightInitiater {
 
     private void dealDamage(double dmg) {
         double health = this.monster.getHp();
-        health -= dmg; //These extra assignments of the variable is used to remove truncating errors, eg: 1.200000003 -> 1.2
+        health -= (dmg *(this.player.getStrength())/100); //These extra assignments of the variable is used to remove truncating errors, eg: 1.200000003 -> 1.2
         health = (int) (health * 10);
         health = ((double) health) / 10;
         this.monster.setHp(health);
@@ -129,7 +129,7 @@ public class FightInitiater {
     private void theirTurn() {
         int rng = (int) (Math.random() * 100);
         int atkNumber = (int) (rng / (100d / this.numAtk));
-        double damage = this.monster.getAttacks()[atkNumber].getDmg();
+        double damage = ((this.monster.getAttacks()[atkNumber].getDmg())*(this.monster.getStrength())/100);
         takeDamage(damage);
         String[] array = {"The " + this.monster.getName() + " uses " + this.monster.getAttacks()[atkNumber].getName() + " against you and dealt " + damage + " DMG"};
         CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
@@ -137,17 +137,27 @@ public class FightInitiater {
 
     private void checkAttack(String attack, long start, long end) {
         boolean correctAtk = false;
-        for (Attacks atk : this.player.getAttacks()) {
+        boolean accuracyMiss = false;
+        double hitChance = 0;
+        
+        for (Attack atk : this.player.getAttacks()) {
             if (atk != null) {
-                if (atk.getName().equals(attack) & (end - start) <= (atk.getCastTime() * (this.monster.getReactionTime() / 100d))) {
+                
+                hitChance = atk.getAccuracy() + (atk.getCastTime()-(end-start))/100;
+                System.out.println(hitChance);
+                if(Math.random() > hitChance/100) {
+                    accuracyMiss = true;
+                }
+                
+                if (atk.getName().equals(attack) & (end - start) <= (atk.getCastTime() * (this.monster.getReactionTime() / 100d)) & !accuracyMiss) {
                     dealDamage(atk.getDmg());
-
-                    String[] array = {"Your " + attack + " succeded! You dealt " + atk.getDmg() + " DMG"};
+                    double damage = ((atk.getDmg())*(this.player.getStrength())/100);
+                    String[] array = {"Your " + attack + " succeded! You dealt " + damage + " DMG"};
                     CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
                     correctAtk = true;
                     break;
                 } else if (atk.getName().equals(attack)) {
-                    String[] array = {"You missed! You need to cast it faster!"};
+                    String[] array = {"You missed! You need to cast it faster!", "", "Accuracy might be too low!"};
                     CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
                     correctAtk = true;
                     break;

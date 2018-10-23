@@ -9,16 +9,18 @@ package semestreprojekt.fightsystem;
  *
  * @author corga
  */
-public class Attacks {
+public class Attack {
+
     private double dmg;
     private int castTime;
     private String name;
-    
-    public Attacks(){
+    private int accuracy;
+
+    public Attack() {
         System.out.println("NOT VALID ATTACK DECLARATION");
     }
-    
-    public Attacks(String name, double dmg, int castTime){
+
+    public Attack(String name, double dmg, int accuracy, int castTime) {
         this.dmg = dmg;
         this.castTime = castTime;
         this.name = name;
@@ -28,22 +30,28 @@ public class Attacks {
      * @return the dmg
      */
     public double getDmg() {
-        return dmg;
+        return this.dmg;
     }
 
     /**
      * @return the castTime
      */
     public int getCastTime() {
-        return castTime;
+        return this.castTime;
     }
 
     /**
      * @return the name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
-    
-    
+
+    /**
+     * @return the accuracy
+     */
+    public int getAccuracy() {
+        return this.accuracy;
+    }
+
 }

@@ -9,27 +9,28 @@ package semestreprojekt.fightsystem;
  *
  * @author corga
  */
-public class Characters {
+public class Character {
     private double hp, maxHp;
     private String name;
-    private Attacks[] attacks = new Attacks[4]; //listed attacks for characters to 4
+    private Attack[] attacks = new Attack[4]; //listed attacks for characters to 4
     private int reactionTime;
-    private int strength; // Not used yet
-    //Characters has an arraylist containing items.
+    private int strength;
+    //private ArrayList<Items> = new ArrayList<Items>(); //Characters has an arraylist containing items.
 
-    public Characters(){
-        this(null, 100, 100);
+    public Character(){
+        this(null, 100, 100, 100);
     }
     
-    public Characters(double hp){
-        this(null, hp, 100);
+    public Character(double hp){
+        this(null, hp, 100, 100);
     }
     
-    public Characters(String name, double hp, int reactionTime){
+    public Character(String name, double hp, int reactionTime, int strength){
         this.hp = hp;
         this.maxHp = hp;
         this.name = name;
         this.reactionTime = reactionTime;
+        this.strength = strength;
     }
 
     /**
@@ -56,14 +57,14 @@ public class Characters {
     /**
      * @return the attacks
      */
-    public Attacks[] getAttacks() {
+    public Attack[] getAttacks() {
         return attacks;
     }
 
     /**
      * @param attacks the attacks to set
      */
-    public void setAttacks(Attacks[] attacks) {
+    public void setAttacks(Attack[] attacks) {
         this.attacks = attacks;
     }
 
@@ -72,6 +73,20 @@ public class Characters {
      */
     public int getReactionTime() {
         return reactionTime;
+    }
+
+    /**
+     * @return the strength
+     */
+    public int getStrength() {
+        return strength;
+    }
+
+    /**
+     * @param strength the strength to set
+     */
+    public void setStrength(int strength) {
+        this.strength = strength;
     }
     
     
