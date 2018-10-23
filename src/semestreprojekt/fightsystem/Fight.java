@@ -130,7 +130,7 @@ public class Fight {
         int rng = (int) (Math.random() * 100);
         int atkNumber = (int) (rng / (100d / this.numAtk));
         double damage = ((this.monster.getAttacks()[atkNumber].getDmg())*(this.monster.getStrength())/100);
-        damage = (double)((int)damage*10)/10;
+        damage = ((double)((int)(damage*10)))/10;
         System.out.println("DAMAGE DEALT BY WOMBAT: "+damage);
         takeDamage(damage);
         String[] array = {"The " + this.monster.getName() + " uses " + this.monster.getAttacks()[atkNumber].getName() + " against you and dealt " + damage + " DMG"};
@@ -153,7 +153,7 @@ public class Fight {
                 
                 if (atk.getName().equals(attack) & (end - start) <= (atk.getCastTime() * (this.monster.getReactionTime() / 100d)) & !accuracyMiss) {
                     double damage = ((atk.getDmg())*(this.player.getStrength())/100);
-                    damage = (double)((int)damage*10)/10;
+                    damage = ((double)((int)(damage*10)))/10;
                     dealDamage(damage);
                     String[] array = {"Your " + attack + " succeded! You dealt " + damage + " DMG"};
                     CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
