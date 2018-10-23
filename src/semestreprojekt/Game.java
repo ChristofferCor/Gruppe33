@@ -146,6 +146,8 @@ public class Game
             // Use an item in the inventory
         } else if (commandWord == CommandWord.TAKE) {
             // Take item from room and add to inventory. Deletes the item from the room after.
+        } else if (commandWord == CommandWord.REST) {
+            // Rests and restores 25 HP to the player.
         }
         return wantToQuit;
     }

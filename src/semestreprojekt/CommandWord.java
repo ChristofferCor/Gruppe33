@@ -2,7 +2,7 @@ package semestreprojekt;
 
 public enum CommandWord
 {
-    GO("go"), QUIT("quit"), HELP("help"), UNKNOWN("?"), INVENTORY("inventory"), USE("use"), TAKE("take"); // added inventory, use and take as commands.
+    GO("go"), QUIT("quit"), HELP("help"), UNKNOWN("?"), INVENTORY("inventory"), USE("use"), TAKE("take"), REST("rest"); // added inventory, use and take as commands.
     
     private String commandString;
     
