@@ -26,6 +26,10 @@ public class CenterText {
         this.frame = frame;
         this.lid = lid;
     }
+    
+    public CenterText(String[] str, String monsterName, double playerHp, double monsterHp){
+        this(" You: " + playerHp + " HP", ""+monsterName + ": " + monsterHp + " HP ", str, 70, '#', '-');
+    }
 
     public CenterText(String header, String[] str, int width, char frame, char lid) {
         this(str, width, frame, lid);

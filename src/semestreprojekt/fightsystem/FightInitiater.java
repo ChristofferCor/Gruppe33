@@ -14,10 +14,12 @@ import java.util.Date;
  */
 public class FightInitiater {
 
-    public double health = 100;
-    public int monsterId;
-    public double monsterHealth = 10;
-    public int status;
+    //public double health = 100;
+    //public int monsterId;
+    //public double monsterHealth = 10;
+    private int status;
+    private int numAtk = 0;
+    private final Characters monster, player;
     private Scanner speedTyper;
 
     /**
@@ -25,11 +27,20 @@ public class FightInitiater {
      * monster could be an object in the monster package. OBS no monsters are
      * implemented in this prototype
      *
-     * @param monsterId
+     * @param player
+     * @param monster takes a Character object
      */
-    public FightInitiater(int monsterId) {
-        this.monsterId = monsterId;
+    public FightInitiater(Characters player, Characters monster) {
+        this.monster = monster;
+        this.player = player;
         this.status = 0;
+
+        for (Attacks atk : this.monster.getAttacks()) {
+            if (atk != null) {
+                this.numAtk++;
+            }
+        }
+
     }
 
     /**
@@ -39,8 +50,8 @@ public class FightInitiater {
      * running, 1 = dead, 2 = won
      */
     public int fight() {
-        String[] array = {"You encountered a Wombat!"};
-        CenterText str1 = new CenterText(" You: " + this.health + " HP", "Wombat: " + this.monsterHealth + " HP ", array, 70, '#', '-');
+        String[] array = {"You encountered a " + monster.getName() + "!"};
+        CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
         sleep(4);
         if (Math.random() <= 0.5) {
             while (this.status == 0) {
@@ -69,8 +80,18 @@ public class FightInitiater {
     }
 
     private void yourTurn() {
-        String[] array = {"This is your chance, act quickly!", "", "Avaliable attacks:    Slice    Hack    Chop"};
-        CenterText str1 = new CenterText(" You: " + this.health + " HP", "Wombat: " + this.monsterHealth + " HP ", array, 70, '#', '-');
+
+        String tempString = "";
+        for (Attacks atk : this.player.getAttacks()) {
+            if (atk != null) {
+                tempString += atk.getName();
+                tempString += "    ";
+            }
+        }
+        tempString = tempString.trim();
+
+        String[] array = {"This is your chance, act quickly!", "", "Avaliable attacks:    " + tempString};
+        CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
         System.out.print("Enter attack: ");
         speedTyper = new Scanner(System.in);
         Date currentTime = new Date();
@@ -82,87 +103,65 @@ public class FightInitiater {
     }
 
     private void takeDamage(double dmg) {
-        this.health -= dmg; //See dealDamage()
-        this.health = (int) (this.health * 10);
-        this.health = ((double) this.health) / 10;
-        if (this.health <= 0) { //See dealDamage(). Status '1' is defeat.
+        double health = this.player.getHp(); //See dealDamage()
+        health -= dmg;
+        health = (int) (health * 10);
+        health = ((double) health) / 10;
+        this.player.setHp(health);
+        if (this.player.getHp() <= 0) { //See dealDamage(). Status '1' is defeat.
+            this.player.setHp(0);
             this.status = 1;
         }
     }
 
     private void dealDamage(double dmg) {
-        this.monsterHealth -= dmg; //These extra assignments of the variable is used to remove truncating errors, eg: 1.200000003 -> 1.2
-        this.monsterHealth = (int) (this.monsterHealth * 10);
-        this.monsterHealth = ((double) this.monsterHealth) / 10;
-        if (this.monsterHealth <= 0) { //Checks if the monsters HP fell below or hit zero. If so the status is changed to '2' which means victory.
+        double health = this.monster.getHp();
+        health -= dmg; //These extra assignments of the variable is used to remove truncating errors, eg: 1.200000003 -> 1.2
+        health = (int) (health * 10);
+        health = ((double) health) / 10;
+        this.monster.setHp(health);
+        if (health <= 0) { //Checks if the monsters HP fell below or hit zero. If so the status is changed to '2' which means victory.
+            this.monster.setHp(0);
             this.status = 2;
         }
     }
-    /**
-     * @deprecated
-     */
-    private void displayStats() {
-        System.out.printf("You currently have %.1f HP\nThe Wombat currently have %.1f HP \n", this.health, this.monsterHealth);
-    }
 
     private void theirTurn() {
-        double damage = (((double) ((int) (Math.random() * 100))) / 10);
+        int rng = (int) (Math.random() * 100);
+        int atkNumber = (int) (rng / (100d / this.numAtk));
+        double damage = this.monster.getAttacks()[atkNumber].getDmg();
         takeDamage(damage);
-        String[] array = {"The Wombat attacked you and dealt " + damage + " DMG"};
-        CenterText str1 = new CenterText(" You: " + this.health + " HP", "Wombat: " + this.monsterHealth + " HP ", array, 70, '#', '-');
+        String[] array = {"The " + this.monster.getName() + " uses " + this.monster.getAttacks()[atkNumber].getName() + " against you and dealt " + damage + " DMG"};
+        CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
     }
 
     private void checkAttack(String attack, long start, long end) {
-        attack = attack.toLowerCase(); // Lowers the difficulty, by making the attack word case insensitive
-        double dmg;
-        String timeOutMessage = "You missed! You need to cast it faster!";
-        boolean inTime = (end - start <= 2000); // The number eg. 2000, represents the maximum allowed time in ms for the attacks
-        switch (attack) {
-            case "slice": {
-                dmg = 5;
-                if (inTime) {
-                    dealDamage(dmg);
-                    String[] array = {"Your " + attack + " succeded! You dealt " + dmg + " DMG"};
-                    CenterText str1 = new CenterText(" You: " + this.health + " HP", "Wombat: " + this.monsterHealth + " HP ", array, 70, '#', '-');
-                } else {
-                    String[] array = {timeOutMessage};
-                    CenterText str1 = new CenterText(" You: " + this.health + " HP", "Wombat: " + this.monsterHealth + " HP ", array, 70, '#', '-');
+        boolean correctAtk = false;
+        for (Attacks atk : this.player.getAttacks()) {
+            if (atk != null) {
+                if (atk.getName().equals(attack) & (end - start) <= (atk.getCastTime() * (this.monster.getReactionTime() / 100d))) {
+                    dealDamage(atk.getDmg());
+
+                    String[] array = {"Your " + attack + " succeded! You dealt " + atk.getDmg() + " DMG"};
+                    CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+                    correctAtk = true;
+                    break;
+                } else if (atk.getName().equals(attack)) {
+                    String[] array = {"You missed! You need to cast it faster!"};
+                    CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+                    correctAtk = true;
+                    break;
                 }
-                break;
             }
-            case "hack": {
-                dmg = 2.5;
-                if (inTime) {
-                    dealDamage(dmg);
-                    String[] array = {"Your " + attack + " succeded! You dealt " + dmg + " DMG"};
-                    CenterText str1 = new CenterText(" You: " + this.health + " HP", "Wombat: " + this.monsterHealth + " HP ", array, 70, '#', '-');
-                } else {
-                    String[] array = {timeOutMessage};
-                    CenterText str1 = new CenterText(" You: " + this.health + " HP", "Wombat: " + this.monsterHealth + " HP ", array, 70, '#', '-');
-                }
-                break;
-            }
-            case "chop": {
-                dmg = 2;
-                if (inTime) {
-                    dealDamage(dmg);
-                    String[] array = {"Your " + attack + " succeded! You dealt " + dmg + " DMG"};
-                    CenterText str1 = new CenterText(" You: " + this.health + " HP", "Wombat: " + this.monsterHealth + " HP ", array, 70, '#', '-');
-                } else {
-                    String[] array = {timeOutMessage};
-                    CenterText str1 = new CenterText(" You: " + this.health + " HP", "Wombat: " + this.monsterHealth + " HP ", array, 70, '#', '-');
-                }
-                break;
-            }
-            default: {
-                if (Math.random() <= 0.5) {
-                    takeDamage(1);
-                    String[] array = {"You drool! That's not a valid attack!", "", "OUCH! You accidentially hit yourself!"};
-                    CenterText str1 = new CenterText(" You: " + this.health + " HP", "Wombat: " + this.monsterHealth + " HP ", array, 70, '#', '-');
-                } else {
-                    String[] array = {"You drool! That's not a valid attack!"};
-                    CenterText str1 = new CenterText(" You: " + this.health + " HP", "Wombat: " + this.monsterHealth + " HP ", array, 70, '#', '-');
-                }
+        }
+        if (!correctAtk) {
+            if (Math.random() <= 0.5) {
+                takeDamage(1);
+                String[] array = {"You drool! That's not a valid attack!", "", "OUCH! You accidentially hit yourself!"};
+                CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+            } else {
+                String[] array = {"You drool! That's not a valid attack!"};
+                CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
             }
         }
     }
