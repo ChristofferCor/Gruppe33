@@ -129,31 +129,41 @@ public class Fight {
     private void theirTurn() {
         int rng = (int) (Math.random() * 100);
         int atkNumber = (int) (rng / (100d / this.numAtk));
-        double damage = ((this.monster.getAttacks()[atkNumber].getDmg())*(this.monster.getStrength())/100);
-        damage = ((double)((int)(damage*10)))/10;
-        System.out.println("DAMAGE DEALT BY WOMBAT: "+damage);
-        takeDamage(damage);
-        String[] array = {"The " + this.monster.getName() + " uses " + this.monster.getAttacks()[atkNumber].getName() + " against you and dealt " + damage + " DMG"};
-        CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+        double tempRng = Math.random();
+        System.out.println("RANDOM CHANCE; "+tempRng+" reactiontime: "+this.monster.getReactionTime()+" total: " + tempRng*(this.monster.getReactionTime())/100 + " Spell: " + (this.monster.getAttacks()[atkNumber].getAccuracy() / 100d));
+        /*
+        * The RNG value is increased or decreased based on the reactionTime attribute from the monster, higher than 100 increases, lower decreases. 
+        * This makes for a more complex missing system. The accuracy is held against the accuracy attribute from the chosen spell.
+        */
+        if ((tempRng*(this.monster.getReactionTime()/100d)) <= (this.monster.getAttacks()[atkNumber].getAccuracy() / 100d)) { 
+            double damage = ((this.monster.getAttacks()[atkNumber].getDmg()) * (this.monster.getStrength()) / 100d);
+            damage = ((double) ((int) (damage * 10))) / 10;
+            takeDamage(damage);
+            String[] array = {"The " + this.monster.getName() + " uses " + this.monster.getAttacks()[atkNumber].getName() + " against you and dealt " + damage + " DMG"};
+            CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+        } else {
+            String[] array = {"The " + this.monster.getName() + " missed its " + this.monster.getAttacks()[atkNumber].getName() + " against you!"};
+            CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+        }
     }
 
     private void checkAttack(String attack, long start, long end) {
         boolean correctAtk = false;
         boolean accuracyMiss = false;
         double hitChance = 0;
-        
+
         for (Attack atk : this.player.getAttacks()) {
             if (atk != null) {
-                
-                hitChance = atk.getAccuracy() + (atk.getCastTime()-(end-start))/100;
-                System.out.println(hitChance);
-                if(Math.random() > hitChance/100) {
+
+                hitChance = atk.getAccuracy() + (atk.getCastTime() - (end - start)) / 100;
+                //System.out.println("Accuracy: "+atk.getAccuracy()+" Total hitChance: "+hitChance + " Time used: "+(atk.getCastTime()-(end-start)));
+                if (Math.random() > hitChance / 100) {
                     accuracyMiss = true;
                 }
-                
+
                 if (atk.getName().equals(attack) & (end - start) <= (atk.getCastTime() * (this.monster.getReactionTime() / 100d)) & !accuracyMiss) {
-                    double damage = ((atk.getDmg())*(this.player.getStrength())/100);
-                    damage = ((double)((int)(damage*10)))/10;
+                    double damage = ((atk.getDmg()) * (this.player.getStrength()) / 100);
+                    damage = ((double) ((int) (damage * 10))) / 10;
                     dealDamage(damage);
                     String[] array = {"Your " + attack + " succeded! You dealt " + damage + " DMG"};
                     CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());

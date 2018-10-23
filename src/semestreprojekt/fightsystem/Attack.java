@@ -24,6 +24,7 @@ public class Attack {
         this.dmg = dmg;
         this.castTime = castTime;
         this.name = name;
+        this.accuracy = accuracy;
     }
 
     /**
