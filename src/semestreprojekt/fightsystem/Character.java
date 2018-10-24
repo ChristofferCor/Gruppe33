@@ -24,7 +24,15 @@ public class Character {
     public Character(double hp){
         this(null, hp, 100, 100);
     }
-    
+    /**
+     * This constructor is used to create new monsters
+     * The given hp is automatically set to the mobs maxHp.
+     * If you need to circumsphere this you need to set the HP of the maxHp and call .setHp() with the wished current HP.
+     * @param name the name of the monster. eg. Wombat
+     * @param hp the health of the monster. eg. 100
+     * @param reactionTime the reaction time of the monster. This affects attacks in multiple ways (See attack) The value 100 is default, below is a faster reaction time (percentage) and vice versa.
+     * @param strength the strength of the monster. This affects the damage of attacks. the value 100 is default, below is less damage (percentage) and vice versa
+     */
     public Character(String name, double hp, int reactionTime, int strength){
         this.hp = hp;
         this.maxHp = hp;
@@ -41,10 +49,15 @@ public class Character {
     }
 
     /**
+     * Sets the HP of the character. If value is higher than the internal maxHp, it defaults to full HP.
      * @param hp the hp to set
      */
     public void setHp(double hp) {
+        if (hp <= this.maxHp) {
         this.hp = hp;
+        } else {
+            this.hp = this.maxHp;
+        }
     }
 
     /**

@@ -76,6 +76,13 @@ public class Fight {
                 sleep(3);
             }
         }
+        if (status == 2) {
+            String[] victory = {"You speedtyped your way around the "+this.monster.getName(), "", "You made it out with "+this.player.getHp()+" HP left"};
+            CenterText strVictory = new CenterText("Congratulations! You won", victory, 70, '#', '-');
+        } else if (status == 1) {
+            String[] defeat = {"The "+this.monster.getName()+" defeated you", "", "It had"+this.monster.getHp()+" HP left, what a shame!"};
+            CenterText strDefeat = new CenterText("You unfortunately died of slowness", defeat, 70, '#', '-');
+        }
         return status;
     }
 
@@ -129,13 +136,13 @@ public class Fight {
     private void theirTurn() {
         int rng = (int) (Math.random() * 100);
         int atkNumber = (int) (rng / (100d / this.numAtk));
-        double tempRng = Math.random()*0.5; //Halfing the Math.random() value for balacing purposes.
+        double tempRng = Math.random() * 0.5; //Halfing the Math.random() value for balacing purposes.
         //System.out.println("RANDOM CHANCE; "+tempRng+" reactiontime: "+this.monster.getReactionTime()+" total: " + tempRng*(this.monster.getReactionTime())/100 + " Spell: " + (this.monster.getAttacks()[atkNumber].getAccuracy() / 100d));
         /*
         * The RNG value is increased or decreased based on the reactionTime attribute from the monster, higher than 100 increases, lower decreases. 
         * This makes for a more complex missing system. The accuracy is held against the accuracy attribute from the chosen spell.
-        */
-        if ((tempRng*(this.monster.getReactionTime()/100d)) <= (this.monster.getAttacks()[atkNumber].getAccuracy() / 100d)) { 
+         */
+        if ((tempRng * (this.monster.getReactionTime() / 100d)) <= (this.monster.getAttacks()[atkNumber].getAccuracy() / 100d)) {
             double damage = ((this.monster.getAttacks()[atkNumber].getDmg()) * (this.monster.getStrength()) / 100d);
             damage = ((double) ((int) (damage * 10))) / 10;
             takeDamage(damage);
@@ -150,7 +157,7 @@ public class Fight {
     private void checkAttack(String attack, long start, long end) {
         boolean correctAtk = false;
         boolean accuracyMiss = false;
-        double hitChance = 0;
+        double hitChance;
 
         for (Attack atk : this.player.getAttacks()) {
             if (atk != null) {
