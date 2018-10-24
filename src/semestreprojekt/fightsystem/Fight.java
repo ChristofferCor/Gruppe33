@@ -57,10 +57,10 @@ public class Fight {
             while (this.status == 0) {
                 //displayStats();
                 yourTurn();
-                sleep(3);
                 if (this.status != 0) {
                     break;
                 }
+                sleep(3);
                 theirTurn();
                 sleep(3);
             }
@@ -68,20 +68,23 @@ public class Fight {
             while (this.status == 0) {
                 //displayStats();
                 theirTurn();
-                sleep(3);
                 if (this.status != 0) {
                     break;
                 }
+                sleep(3);
                 yourTurn();
                 sleep(3);
             }
         }
         if (status == 2) {
-            String[] victory = {"You speedtyped your way around the "+this.monster.getName(), "", "You made it out with "+this.player.getHp()+" HP left"};
+            String[] victory = {"You speedtyped your way around the " + this.monster.getName(), "", "You made it out with " + this.player.getHp() + " HP left"};
             CenterText strVictory = new CenterText("Congratulations! You won", victory, 70, '#', '-');
         } else if (status == 1) {
-            String[] defeat = {"The "+this.monster.getName()+" defeated you", "", "It had"+this.monster.getHp()+" HP left, what a shame!"};
+            String[] defeat = {"The " + this.monster.getName() + " defeated you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"};
             CenterText strDefeat = new CenterText("You unfortunately died of slowness", defeat, 70, '#', '-');
+        } else if (status == 3) {
+            String[] flee = {"The " + this.monster.getName() + " felt sorry for you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"};
+            CenterText strFlee = new CenterText("You escaped like a coward!", flee, 70, '#', '-');
         }
         return status;
     }
@@ -97,16 +100,21 @@ public class Fight {
         }
         tempString = tempString.trim();
 
-        String[] array = {"This is your chance, act quickly!", "", "Avaliable attacks:    " + tempString};
+        String[] array = {"This is your chance, act quickly!", "", "Avaliable attacks:    " + tempString, "Enter 'Flee' to attempt it"};
         CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
-        System.out.print("Enter attack: ");
+        System.out.println("Enter attack: ");
+        System.out.print("> ");
         speedTyper = new Scanner(System.in);
         Date currentTime = new Date();
         long startTime = currentTime.getTime();
         String input = speedTyper.next();
         System.out.println("");
         currentTime = new Date();
-        checkAttack(input, startTime, currentTime.getTime());
+        if (input.equals("Flee")) {
+            flee();
+        } else {
+            checkAttack(input, startTime, currentTime.getTime());
+        }
     }
 
     private void takeDamage(double dmg) {
@@ -193,6 +201,20 @@ public class Fight {
                 String[] array = {"You drool! That's not a valid attack!"};
                 CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
             }
+        }
+    }
+
+    private void flee() {
+        double rng = Math.random();
+        System.out.println("DEBUG: "+ rng+" React: "+ (1 + ((this.player.getReactionTime() - this.monster.getReactionTime()) / 100)));
+        if (rng >= (1 + ((this.player.getReactionTime() - this.monster.getReactionTime()) / 100))) {
+            double fleeDmg = -(this.player.getReactionTime() - this.monster.getReactionTime()) / 10;
+            fleeDmg = ((double) ((int) (fleeDmg * 10))) / 10;
+            takeDamage(fleeDmg);
+            String[] array = {"You tried to flee away!", "", "The "+this.monster.getName()+" caught you, dealing you "+fleeDmg+" DMG", "You need to react faster"};
+            CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+        } else {
+            this.status = 3;
         }
     }
 
