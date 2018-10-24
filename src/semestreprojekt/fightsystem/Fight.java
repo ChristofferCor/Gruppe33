@@ -21,6 +21,7 @@ public class Fight {
     private int numAtk = 0;
     private final Character monster, player;
     private Scanner speedTyper;
+    private FightTextFormater output;
 
     /**
      * The FightInitiater needs to start a fight with a given monsterId. The
@@ -34,6 +35,8 @@ public class Fight {
         this.monster = monster;
         this.player = player;
         this.status = 0;
+        
+        this.output = new FightTextFormater(70, '#', '-', this.player, this.monster);
 
         for (Attack atk : this.monster.getAttacks()) {
             if (atk != null) {
@@ -50,8 +53,9 @@ public class Fight {
      * running, 1 = dead, 2 = won
      */
     public int fight() {
-        String[] array = {"You encountered a " + monster.getName() + "!"};
-        CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+        output.setBody("You encountered a " + monster.getName() + "!");
+        output.print();
+        //CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
         sleep(4);
         if (Math.random() <= 0.5) {
             while (this.status == 0) {
@@ -76,15 +80,24 @@ public class Fight {
                 sleep(3);
             }
         }
-        if (status == 2) {
-            String[] victory = {"You speedtyped your way around the " + this.monster.getName(), "", "You made it out with " + this.player.getHp() + " HP left"};
-            CenterText strVictory = new CenterText("Congratulations! You won", victory, 70, '#', '-');
-        } else if (status == 1) {
-            String[] defeat = {"The " + this.monster.getName() + " defeated you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"};
-            CenterText strDefeat = new CenterText("You unfortunately died of slowness", defeat, 70, '#', '-');
-        } else if (status == 3) {
-            String[] flee = {"The " + this.monster.getName() + " felt sorry for you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"};
-            CenterText strFlee = new CenterText("You escaped like a coward!", flee, 70, '#', '-');
+        switch (status) {
+            case 1:
+                output.setBody(new String[]{"The " + this.monster.getName() + " defeated you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"});
+                output.setHead(new String[]{"You unfortunately died of slowness"});
+                output.oldPrint();
+                break;
+            case 2:
+                output.setBody(new String[]{"You speedtyped your way around the " + this.monster.getName(), "", "You made it out with " + this.player.getHp() + " HP left"});
+                output.setHead(new String[]{"Congratulations! You won"});
+                output.oldPrint();
+                break;
+            case 3:
+                output.setBody(new String[]{"The " + this.monster.getName() + " felt sorry for you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"});
+                output.setHead(new String[]{"You escaped like a coward!"});
+                output.oldPrint();
+                break;
+            default:
+                break;
         }
         return status;
     }
@@ -99,9 +112,9 @@ public class Fight {
             }
         }
         tempString = tempString.trim();
-
-        String[] array = {"This is your chance, act quickly!", "", "Avaliable attacks:    " + tempString, "Enter 'Flee' to attempt it"};
-        CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+        
+        output.setBody(new String[]{"This is your chance, act quickly!", "", "Avaliable attacks:    " + tempString, "Enter 'Flee' to attempt it"});
+        output.print();
         System.out.println("Enter attack: ");
         System.out.print("> ");
         speedTyper = new Scanner(System.in);
@@ -111,7 +124,7 @@ public class Fight {
         System.out.println("");
         currentTime = new Date();
         if (input.equals("Flee")) {
-            flee();
+            flee(startTime, currentTime.getTime());
         } else {
             checkAttack(input, startTime, currentTime.getTime());
         }
@@ -154,11 +167,11 @@ public class Fight {
             double damage = ((this.monster.getAttacks()[atkNumber].getDmg()) * (this.monster.getStrength()) / 100d);
             damage = ((double) ((int) (damage * 10))) / 10;
             takeDamage(damage);
-            String[] array = {"The " + this.monster.getName() + " uses " + this.monster.getAttacks()[atkNumber].getName() + " against you and dealt " + damage + " DMG"};
-            CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+            output.setBody(new String[]{"The " + this.monster.getName() + " uses " + this.monster.getAttacks()[atkNumber].getName() + " against you and dealt " + damage + " DMG"});
+            output.print();
         } else {
-            String[] array = {"The " + this.monster.getName() + " missed its " + this.monster.getAttacks()[atkNumber].getName() + " against you!"};
-            CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+            output.setBody(new String[]{"The " + this.monster.getName() + " missed its " + this.monster.getAttacks()[atkNumber].getName() + " against you!"});
+            output.print();
         }
     }
 
@@ -180,13 +193,13 @@ public class Fight {
                     double damage = ((atk.getDmg()) * (this.player.getStrength()) / 100);
                     damage = ((double) ((int) (damage * 10))) / 10;
                     dealDamage(damage);
-                    String[] array = {"Your " + attack + " succeded! You dealt " + damage + " DMG"};
-                    CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+                    output.setBody("Your " + attack + " succeded! You dealt " + damage + " DMG");
+                    output.print();
                     correctAtk = true;
                     break;
                 } else if (atk.getName().equals(attack)) {
-                    String[] array = {"You missed! You need to cast it faster!", "", "Accuracy might be too low!"};
-                    CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+                    output.setBody(new String[]{"You missed! You need to cast it faster!", "", "Accuracy might be too low!"});
+                    output.print();
                     correctAtk = true;
                     break;
                 }
@@ -195,24 +208,26 @@ public class Fight {
         if (!correctAtk) {
             if (Math.random() <= 0.5) {
                 takeDamage(1);
-                String[] array = {"You drool! That's not a valid attack!", "", "OUCH! You accidentially hit yourself!"};
-                CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+                output.setBody(new String[]{"You drool! That's not a valid attack!", "", "OUCH! You accidentially hit yourself!"});
+                output.print();
             } else {
-                String[] array = {"You drool! That's not a valid attack!"};
-                CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+                output.setBody("You drool! That's not a valid attack!");
+                output.print();
             }
         }
     }
 
-    private void flee() {
+    private void flee(long start, long end) {
         double rng = Math.random();
-        System.out.println("DEBUG: "+ rng+" React: "+ (1 + ((this.player.getReactionTime() - this.monster.getReactionTime()) / 100)));
-        if (rng >= (1 + ((this.player.getReactionTime() - this.monster.getReactionTime()) / 100))) {
-            double fleeDmg = -(this.player.getReactionTime() - this.monster.getReactionTime()) / 10;
+        double castTime = 0.1 - (end-start)/10000d;
+        castTime = (castTime < 0 ? castTime : 0);
+        //System.out.println("DEBUG: " + rng + " React: " + ((1 + ((this.player.getReactionTime() - this.monster.getReactionTime()) / 100d))+castTime) + " CastTime:" +castTime);
+        if (rng >= ((1 + ((this.player.getReactionTime() - this.monster.getReactionTime()) / 100d))+castTime)) {
+            double fleeDmg = -(this.player.getReactionTime() - this.monster.getReactionTime()) / 10d;
             fleeDmg = ((double) ((int) (fleeDmg * 10))) / 10;
             takeDamage(fleeDmg);
-            String[] array = {"You tried to flee away!", "", "The "+this.monster.getName()+" caught you, dealing you "+fleeDmg+" DMG", "You need to react faster"};
-            CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
+            output.setBody(new String[]{"You tried to flee away!", "", "The " + this.monster.getName() + " caught you, dealing you " + fleeDmg + " DMG", "You need to react faster"});
+            output.print();
         } else {
             this.status = 3;
         }

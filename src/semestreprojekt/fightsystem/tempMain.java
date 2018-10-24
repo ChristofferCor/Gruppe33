@@ -17,7 +17,7 @@ public class tempMain {
         //System.out.println(protagonist.getHp());
         Attack[] attack = {browser.getAttack("Hack"), browser.getAttack("Slice"), browser.getAttack("Chop")};
         protagonist.setAttacks(attack);
-        Character wombat = new Character("Tobias", 25, 200, 50);
+        Character wombat = new Character("Wombat", 25, 150, 50);
         //System.out.println(wombat.getName() + wombat.getHp() + wombat.getReactionTime());
         wombat.setAttacks(attack);
         

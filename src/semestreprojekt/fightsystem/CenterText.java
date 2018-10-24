@@ -6,6 +6,7 @@
 package semestreprojekt.fightsystem;
 
 /**
+ * @deprecated Use TextFormater or FightTextFormater classes instead!
  * This class is implemented wrong! It consists of no attributes or methods, but
  * just three constructors that have a bunch of redundant code. Be wary that
  * it's a prototype, and needs rewriting. Consider all constructors like methods
