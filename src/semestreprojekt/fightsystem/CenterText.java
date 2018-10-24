@@ -19,6 +19,7 @@ public class CenterText {
     private int width;
     private char frame, lid;
     private String enclosed;
+    private int length;
 
     public CenterText(String[] str, int width, char frame, char lid) {
         this.str = str;
@@ -26,67 +27,45 @@ public class CenterText {
         this.frame = frame;
         this.lid = lid;
     }
-    
-    public CenterText(String[] str, String monsterName, double playerHp, double monsterHp){
-        this(" You: " + playerHp + " HP", ""+monsterName + ": " + monsterHp + " HP ", str, 70, '#', '-');
+
+    public CenterText(String[] str, String monsterName, double playerHp, double monsterHp) {
+        this(" You: " + playerHp + " HP", "" + monsterName + ": " + monsterHp + " HP ", str, 70, '#', '-');
     }
 
     public CenterText(String header, String[] str, int width, char frame, char lid) {
         this(str, width, frame, lid);
-        overflowPrevent();
-        topBar();
+        overflowPrevent(); //Adjusts the width of the boxes to match the given string lengths
+        topBar(); //Creates the topbar
 
-        int hLength = header.length();
+        int hLength = header.length(); //Centers the header for a single string header
         if (hLength % 2 != 0 && hLength != 0) {
             hLength++;
         } else if (hLength == 0) {
             hLength += 2;
         }
-        int hSep = (this.width - hLength) / 2;
-        System.out.printf("%1s%" + hSep + "s%-" + hLength + "s%" + hSep + "s%1s\n", "#", "", header, "", "#");
+        int hSep = (this.width - hLength) / 2; //Creates the seperators/spacers that centers the header.
+        System.out.printf("%1s%" + hSep + "s%-" + hLength + "s%" + hSep + "s%1s\n", this.frame, "", header, "", this.frame);
 
-        System.out.printf("%1s%" + this.width + "s%1s\n", this.frame, this.enclosed, this.frame);
+        middleBar();
 
-        for (String cStr : str) {
-            int length = cStr.length();
-            if (length % 2 != 0 && length != 0) {
-                length++;
-            } else if (length == 0) {
-                length += 2;
-            }
-            int sep = (this.width - length) / 2;
-            System.out.printf("%1s%" + sep + "s%-" + length + "s%" + sep + "s%1s\n", "#", "", cStr, "", "#");
+        centerLength(); //Centers and prints out the body of the text.
 
-        }
-
-        System.out.printf("%1s%" + this.width + "s%1s\n", this.frame, this.enclosed, this.frame);
-        System.out.println("");
+        bottomBar(); //Creates the bottom of the box.
     }
 
     public CenterText(String header1, String header2, String[] str, int width, char frame, char lid) {
         this(str, width, frame, lid);
-        overflowPrevent();
-        topBar();
+        overflowPrevent(); //Adjusts the width of the boxes to match the given string lengths
+        topBar(); //Creates the topbar
 
-        int hSep = (this.width) / 2;
+        int hSep = (this.width) / 2; //Centers the header for a dual string header by right and left aligning.
         System.out.printf("%1s%-" + hSep + "s%" + hSep + "s%1s\n", "#", header1, header2, "#");
 
-        System.out.printf("%1s%" + this.width + "s%1s\n", this.frame, this.enclosed, this.frame);
+        middleBar();
 
-        for (String cStr : str) {
-            int length = cStr.length();
-            if (length % 2 != 0 && length != 0) {
-                length++;
-            } else if (length == 0) {
-                length += 2;
-            }
-            int sep = (this.width - length) / 2;
-            System.out.printf("%1s%" + sep + "s%-" + length + "s%" + sep + "s%1s\n", "#", "", cStr, "", "#");
+        centerLength(); //Centers and prints out the body of the text.
 
-        }
-
-        System.out.printf("%1s%" + this.width + "s%1s\n", this.frame, this.enclosed, this.frame);
-        System.out.println("");
+        bottomBar(); //Creates the bottom of the box.
     }
 
     private void overflowPrevent() {
@@ -103,8 +82,29 @@ public class CenterText {
     private void topBar() {
         this.enclosed = "";
         for (int i = 0; i < this.width; i++) {
-            this.enclosed = this.enclosed + this.lid;
+            this.enclosed += this.lid;
         }
+        System.out.printf("%1s%" + this.width + "s%1s\n", this.frame, this.enclosed, this.frame);
+    }
+
+    private void centerLength() {
+        for (String cStr : this.str) {
+            this.length = cStr.length();
+            if (this.length % 2 != 0 && this.length != 0) {
+                this.length++;
+            } else if (this.length == 0) {
+                this.length += 2;
+            }
+            int sep = (this.width - this.length) / 2;
+            System.out.printf("%1s%" + sep + "s%-" + length + "s%" + sep + "s%1s\n", this.frame, "", cStr, "", this.frame);
+        }
+    }
+    
+    private void bottomBar(){
+        System.out.printf("%1s%" + this.width + "s%1s\n\n", this.frame, this.enclosed, this.frame);
+    }
+    
+    private void middleBar(){
         System.out.printf("%1s%" + this.width + "s%1s\n", this.frame, this.enclosed, this.frame);
     }
 }
