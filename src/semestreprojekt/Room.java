@@ -1,5 +1,6 @@
 package semestreprojekt;
 
+import semestreprojekt.entities.Item;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashMap;

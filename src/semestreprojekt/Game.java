@@ -1,4 +1,7 @@
 package semestreprojekt;
+
+import semestreprojekt.entities.Materials;
+
 /**
  * This class is the games center frame. 
  * You use it to create a new game object and start the game from it.
