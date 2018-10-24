@@ -1,4 +1,4 @@
-package semestreprojekt.fightsystem;
+package util;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
