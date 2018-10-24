@@ -1,6 +1,6 @@
 package semestreprojekt;
 
-import semestreprojekt.entities.Materials;
+import entities.Materials;
 
 /**
  * This class is the games center frame. 
