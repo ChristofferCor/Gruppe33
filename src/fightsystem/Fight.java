@@ -10,14 +10,12 @@ import java.util.Scanner;
 import java.util.Date;
 
 /**
- *
+ * This is the main fighting system
+ * In here the controls for all fights are located
+ * 
  * @author Simon Holland Flarup
  */
 public class Fight {
-
-    //public double health = 100;
-    //public int monsterId;
-    //public double monsterHealth = 10;
     private int status;
     private int numAtk = 0;
     private final Character monster, player;
@@ -25,12 +23,10 @@ public class Fight {
     private FightTextFormater output;
 
     /**
-     * The FightInitiater needs to start a fight with a given monsterId. The
-     * monster could be an object in the monster package. OBS no monsters are
-     * implemented in this prototype
-     *
-     * @param player
-     * @param monster takes a Character object
+     * The Fight needs to start a fight with two given Character objects.
+     * 
+     * @param player takes a Character object of the player
+     * @param monster takes a Character object of the enemy
      */
     public Fight(Character player, Character monster) {
         this.monster = monster;
@@ -56,7 +52,6 @@ public class Fight {
     public int fight() {
         output.setBody("You encountered a " + monster.getName() + "!");
         output.print();
-        //CenterText str1 = new CenterText(array, this.monster.getName(), this.player.getHp(), this.monster.getHp());
         sleep(4);
         if (Math.random() <= 0.5) {
             while (this.status == 0) {

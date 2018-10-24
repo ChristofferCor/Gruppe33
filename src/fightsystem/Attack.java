@@ -6,7 +6,7 @@
 package fightsystem;
 
 /**
- * Import about accuracy
+ * Important about accuracy
  * Accuracy is currently implemented in two ways. One for the protagonist, and another for NPCs
  * For the player the accuracy determines the chance of hitting with a given attack, but you also get a bonus accuracy for speedtyping faster than the castTime (1 second faster equals 10 accuracy)
  * The above mechanism can be used to remove the timed check, and instead give a accuracy penalty if you use more time than the attacks castTime. (1 second slower equal -10 accuracy)
@@ -15,20 +15,15 @@ package fightsystem;
  * This means that monsters with lower reaction time (This is better) will have a greater chance of NOT missing an attack.
  * The reaction time is bound to a Math.random() and simply just adjusts it according to the reactionTime converted to percentage. 
  * (50 reactionTime and a random value of 0.5 gives an random value of 0.25. This means that for that current turn the attack must have an accuracy above 25 to succeed.)
- * @author corga & Simon Holland Flarup
+ * @author corga and Simon Holland Flarup
  */
 public class Attack {
 
     private double dmg;
     private int castTime;
-    private String name;
+    private final String name;
     private int accuracy;
-
-    public Attack() {
-        System.out.println("NOT VALID ATTACK DECLARATION");
-    }
-    
-    
+ 
    /**
     * This constructor is used to create a new attack
     * @param name the name of the attack. Eg. Hack

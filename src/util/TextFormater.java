@@ -7,7 +7,9 @@ package util;
  */
 
 /**
- *
+ * This is a TextFormater for the CLI text output
+ * The sole job of this class is to create squares with some text in it
+ * You got two options: A box with a header and a box without a header.
  * @author Simon Holland Flarup
  */
 public class TextFormater {
@@ -18,12 +20,23 @@ public class TextFormater {
     private String enclosed;
     private int length;
 
+    /**
+     * This constructor initializes the TextFormater with variables describing the form of the box
+     * @param width the required with of the box (May be overwritten)
+     * @param frame the character wanted as the sides
+     * @param lid the character wanted as the top and bottom of the box
+     */
     public TextFormater(int width, char frame, char lid) {
         this.width = width;
         this.frame = frame;
         this.lid = lid;
     }
 
+    /**
+     * This method invokes the printing of the box
+     * Use this method only when you have specified an body
+     * @return returns true if print succeded, returns false if not.
+     */
     public boolean print() {
         if (this.str == null) {
             return false;
@@ -45,19 +58,36 @@ public class TextFormater {
         return true;
     }
 
+    /**
+     * Mutator method for changing the 'frame'
+     * @param c the character wanted as the sides
+     */
     public void setFrame(char c) {
         this.frame = c;
     }
 
+    /**
+     * Mutator method for changing the 'lid'
+     * @param c the character wanted as the top and bottom of the box
+     */
     public void setLid(char c) {
         this.lid = c;
     }
 
+    /**
+     * Mutator method for changing/setting both the body and the head
+     * @param body an String array containing the strings that needs to be displayed in the body
+     * @param head an String array containing the strings that needs to be displayed in the head (Max 3)
+     */
     public void setBoth(String[] body, String[] head) {
         setBody(body);
         setHead(head);
     }
 
+    /**
+     * Mutator method for changing/setting the body
+     * @param str an String array containing the strings that needs to be displayed in the body
+     */
     public void setBody(String[] str) {
         if (str[0] != null) {
             this.str = str;
@@ -67,6 +97,10 @@ public class TextFormater {
         }
     }
     
+    /**
+     * Mutator method for setting the body
+     * @param str a single String that needs to be displayed in the body
+     */
     public void setBody(String str) {
         this.str = new String[1];
         if (str != null) {
@@ -76,6 +110,10 @@ public class TextFormater {
         }
     }
 
+    /**
+     * Mutator method for changing/setting the head
+     * @param str an String array containing the strings that needs to be displayed in the head (Max 3)
+     */
     public void setHead(String[] str) {
         if (str[0] != null) {
             this.head = str;

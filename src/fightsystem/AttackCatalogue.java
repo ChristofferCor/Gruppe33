@@ -8,16 +8,20 @@ package fightsystem;
 import java.util.ArrayList;
 
 /**
- *
+ * This is the AttackCatalogue
+ * This class is essential an storage of all the avaliable attacks in the game.
+ * It serves as a point for creating new attacks.
  * @author Simon Holland Flarup
  */
 public class AttackCatalogue {
 
     private ArrayList<Attack> Catalogue = new ArrayList<Attack>();
 
+    /**
+     * The no-arg constructor only invokes a single method that creates all the attacks in the game
+     */
     public AttackCatalogue() {
         initiateAttacks();
-        //System.out.println(toString());
     }
 
     private void initiateAttacks() {
@@ -30,6 +34,11 @@ public class AttackCatalogue {
         Catalogue.add(new Attack("Kick-ass", 5, 100, 3000));
     }
     
+    /**
+     * This method searches through the Catalogue for the attack with the given name.
+     * @param name the name of the attack
+     * @return the attack object if found, otherwise defaults to the Hit attack.
+     */
     public Attack getAttack(String name){
         for(Attack obj : Catalogue){
             if (name.equals(obj.getName())) {
@@ -38,7 +47,10 @@ public class AttackCatalogue {
         }
         return Catalogue.get(0);
     }
-    
+    /**
+     * For testing purposes
+     * @return a String (Testing purposes)
+     */
     @Override
     public String toString(){
         String printString = "[";

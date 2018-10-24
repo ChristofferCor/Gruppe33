@@ -17,10 +17,17 @@ public class Character {
     private int strength;
     //private ArrayList<Items> = new ArrayList<Items>(); //Characters has an arraylist containing items.
 
+    /**
+     *
+     */
     public Character(){
         this(null, 100, 100, 100);
     }
     
+    /**
+     *
+     * @param hp
+     */
     public Character(double hp){
         this(null, hp, 100, 100);
     }
