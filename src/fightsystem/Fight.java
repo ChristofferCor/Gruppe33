@@ -10,12 +10,13 @@ import java.util.Scanner;
 import java.util.Date;
 
 /**
- * This is the main fighting system
- * In here the controls for all fights are located
- * 
+ * This is the main fighting system In here the controls for all fights are
+ * located
+ *
  * @author Simon Holland Flarup
  */
 public class Fight {
+
     private int status;
     private int numAtk = 0;
     private final Character monster, player;
@@ -24,7 +25,7 @@ public class Fight {
 
     /**
      * The Fight needs to start a fight with two given Character objects.
-     * 
+     *
      * @param player takes a Character object of the player
      * @param monster takes a Character object of the enemy
      */
@@ -32,7 +33,7 @@ public class Fight {
         this.monster = monster;
         this.player = player;
         this.status = 0;
-        
+
         this.output = new FightTextFormater(70, '#', '-', this.player, this.monster);
 
         for (Attack atk : this.monster.getAttacks()) {
@@ -108,7 +109,7 @@ public class Fight {
             }
         }
         tempString = tempString.trim();
-        
+
         output.setBody(new String[]{"This is your chance, act quickly!", "", "Avaliable attacks:    " + tempString, "Enter 'Flee' to attempt it"});
         output.print();
         System.out.println("Enter attack: ");
@@ -127,10 +128,10 @@ public class Fight {
     }
 
     private void takeDamage(double dmg) {
+        dmg = ((int) (dmg * 10)) / 10d;
         double health = this.player.getHp(); //See dealDamage()
         health -= dmg;
-        //health = (int) (health * 10);
-        //health = ((double) health) / 10;
+        health = ((int) (health * 10)) / 10d;
         this.player.setHp(health);
         if (this.player.getHp() <= 0) { //See dealDamage(). Status '1' is defeat.
             this.player.setHp(0);
@@ -139,10 +140,10 @@ public class Fight {
     }
 
     private void dealDamage(double dmg) {
+        dmg = (double) ((int) (dmg * 10)) / 10d;
         double health = this.monster.getHp();
         health -= dmg; //These extra assignments of the variable is used to remove truncating errors, eg: 1.200000003 -> 1.2
-        //health = (int) (health * 10);
-        //health = ((double) health) / 10;
+        health = ((int) (health * 10)) / 10d;
         this.monster.setHp(health);
         if (health <= 0) { //Checks if the monsters HP fell below or hit zero. If so the status is changed to '2' which means victory.
             this.monster.setHp(0);
@@ -161,7 +162,6 @@ public class Fight {
          */
         if ((tempRng * (this.monster.getReactionTime() / 100d)) <= (this.monster.getAttacks()[atkNumber].getAccuracy() / 100d)) {
             double damage = ((this.monster.getAttacks()[atkNumber].getDmg()) * (this.monster.getStrength()) / 100d);
-            damage = ((double) ((int) (damage * 10))) / 10;
             takeDamage(damage);
             output.setBody(new String[]{"The " + this.monster.getName() + " uses " + this.monster.getAttacks()[atkNumber].getName() + " against you and dealt " + damage + " DMG"});
             output.print();
@@ -187,7 +187,6 @@ public class Fight {
 
                 if (atk.getName().equals(attack) & (end - start) <= (atk.getCastTime() * (this.monster.getReactionTime() / 100d)) & !accuracyMiss) {
                     double damage = ((atk.getDmg()) * (this.player.getStrength()) / 100);
-                    damage = ((double) ((int) (damage * 10))) / 10;
                     dealDamage(damage);
                     output.setBody("Your " + attack + " succeded! You dealt " + damage + " DMG");
                     output.print();
@@ -215,12 +214,11 @@ public class Fight {
 
     private void flee(long start, long end) {
         double rng = Math.random();
-        double castTime = 0.1 - (end-start)/10000d;
+        double castTime = 0.1 - (end - start) / 10000d;
         castTime = (castTime < 0 ? castTime : 0);
         //System.out.println("DEBUG: " + rng + " React: " + ((1 + ((this.player.getReactionTime() - this.monster.getReactionTime()) / 100d))+castTime) + " CastTime:" +castTime);
-        if (rng >= ((1 + ((this.player.getReactionTime() - this.monster.getReactionTime()) / 100d))+castTime)) {
-            double fleeDmg = -(this.player.getReactionTime() - this.monster.getReactionTime()) / 10d;
-            fleeDmg = ((double) ((int) (fleeDmg * 10))) / 10;
+        if (rng >= ((1 + ((this.monster.getReactionTime() - this.player.getReactionTime()) / 100d)) + castTime)) {
+            double fleeDmg = -(this.monster.getReactionTime() - this.player.getReactionTime()) / 10d;
             takeDamage(fleeDmg);
             output.setBody(new String[]{"You tried to flee away!", "", "The " + this.monster.getName() + " caught you, dealing you " + fleeDmg + " DMG", "You need to react faster"});
             output.print();
