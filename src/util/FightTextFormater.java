@@ -36,7 +36,7 @@ public class FightTextFormater extends TextFormater {
     /**
      * This method invokes the printing of the box
      * Use this method only when you have specified an body
-     * @return returns true if print succeded, returns false if not.
+     * @return returns true if print succeeded, returns false if not.
      */
     @Override
     public boolean print() {
@@ -48,7 +48,7 @@ public class FightTextFormater extends TextFormater {
     /**
      * This method invokes the printing of the box from the TextFormater (super) class 
      * Use this method only when you have specified an body
-     * @return returns true if print succeded, returns false if not.
+     * @return returns true if print succeeded, returns false if not.
      */
     public boolean oldPrint() {
         return super.print();

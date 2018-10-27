@@ -5,11 +5,11 @@ package util;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
- * This is a TextFormater for the CLI text output
- * The sole job of this class is to create squares with some text in it
- * You got two options: A box with a header and a box without a header.
+ * This is a TextFormater for the CLI text output The sole job of this class is
+ * to create squares with some text in it You got two options: A box with a
+ * header and a box without a header.
+ *
  * @author Simon Holland Flarup
  */
 public class TextFormater {
@@ -18,10 +18,11 @@ public class TextFormater {
     private int width;
     private char frame, lid;
     private String enclosed;
-    private int length;
 
     /**
-     * This constructor initializes the TextFormater with variables describing the form of the box
+     * This constructor initializes the TextFormater with variables describing
+     * the form of the box
+     *
      * @param width the required with of the box (May be overwritten)
      * @param frame the character wanted as the sides
      * @param lid the character wanted as the top and bottom of the box
@@ -33,9 +34,10 @@ public class TextFormater {
     }
 
     /**
-     * This method invokes the printing of the box
-     * Use this method only when you have specified an body
-     * @return returns true if print succeded, returns false if not.
+     * This method invokes the printing of the box Use this method only when you
+     * have specified an body
+     *
+     * @return returns true if print succeeded, returns false if not.
      */
     public boolean print() {
         if (this.str == null) {
@@ -60,6 +62,7 @@ public class TextFormater {
 
     /**
      * Mutator method for changing the 'frame'
+     *
      * @param c the character wanted as the sides
      */
     public void setFrame(char c) {
@@ -68,6 +71,7 @@ public class TextFormater {
 
     /**
      * Mutator method for changing the 'lid'
+     *
      * @param c the character wanted as the top and bottom of the box
      */
     public void setLid(char c) {
@@ -76,17 +80,27 @@ public class TextFormater {
 
     /**
      * Mutator method for changing/setting both the body and the head
-     * @param body an String array containing the strings that needs to be displayed in the body
-     * @param head an String array containing the strings that needs to be displayed in the head (Max 3)
+     *
+     * @param body an String array containing the strings that needs to be
+     * displayed in the body
+     * @param head an String array containing the strings that needs to be
+     * displayed in the head (Max 3)
      */
     public void setBoth(String[] body, String[] head) {
         setBody(body);
         setHead(head);
     }
 
+    public void setBothPrint(String[] body, String[] head) {
+        setBoth(body, head);
+        print();
+    }
+
     /**
      * Mutator method for changing/setting the body
-     * @param str an String array containing the strings that needs to be displayed in the body
+     *
+     * @param str an String array containing the strings that needs to be
+     * displayed in the body
      */
     public void setBody(String[] str) {
         if (str[0] != null) {
@@ -96,9 +110,10 @@ public class TextFormater {
             this.str[0] = "";
         }
     }
-    
+
     /**
      * Mutator method for setting the body
+     *
      * @param str a single String that needs to be displayed in the body
      */
     public void setBody(String str) {
@@ -112,15 +127,17 @@ public class TextFormater {
 
     /**
      * Mutator method for changing/setting the head
-     * @param str an String array containing the strings that needs to be displayed in the head (Max 3)
+     *
+     * @param str an String array containing the strings that needs to be
+     * displayed in the head (Max 3)
      */
     public void setHead(String[] str) {
-        if (str[0] != null) {
+        //if (str != null && str[0] != null) {
             this.head = str;
-        } else {
-            this.head = new String[1];
-            this.head[0] = "";
-        }
+        //} else {
+            //this.head = new String[1];
+            //this.head[0] = "";
+        //}
     }
 
     private void overflowPrevent() {
@@ -186,10 +203,10 @@ public class TextFormater {
                 length = centerLength(head[1]);
                 sep = (this.width) / 4;
                 int offSep = sep;
-                if (sep % 2 != 0){
+                if (sep % 2 != 0) {
                     offSep++;
                 }
-                int cSep = ((sep * 2) - length)/2;
+                int cSep = ((sep * 2) - length) / 2;
                 System.out.printf("%1s%-" + offSep + "s%" + cSep + "s%" + length + "s%" + cSep + "s%" + offSep + "s%1s\n", this.frame, head[0], "", head[1], "", head[2], this.frame);
                 break;
         }
