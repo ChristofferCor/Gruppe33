@@ -90,7 +90,13 @@ public class TextFormater {
         setBody(body);
         setHead(head);
     }
-
+    
+    /**
+     * setBoth() and print() combined for cleaner code
+     * 
+     * @param body see setBoth() or setBody()
+     * @param head see setBoth() or setHead()
+     */
     public void setBothPrint(String[] body, String[] head) {
         setBoth(body, head);
         print();
