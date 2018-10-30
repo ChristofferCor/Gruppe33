@@ -41,14 +41,18 @@ public abstract class Item {
     public String getDescription() {
         return description;
     }
-    
+
     @Override
     public String toString() {
         return name;
     }
-    
+
     public void use() {
         System.out.println("The item can't be used");
+    }
+
+    public boolean droppable() {
+        return true;
     }
 
 }
