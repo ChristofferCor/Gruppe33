@@ -7,11 +7,12 @@ package entities;
 
 /**
  *
- * @author sebastian
+ * @author corga
  */
-public class Materials extends Item {
-
-    public Materials(String name, int id, String description, double value) {
+public class Misc extends Item{
+    
+    public Misc(String name, int id, String description, double value) {
         super(name, id, description, value);
     }
+    
 }
