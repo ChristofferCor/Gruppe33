@@ -11,17 +11,15 @@ package entities;
  */
 public class Materials extends Item {
 
-    private double value;
+    private int scoreValue;
 
-    public Materials(String name, int id, String description, double value) {
-        super(name, id, description);
-        this.value = value;
+    public Materials(String name, int id, String description, double value, int scoreValue) {
+        super(name, id, description, value);
+        this.scoreValue = scoreValue;
     }
 
-    /**
-     * @return the value
-     */
-    public double getValue() {
-        return value;
+    @Override
+    public int getScoreValue() {
+        return this.scoreValue;
     }
 }

@@ -11,12 +11,17 @@ package entities;
  */
 public class KeyItem extends Item {
 
-    public KeyItem(String name, int id, String description) {
-        super(name, id, description);
+    public KeyItem(String name, int id, String description, double value) {
+        super(name, id, description, value);
     }
-    
+
     @Override
-    public boolean droppable(){
+    public boolean droppable() {
         return false;
+    }
+
+    @Override
+    public boolean sellable() {
+        return super.getValue() != 0;
     }
 }
