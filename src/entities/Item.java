@@ -67,5 +67,9 @@ public abstract class Item {
     public boolean sellable() {
         return true;
     }
+    
+    public int getScoreValue(){
+        return 0;
+    }
 
 }

@@ -73,7 +73,7 @@ public class Game
         cave2.setExit("east", cave8);
         cave2.setExit("north", cave1);
         
-        Materials iron = new Materials("Iron", 1, "Piece of iron.", 10);
+        Materials iron = new Materials("Iron", 1, "Piece of iron.", 10, 250);
         
         cave3.setExit("south", cave1);
         cave3.setExit("north", cave4);

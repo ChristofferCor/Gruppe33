@@ -32,7 +32,7 @@ public class ItemCatalogue {
         //Consumables
         Catalogue.add(new Consumables("Health Potion", 200, "Eww! It looks like blood, wonder if I should drik it!", 10, 50 ));
         //Materials
-        Catalogue.add(new Materials("Iron", 300, "Valuable raw material, used for tool crafting", 24));
+        Catalogue.add(new Materials("Iron", 300, "Valuable raw material, used for tool crafting", 24, 250));
     }
     
     public Item getItem(int id){

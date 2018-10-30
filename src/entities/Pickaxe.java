@@ -1,0 +1,35 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package entities;
+
+
+/**
+ *
+ * @author corga
+ */
+public class Pickaxe extends KeyItem{
+    private KeyItem binder;
+    private KeyItem handle;
+    private Materials head;
+    private Materials[] extra;
+    public Pickaxe(String name, int id, String description, double value, KeyItem binder, KeyItem handle, Materials head) {
+        super(name, id, description, value);
+        this.binder = binder;
+        this.handle = handle;
+        this.head = head;
+    }
+    
+    public void setExtra(Materials[] extra){
+        this.extra = extra;
+    }
+    
+    @Override
+    public int getScoreValue(){
+        
+        return (int)(head.getScoreValue()*3);
+    }
+    
+}
