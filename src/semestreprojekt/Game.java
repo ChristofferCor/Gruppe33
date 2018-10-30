@@ -40,10 +40,10 @@ public class Game
         home = new Room("You are in your loving home");
         townSquare = new Room("You are in the town square");
         caveEntrance = new Room("You are at the mine entrance", true, 1); // displays description, boolean for first time event and room id to distinguish between different first time event rooms.
-        cave1 = new Room("You stand in the first mine room");
+        cave1 = new Room("You stand in the first mine room",false,0,false,1);
         cave3 = new Room("You stand in the third mine room");
         cave2 = new Room("You stand in the second mine room");
-        cave4 = new Room("You stand in the fourth mine room");
+        cave4 = new Room("You stand in the fourth mine room",true,3);
         cave5 = new Room("You stand in the fifth mine room", true, 2);
         cave6 = new Room("You stand in the sixth mine room");
         cave7 = new Room("You stand in the seventh mine room");
@@ -58,7 +58,7 @@ public class Game
         townSquare.setExit("south", caveEntrance);
 
         caveEntrance.setExit("east", cave1);
-        caveEntrance.setExit("north", townSquare);
+        
         
         
         cave1.setExit("west", caveEntrance);
@@ -83,9 +83,13 @@ public class Game
         cave4.setExit("south", cave3);
         cave4.setExit("east", cave6);
         
+        cave4.setEventRoom(cave1);
+        
         cave5.setExit("west", cave3);
         cave5.setExit("north", cave6);
         cave5.setExit("south", cave7);
+        
+        cave5.setEventRoom(caveEntrance, townSquare);
         
         cave6.setExit("north", cave10);
         cave6.setExit("west", cave4);
@@ -131,7 +135,8 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(currentRoom.getStartDescription());
+        System.out.println(currentRoom.getEndString());
     }
 
     private boolean processCommand(Command command) 
@@ -189,19 +194,48 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            
             currentRoom = nextRoom;
             
-            if(currentRoom.isEnemy())
-            {
-                currentRoom.startFight(protagonist);
-            }
-            
-            System.out.println(currentRoom.getLongDescription());
-            currentRoom.visitCounterPlus(); // When you enter a room the visitcounter increases by 1.
-            System.out.println("Times visited room: " + currentRoom.getVisitCounter()); // Test to see if it funktions
+            currentRoom.visitCounterPlus();
+           
+           
             if (currentRoom.getVisitCounter() == 1 && currentRoom.isFirstTimeEvent()) { // If the visit count is 1 and there's a first time event, run first time event.
                 currentRoom.firstTimeEvent();
             }
+            
+            System.out.println(currentRoom.getStartDescription()); //prints description
+            
+            if(currentRoom.isEnemy()) //if there is an enemy run this thing
+            {
+                //asks if the player want to fight
+                System.out.println("You see a " + currentRoom.getEnemyName() + " do you want to engage? ");
+                
+                //input
+                Command command2 = parser.getCommand();
+                
+                //reads input
+                CommandWord commandWord = command2.getCommandWord();
+                
+                if(commandWord == commandWord.YES) //if input is yes start the fight
+                {
+                    currentRoom.startFight(protagonist);
+                } else if (commandWord == commandWord.NO) //if no ignore
+                {
+                    System.out.println("You ignored the enemy");
+                }              
+            }
+          
+            
+            if(currentRoom.isEventTrigger()) //if the room has an event ready to activate run the event
+            {
+                currentRoom.event();
+            }
+            
+            System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
+            
+            System.out.println("Times visited room: " + currentRoom.getVisitCounter()); // Test to see if it funktions
+           
         }
     }
 
