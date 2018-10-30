@@ -9,7 +9,7 @@ package entities;
  *
  * @author sebastian
  */
-public class Item {
+public abstract class Item {
 
     private String name;
     private int id;

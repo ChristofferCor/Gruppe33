@@ -9,12 +9,12 @@ package entities;
  *
  * @author sebastian
  */
-public class DefenseItem extends Item {
+public class Consumables extends Item {
 
     private double value;
     private double potency;
 
-    public DefenseItem(String name, int id, String description, double value, double potency) {
+    public Consumables(String name, int id, String description, double value, double potency) {
         super(name, id, description);
         this.value = value;
         this.potency = potency;
