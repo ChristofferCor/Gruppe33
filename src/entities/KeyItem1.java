@@ -9,9 +9,9 @@ package entities;
  *
  * @author sebastian
  */
-public class KeyItem extends Item {
+public class KeyItem1 extends Item {
 
-    public KeyItem(String name, int id, String description) {
+    public KeyItem1(String name, int id, String description) {
         super(name, id, description);
     }
     

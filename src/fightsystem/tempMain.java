@@ -5,7 +5,7 @@
  */
 package fightsystem;
 
-import entities.KeyItem;
+import entities.KeyItem1;
 /**
  *
  * @author corga
@@ -13,7 +13,7 @@ import entities.KeyItem;
 public class tempMain {
     public static void tempmain(String[] args) {
         AttackCatalogue browser = new AttackCatalogue();
-        KeyItem item = new KeyItem("Nøgle", 1, "Nøglen til livet");
+        KeyItem1 item = new KeyItem1("Nøgle", 1, "Nøglen til livet");
         
         Character protagonist = new Character();
         Attack[] attack = {browser.getAttack("Hack"), browser.getAttack("Slice"), browser.getAttack("Chop")};

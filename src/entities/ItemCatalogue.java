@@ -19,7 +19,7 @@ public class ItemCatalogue {
     }
     
     private void initiateItems(){
-        Catalogue.add(new KeyItem("Nøgle", 1, "Dette er en ubrugelig nøgle")); //Test item
+        Catalogue.add(new KeyItem1("Nøgle", 1, "Dette er en ubrugelig nøgle")); //Test item
     }
     
     public Item getItem(int id){
