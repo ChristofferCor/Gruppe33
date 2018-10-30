@@ -10,7 +10,7 @@ package fightsystem;
  * @author corga
  */
 public class tempMain {
-    public static void main(String[] args) {
+    public static void tempMain(String[] args) {
         AttackCatalogue browser = new AttackCatalogue();
         
         Character protagonist = new Character();

@@ -157,7 +157,7 @@ public class TextFormater {
         }
     }
 
-    private void topBar() {
+    private void topBar() { // Redundant
         this.enclosed = "";
         for (int i = 0; i < this.width; i++) {
             this.enclosed += this.lid;
