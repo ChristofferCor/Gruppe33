@@ -1,4 +1,4 @@
-package semestreprojekt;
+package framework;
 
 public enum CommandWord
 {

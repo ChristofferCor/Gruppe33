@@ -1,4 +1,4 @@
-package semestreprojekt;
+package framework;
 
 import fightsystem.*;
 import entities.Item;
