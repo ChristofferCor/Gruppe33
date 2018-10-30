@@ -202,8 +202,6 @@ public class Game
             if (currentRoom.getVisitCounter() == 1 && currentRoom.isFirstTimeEvent()) { // If the visit count is 1 and there's a first time event, run first time event.
                 currentRoom.firstTimeEvent();
             }
-            
-          
         }
     }
 
