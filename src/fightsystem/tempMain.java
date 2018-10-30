@@ -6,7 +6,6 @@
 package fightsystem;
 
 import entities.Keyitem;
-
 /**
  *
  * @author corga

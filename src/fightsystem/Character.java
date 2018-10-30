@@ -7,13 +7,11 @@ package fightsystem;
 
 import entities.Item;
 import java.util.ArrayList;
-
 /**
  *
  * @author corga
  */
 public class Character {
-
     private double hp, maxHp;
     private String name;
     private Attack[] attacks = new Attack[4]; //listed attacks for characters to 4
@@ -27,7 +25,6 @@ public class Character {
     public Character() {
         this(null, 100, 100, 100);
     }
-
     /**
      *
      * @param hp
