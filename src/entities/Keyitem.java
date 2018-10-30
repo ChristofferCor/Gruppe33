@@ -9,9 +9,14 @@ package entities;
  *
  * @author sebastian
  */
-public class Keyitem extends Item {
+public class KeyItem extends Item {
 
-    public Keyitem(String name, int id, String description) {
+    public KeyItem(String name, int id, String description) {
         super(name, id, description);
+    }
+    
+    @Override
+    public boolean droppable(){
+        return false;
     }
 }
