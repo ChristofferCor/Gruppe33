@@ -7,11 +7,12 @@ package entities;
 
 /**
  *
- * @author sebastian
+ * @author corga
  */
-public class Keyitem extends Item {
-
-    public Keyitem(String name, int id, String description) {
-        super(name, id, description);
+public class Misc extends Item{
+    
+    public Misc(String name, int id, String description, double value) {
+        super(name, id, description, value);
     }
+    
 }

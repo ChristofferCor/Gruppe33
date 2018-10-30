@@ -9,17 +9,19 @@ package entities;
  *
  * @author sebastian
  */
-public class Materials extends Item {
+public class KeyItem extends Item {
 
-    private int scoreValue;
-
-    public Materials(String name, int id, String description, double value, int scoreValue) {
+    public KeyItem(String name, int id, String description, double value) {
         super(name, id, description, value);
-        this.scoreValue = scoreValue;
     }
 
     @Override
-    public int getScoreValue() {
-        return this.scoreValue;
+    public boolean droppable() {
+        return false;
+    }
+
+    @Override
+    public boolean sellable() {
+        return super.getValue() != 0;
     }
 }

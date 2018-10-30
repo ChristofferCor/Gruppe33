@@ -17,7 +17,12 @@ import java.util.Date;
  */
 public class Fight {
 
-    private int status;
+    private static final int RUNNING = 0;
+    private static final int DEAD = 1;
+    private static final int VICTORY = 2;
+    private static final int FLEE = 3;
+    
+    private static int status;
     private int numAtk = 0;
     private final Character monster, player;
     private Scanner speedTyper;
@@ -32,7 +37,7 @@ public class Fight {
     public Fight(Character player, Character monster) {
         this.monster = monster;
         this.player = player;
-        this.status = 0;
+        this.status = this.RUNNING;
 
         this.output = new FightTextFormater(70, '#', '-', this.player, this.monster);
 
@@ -55,10 +60,10 @@ public class Fight {
         output.print();
         sleep(4);
         if (Math.random() <= 0.5) {
-            while (this.status == 0) {
+            while (this.status == this.RUNNING) {
                 //displayStats();
                 yourTurn();
-                if (this.status != 0) {
+                if (this.status != this.RUNNING) {
                     break;
                 }
                 sleep(3);
@@ -66,10 +71,10 @@ public class Fight {
                 sleep(3);
             }
         } else {
-            while (this.status == 0) {
+            while (this.status == this.RUNNING) {
                 //displayStats();
                 theirTurn();
-                if (this.status != 0) {
+                if (this.status != this.RUNNING) {
                     break;
                 }
                 sleep(3);
@@ -77,18 +82,18 @@ public class Fight {
                 sleep(3);
             }
         }
-        switch (status) {
-            case 1:
+        switch (this.status) {
+            case Fight.DEAD:
                 output.setBody(new String[]{"The " + this.monster.getName() + " defeated you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"});
                 output.setHead(new String[]{"You unfortunately died of slowness"});
                 output.oldPrint();
                 break;
-            case 2:
+            case Fight.VICTORY:
                 output.setBody(new String[]{"You speedtyped your way around the " + this.monster.getName(), "", "You made it out with " + this.player.getHp() + " HP left"});
                 output.setHead(new String[]{"Congratulations! You won"});
                 output.oldPrint();
                 break;
-            case 3:
+            case Fight.FLEE:
                 output.setBody(new String[]{"The " + this.monster.getName() + " felt sorry for you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"});
                 output.setHead(new String[]{"You escaped like a coward!"});
                 output.oldPrint();

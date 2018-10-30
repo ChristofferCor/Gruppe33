@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class AttackCatalogue {
 
-    private ArrayList<Attack> Catalogue = new ArrayList<Attack>();
+    public static ArrayList<Attack> Catalogue = new ArrayList<Attack>();
 
     /**
      * The no-arg constructor only invokes a single method that creates all the attacks in the game

@@ -11,20 +11,11 @@ package entities;
  */
 public class Consumables extends Item {
 
-    private double value;
     private double potency;
 
     public Consumables(String name, int id, String description, double value, double potency) {
-        super(name, id, description);
-        this.value = value;
+        super(name, id, description, value);
         this.potency = potency;
-    }
-
-    /**
-     * @return the value
-     */
-    public double getValue() {
-        return value;
     }
 
     /**

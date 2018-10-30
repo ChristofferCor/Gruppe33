@@ -17,6 +17,7 @@ public class Character {
     private Attack[] attacks = new Attack[4]; //listed attacks for characters to 4
     private int reactionTime;
     private int strength;
+    private double cash = 0;
     private ArrayList<Item> inventory = new ArrayList<>(); //Characters has an arraylist containing items.
 
     /**
@@ -129,5 +130,13 @@ public class Character {
 
     public ArrayList<Item> getInventory() {
         return this.inventory;
+    }
+    
+    public void setCash(double cash){
+        this.cash = cash;
+    }
+    
+    public double getCash(){
+        return this.cash;
     }
 }

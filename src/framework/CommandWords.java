@@ -1,4 +1,4 @@
-package semestreprojekt;
+package framework;
 import java.util.HashMap;
 
 
