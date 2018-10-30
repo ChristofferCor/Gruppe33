@@ -5,6 +5,9 @@
  */
 package semestreprojekt;
 
+import fightsystem.Attack;
+import fightsystem.AttackCatalogue;
+
 /**
  *
  * @author sebastian
@@ -15,8 +18,14 @@ public class GameStarter {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        Game game = new Game();
+        
+        AttackCatalogue browser = new AttackCatalogue();
+        
+        fightsystem.Character protagonist = new fightsystem.Character();
+        Attack[] attack = {browser.getAttack("Hack"), browser.getAttack("Slice"), browser.getAttack("Chop")};
+        protagonist.setAttacks(attack);
+        
+        Game game = new Game(protagonist, browser);
         game.play();
     }
     

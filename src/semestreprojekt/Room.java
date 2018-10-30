@@ -1,5 +1,6 @@
 package semestreprojekt;
 
+import fightsystem.*;
 import entities.Item;
 import java.util.ArrayList;
 import java.util.Set;
@@ -15,6 +16,7 @@ public class Room
     private int visitCounter = 0; // Attribute for visit counter
     private int id = 0; // Attribute for id
     private ArrayList<Item> items = new ArrayList<>(); //used for items placed in the rooms.
+    private fightsystem.Character enemy = null;
 
     // Constructor for Room with 3 variables (used for rooms with a first time event)
     public Room(String description, boolean firstTime, int id) 
@@ -31,6 +33,24 @@ public class Room
         exits = new HashMap<String, Room>();
     }
 
+    public boolean isEnemy()
+    {
+        if(this.enemy == null)
+        {
+            return false;
+        }else
+        {
+            return true;
+        }
+    }
+    
+    public void startFight(fightsystem.Character protagonist)
+    {
+        Fight fight = new Fight(protagonist, this.enemy);
+        fight.fight();
+    }
+            
+    
     public void setExit(String direction, Room neighbor) 
     {
         exits.put(direction, neighbor);
@@ -41,6 +61,11 @@ public class Room
         items.add(newItem);
     }
 
+    public void setEnemy(fightsystem.Character enemy)
+    {
+        this.enemy = enemy;
+    }
+    
     public String getShortDescription()
     {
         return description;

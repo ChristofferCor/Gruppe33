@@ -1,7 +1,7 @@
 package semestreprojekt;
 
 import entities.Materials;
-
+import fightsystem.*;
 /**
  * This class is the games center frame. 
  * You use it to create a new game object and start the game from it.
@@ -13,13 +13,17 @@ public class Game
     //Attributes
     private Parser parser;
     private Room currentRoom;
+    private fightsystem.Character protagonist;
+    private fightsystem.AttackCatalogue browser;
         
     //Constructor
     /**
      * This constructor takes no arguments but constructs a object, runs the private method createRooms and assigns the attribute: parser, a new object from the Parser class
      */
-    public Game() 
+    public Game(fightsystem.Character protagonist, fightsystem.AttackCatalogue browser) 
     {
+        this.browser = browser; 
+        this.protagonist = protagonist;
         createRooms();
         parser = new Parser();
     }
@@ -31,7 +35,8 @@ public class Game
     private void createRooms()
     {
         Room home, townSquare, caveEntrance, cave1, cave2, cave3, cave4, cave5, cave6, cave7, cave8, cave9, cave10, cave11;
-      
+        Attack[] attack = {browser.getAttack("Hack"), browser.getAttack("Slice"), browser.getAttack("Chop")};
+        
         home = new Room("You are in your loving home");
         townSquare = new Room("You are in the town square");
         caveEntrance = new Room("You are at the mine entrance", true, 1); // displays description, boolean for first time event and room id to distinguish between different first time event rooms.
@@ -54,10 +59,15 @@ public class Game
 
         caveEntrance.setExit("east", cave1);
         caveEntrance.setExit("north", townSquare);
-
+        
+        
         cave1.setExit("west", caveEntrance);
         cave1.setExit("north", cave3);
         cave1.setExit("south", cave2);
+        
+        fightsystem.Character wombat = new fightsystem.Character("Wombat", 25, 75, 50);
+        wombat.setAttacks(attack);
+        cave1.setEnemy(wombat);
 
         cave2.setExit("west", cave11);
         cave2.setExit("east", cave8);
@@ -180,13 +190,18 @@ public class Game
         }
         else {
             currentRoom = nextRoom;
+            
+            if(currentRoom.isEnemy())
+            {
+                currentRoom.startFight(protagonist);
+            }
+            
             System.out.println(currentRoom.getLongDescription());
             currentRoom.visitCounterPlus(); // When you enter a room the visitcounter increases by 1.
             System.out.println("Times visited room: " + currentRoom.getVisitCounter()); // Test to see if it funktions
             if (currentRoom.getVisitCounter() == 1 && currentRoom.isFirstTimeEvent()) { // If the visit count is 1 and there's a first time event, run first time event.
                 currentRoom.firstTimeEvent();
             }
-            // Start fight
         }
     }
 
