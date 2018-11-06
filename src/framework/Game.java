@@ -1,28 +1,36 @@
 package framework;
 
+import entities.Crafting;
+import entities.Item;
+import entities.ItemCatalogue;
 import entities.Material;
+import entities.Pickaxe;
 import fightsystem.*;
+import java.util.ArrayList;
+
 /**
- * This class is the games center frame. 
- * You use it to create a new game object and start the game from it.
- * It contains two private attributes: parser and currentRoom.
+ * This class is the games center frame. You use it to create a new game object
+ * and start the game from it. It contains two private attributes: parser and
+ * currentRoom.
+ *
  * @author Gruppe 33
  */
-public class Game 
-{
+public class Game {
+
     //Attributes
     private Parser parser;
     private Room currentRoom;
     private fightsystem.Character protagonist;
     private fightsystem.AttackCatalogue browser;
-        
+
     //Constructor
     /**
-     * This constructor takes no arguments but constructs a object, runs the private method createRooms and assigns the attribute: parser, a new object from the Parser class
+     * This constructor takes no arguments but constructs a object, runs the
+     * private method createRooms and assigns the attribute: parser, a new
+     * object from the Parser class
      */
-    public Game(fightsystem.Character protagonist, fightsystem.AttackCatalogue browser) 
-    {
-        this.browser = browser; 
+    public Game(fightsystem.Character protagonist, fightsystem.AttackCatalogue browser) {
+        this.browser = browser;
         this.protagonist = protagonist;
         createRooms();
         parser = new Parser();
@@ -32,18 +40,17 @@ public class Game
      * This is a private method, it cannot return and it takes no arguments.
      * It's functionality is to create the rooms used in the game.
      */
-    private void createRooms()
-    {
+    private void createRooms() {
         Room home, townSquare, caveEntrance, cave1, cave2, cave3, cave4, cave5, cave6, cave7, cave8, cave9, cave10, cave11;
         Attack[] attack = {browser.getAttack("Hack"), browser.getAttack("Slice"), browser.getAttack("Chop")};
-        
+
         home = new Room("You are in your loving home");
         townSquare = new Room("You are in the town square");
         caveEntrance = new Room("You are at the mine entrance", true, 1); // displays description, boolean for first time event and room id to distinguish between different first time event rooms.
-        cave1 = new Room("You stand in the first mine room",false,0,false,1);
+        cave1 = new Room("You stand in the first mine room", false, 0, false, 1);
         cave3 = new Room("You stand in the third mine room");
         cave2 = new Room("You stand in the second mine room");
-        cave4 = new Room("You stand in the fourth mine room",true,3);
+        cave4 = new Room("You stand in the fourth mine room", true, 3);
         cave5 = new Room("You stand in the fifth mine room", true, 2);
         cave6 = new Room("You stand in the sixth mine room");
         cave7 = new Room("You stand in the seventh mine room");
@@ -51,20 +58,20 @@ public class Game
         cave9 = new Room("You stand in the ninth mine room");
         cave10 = new Room("You stand in the tenth mine room");
         cave11 = new Room("You stand in the eleventh mine room");
-        
+
         home.setExit("east", townSquare);
 
         townSquare.setExit("west", home);
         townSquare.setExit("south", caveEntrance);
 
         caveEntrance.setExit("east", cave1);
-        
+
         
         
         cave1.setExit("west", caveEntrance);
         cave1.setExit("north", cave3);
         cave1.setExit("south", cave2);
-        
+
         fightsystem.Character wombat = new fightsystem.Character("Wombat", 25, 75, 50);
         wombat.setAttacks(attack);
         cave1.setEnemy(wombat);
@@ -72,64 +79,62 @@ public class Game
         cave2.setExit("west", cave11);
         cave2.setExit("east", cave8);
         cave2.setExit("north", cave1);
-        
+
         Material iron = new Material("Iron", 1, "Piece of iron.", 10, 250);
-        
+
         cave3.setExit("south", cave1);
         cave3.setExit("north", cave4);
         cave3.setExit("east", cave5);
         cave3.setItems(iron);
-        
+
         cave4.setExit("south", cave3);
         cave4.setExit("east", cave6);
-        
+
         cave4.setEventRoom(cave1);
-        
+
         cave5.setExit("west", cave3);
         cave5.setExit("north", cave6);
         cave5.setExit("south", cave7);
-        
+
         cave5.setEventRoom(caveEntrance, townSquare);
-        
+
         cave6.setExit("north", cave10);
         cave6.setExit("west", cave4);
         cave6.setExit("south", cave5);
-        
+
         cave7.setExit("east", cave9);
         cave7.setExit("north", cave5);
         cave7.setExit("south", cave8);
-        
+
         cave8.setExit("north", cave7);
         cave8.setExit("west", cave2);
-        
+
         cave9.setExit("west", cave7);
-        
+
         cave10.setExit("south", cave6);
-        
+
         cave11.setExit("east", cave2);
 
         currentRoom = home;
     }
-    
+
     /**
-     * This is a public method, it cannot return and it takes no arguments.
-     * It's functionality is to start the game, and check if game is completed
+     * This is a public method, it cannot return and it takes no arguments. It's
+     * functionality is to start the game, and check if game is completed
      */
-    public void play() 
-    {            
+    public void play() {
         printWelcome();
 
-                
+        
         boolean finished = false;
-        while (! finished) {
+        while (!finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
 
-    private void printWelcome()
-    {
+    private void printWelcome() {
         System.out.println();
         System.out.println("Welcome to the World of Zuul!");
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
@@ -139,24 +144,21 @@ public class Game
         System.out.println(currentRoom.getEndString());
     }
 
-    private boolean processCommand(Command command) 
-    {
+    private boolean processCommand(Command command) {
         boolean wantToQuit = false;
 
         CommandWord commandWord = command.getCommandWord();
 
-        if(commandWord == CommandWord.UNKNOWN) {
+        if (commandWord == CommandWord.UNKNOWN) {
             System.out.println("I don't know what you mean...");
             return false;
         }
 
         if (commandWord == CommandWord.HELP) {
             printHelp();
-        }
-        else if (commandWord == CommandWord.GO) {
+        } else if (commandWord == CommandWord.GO) {
             goRoom(command);
-        }
-        else if (commandWord == CommandWord.QUIT) {
+        } else if (commandWord == CommandWord.QUIT) {
             wantToQuit = quit(command);
         } else if (commandWord == CommandWord.INVENTORY) {
             // Checks inventory
@@ -168,7 +170,23 @@ public class Game
             // Rests and restores 25 HP to the player.
         } else if (commandWord == CommandWord.CRAFT) {
             if (this.currentRoom.getStartDescription().equals("You are at the mine entrance")) {
-                // Doing it
+                Crafting crafter = new Crafting(protagonist);
+                ArrayList<Item> inv = protagonist.getInventory();
+                if (inv.contains(ItemCatalogue.getItem(3))) {
+                    boolean hasPickaxe = false;
+                    for (Item item : inv) {
+                        if (item instanceof Pickaxe) {
+                            hasPickaxe = true;
+                        }
+                    }
+                    if (hasPickaxe) {
+                        crafter.craftAddExtra();
+                    } else {
+                        crafter.craftPickaxe();
+                    }
+                } else {
+                    System.out.println("You haven't learned how to craft yet!");
+                }
             } else {
                 System.out.println("There is no furnace in this room!");
                 return false;
@@ -177,8 +195,7 @@ public class Game
         return wantToQuit;
     }
 
-    private void printHelp() 
-    {
+    private void printHelp() {
         System.out.println("You are lost. You are alone. You wander");
         System.out.println("around at the university.");
         System.out.println();
@@ -186,9 +203,8 @@ public class Game
         parser.showCommands();
     }
 
-    private void goRoom(Command command) 
-    {
-        if(!command.hasSecondWord()) {
+    private void goRoom(Command command) {
+        if (!command.hasSecondWord()) {
             System.out.println("Go where?");
             return;
         }
@@ -199,60 +215,55 @@ public class Game
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
-        }
-        else {
-            
+        } else {
+
             currentRoom = nextRoom;
-            
+
             currentRoom.visitCounterPlus();
-           
-           
+
             if (currentRoom.getVisitCounter() == 1 && currentRoom.isFirstTimeEvent()) { // If the visit count is 1 and there's a first time event, run first time event.
                 currentRoom.firstTimeEvent();
             }
-            
+
             System.out.println(currentRoom.getStartDescription()); //prints description
-            
-            if(currentRoom.isEnemy()) //if there is an enemy run this thing
+
+            if (currentRoom.isEnemy()) //if there is an enemy run this thing
             {
                 //asks if the player want to fight
                 System.out.println("You see a " + currentRoom.getEnemyName() + " do you want to engage? ");
-                
+
                 //input
                 Command command2 = parser.getCommand();
-                
+
                 //reads input
                 CommandWord commandWord = command2.getCommandWord();
-                
-                if(commandWord == commandWord.YES) //if input is yes start the fight
+
+                if (commandWord == commandWord.YES) //if input is yes start the fight
                 {
                     currentRoom.startFight(protagonist);
                 } else if (commandWord == commandWord.NO) //if no ignore
                 {
                     System.out.println("You ignored the enemy");
-                }              
+                }
             }
-          
-            
-            if(currentRoom.isEventTrigger()) //if the room has an event ready to activate run the event
+
+            if (currentRoom.isEventTrigger()) //if the room has an event ready to activate run the event
             {
                 currentRoom.event();
             }
-            
+
             System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
-            
+
             System.out.println("Times visited room: " + currentRoom.getVisitCounter()); // Test to see if it funktions
-           
+
         }
     }
-    
-    private boolean quit(Command command) 
-    {
-        if(command.hasSecondWord()) {
+
+    private boolean quit(Command command) {
+        if (command.hasSecondWord()) {
             System.out.println("Quit what?");
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }

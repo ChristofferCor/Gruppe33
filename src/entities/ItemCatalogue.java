@@ -33,10 +33,10 @@ public class ItemCatalogue {
         Catalogue.add(new Material("Iron", 300, "Valuable raw material, used for tool crafting", 24, 250));
         //Pickaxes
         Catalogue.add(new Pickaxe("Simple Iron Pickaxe", 1000, "Pickaxe of high quality, your inner voice tells you to use it on the cave in!", 100, (KeyItem)this.getItem(2), (KeyItem)this.getItem(1), (Material)this.getItem(300)));
-        Catalogue.add(new Pickaxe((Pickaxe)this.getItem(1000), "Strong Iron Pickaxe", 1001, "Pickaxe of really high quality, it mines through rocks like a warm knife through butter!", 250));
+        Catalogue.add(new SuperPickaxe((Pickaxe)this.getItem(1000), "Strong Iron Pickaxe", 1001, "Pickaxe of really high quality, it mines through rocks like a warm knife through butter!", 250, (Material)this.getItem(300)));
     }
     
-    public Item getItem(int id){
+    public static Item getItem(int id){
         for(Item obj : Catalogue){
             if (id == obj.getId()) {
                 return obj;
