@@ -2,7 +2,7 @@ package framework;
 
 public enum CommandWord
 {
-    GO("go"), QUIT("quit"), HELP("help"), UNKNOWN("?"), INVENTORY("inventory"), USE("use"), TAKE("take"), REST("rest"),YES("yes"),NO("no"); // added inventory, use and take as commands.
+    GO("go"), QUIT("quit"), HELP("help"), UNKNOWN("?"), INVENTORY("inventory"), USE("use"), TAKE("take"), REST("rest"), YES("yes"), NO("no"); // added inventory, use and take as commands.
     
     private String commandString;
     

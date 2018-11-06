@@ -28,7 +28,9 @@ public class Parser
         if(tokenizer.hasNext()) {
             word1 = tokenizer.next();
             if(tokenizer.hasNext()) {
-                word2 = tokenizer.next(); 
+                // Added nextLine to read the rest of the String instead of only the next word.
+                //Trim is used to remove spaces in the beginning and end of the String.
+                word2 = tokenizer.nextLine().trim();
             }
         }
 
