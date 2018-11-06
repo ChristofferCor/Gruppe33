@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package entities;
+import fightsystem.*;
 
 /**
  *
@@ -31,8 +32,8 @@ public class Consumables extends Item {
     }
     
     @Override
-    public void use() {
-        // HP += potency
-        // Delete item after use
+    public void use(fightsystem.Character protagonist) {
+        protagonist.setHp(protagonist.getHp() + this.potency);
+        System.out.println("You drink the nasty potion and feel regenerated. Your HP is " + protagonist.getHp());
     }
 }
