@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Simon Holland Flarup
  */
 public class ItemCatalogue {
-    public static ArrayList<Item> Catalogue;
+    public static ArrayList<Item> Catalogue = new ArrayList<>();
     
     public ItemCatalogue() {
         initiateItems();
