@@ -30,6 +30,7 @@ public class Game {
      * This constructor takes no arguments but constructs a object, runs the
      * private method createRooms and assigns the attribute: parser, a new
      * object from the Parser class
+     *
      * @param protagonist
      * @param browser
      */
@@ -47,8 +48,8 @@ public class Game {
      */
     private void createRooms() {
         Room home, townSquare, caveEntrance, cave1, cave2, cave3, cave4, cave5, cave6, cave7, cave8, cave9, cave10, cave11;
-        Attack[] attack = {browser.getAttack("Hack"), browser.getAttack("Slice"), browser.getAttack("Chop")};
-      
+        Attack[] attack = {browser.getAttack("hit"), browser.getAttack("stomp"), browser.getAttack("kick-ass")};
+
         home = new Room("You are in your loving home.", 1);
         townSquare = new Room("You are in the town square.", 2);
         caveEntrance = new Room("You are at the mine entrance.", 3, true, 1); // displays description, boolean for first time event and room id to distinguish between different first time event rooms.
@@ -63,9 +64,8 @@ public class Game {
         cave9 = new Room("You stand in the ninth mine room.", 12);
         cave10 = new Room("You stand in the tenth mine room.", 13, true, 3);
         cave11 = new Room("You stand in the eleventh mine room.", 14);
-        victoryRoom = new Room ("You are back at the town square. Nobody noticed you were gone, but you won, hurray!", 15);
+        victoryRoom = new Room("You are back at the town square. Nobody noticed you were gone, but you won, hurray!", 15);
 
-        
         home.setExit("east", townSquare);
 
         townSquare.setExit("west", home);
@@ -136,7 +136,7 @@ public class Game {
      */
     public void play() {
         printWelcome();
-        
+
         while (!finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
@@ -159,7 +159,7 @@ public class Game {
 
     private boolean processCommand(Command command) {
         boolean wantToQuit = false;
-        if (currentRoom == victoryRoom){
+        if (currentRoom == victoryRoom) {
             return true;
         }
 
@@ -180,28 +180,30 @@ public class Game {
             System.out.println(protagonist.getInventory());
 
         } else if (commandWord == CommandWord.USE) {
-            String itemName = command.getSecondWord();
-            Item tempItem = protagonist.hasItem(itemName);
-            if (tempItem != null) {
-                tempItem.use(protagonist);
-                if (tempItem instanceof Consumables) {
-                    protagonist.removeFromInventory(tempItem);
-                }
-            } else if (itemName.equals("Pickaxe") && currentRoom.getRoomID() == 3){
-                for (Item i : protagonist.getInventory()){
-                    if (i instanceof Pickaxe) {
-                        currentRoom.setExit("north", victoryRoom);
-                        System.out.println("You dig a small hole though the rubble for you to fit through. You hear birds and see the sunlight. You can now leave the mine.");
-                        System.out.println(currentRoom.getExitString());
+            if (command.hasSecondWord()) {
+                String itemName = command.getSecondWord();
+                Item tempItem = protagonist.hasItem(itemName);
+                if (tempItem != null) {
+                    tempItem.use(protagonist);
+                    if (tempItem instanceof Consumables) {
+                        protagonist.removeFromInventory(tempItem);
                     }
+                } else if (itemName.equals("Pickaxe") && currentRoom.getRoomID() == 3) {
+                    for (Item i : protagonist.getInventory()) {
+                        if (i instanceof Pickaxe) {
+                            currentRoom.setExit("north", victoryRoom);
+                            System.out.println("You dig a small hole though the rubble for you to fit through. You hear birds and see the sunlight. You can now leave the mine.");
+                            System.out.println(currentRoom.getExitString());
+                        }
+                    }
+                } else if (itemName.equals("Pickaxe") && currentRoom.getRoomID() != 3) {
+                    System.out.println("You try and mine something. You quickly stop as you ain't getting anywhere. You cry a little.");
+                } else {
+                    System.out.println("You search your pockets, but find nothing fitting that name. You feel stupid.");
                 }
-            } else if (itemName.equals("Pickaxe") && currentRoom.getRoomID() != 3) {
-                System.out.println("You try and mine something. You quickly stop as you ain't getting anywhere. You cry a little.");
+            } else {
+                System.out.println("Use what???");
             }
-            else {
-                System.out.println("You search your pockets, but find nothing fitting that name. You feel stupid.");
-            }
-            
         } else if (commandWord == CommandWord.TAKE) {
 
             String itemName = command.getSecondWord();
@@ -217,7 +219,7 @@ public class Game {
         } else if (commandWord == CommandWord.REST) {
             Score.increaseRest();
             this.protagonist.setHp(this.protagonist.getHp() + 25); // Adds 25 HP to the player
-            System.out.println("(DAY " + (Score.getRest()+1) + ") You rested and got 25 HP. Your total HP is " + protagonist.getHp());
+            System.out.println("(DAY " + (Score.getRest() + 1) + ") You rested and got 25 HP. Your total HP is " + protagonist.getHp());
         } else if (commandWord == CommandWord.CRAFT) {
             if (this.currentRoom.getRoomID() == 3) {
                 Crafting crafter = new Crafting(protagonist);
@@ -268,65 +270,63 @@ public class Game {
         } else {
 
             currentRoom = nextRoom;
-            if( currentRoom != victoryRoom) {
+            if (currentRoom != victoryRoom) {
 
-            currentRoom.visitCounterPlus();
+                currentRoom.visitCounterPlus();
 
-            if (currentRoom.getVisitCounter() == 1 && currentRoom.isFirstTimeEvent()) { // If the visit count is 1 and there's a first time event, run first time event.
-                currentRoom.firstTimeEvent(protagonist);
-            }
+                if (currentRoom.getVisitCounter() == 1 && currentRoom.isFirstTimeEvent()) { // If the visit count is 1 and there's a first time event, run first time event.
+                    currentRoom.firstTimeEvent(protagonist);
+                }
 
-            System.out.println(currentRoom.getStartDescription()); //prints description
+                System.out.println(currentRoom.getStartDescription()); //prints description
 
-            if (currentRoom.isEnemy()) //if there is an enemy run this thing
-            {
-                //asks if the player want to fight
-                System.out.println("You see a " + currentRoom.getEnemyName() + " do you want to engage? Yes or no?");
+                if (currentRoom.isEnemy()) //if there is an enemy run this thing
+                {
+                    //asks if the player want to fight
+                    System.out.println("You see a " + currentRoom.getEnemyName() + " do you want to engage? Yes or no?");
 
-                //input
-                Command command2 = parser.getCommand();
-
-                //reads input
-                CommandWord commandWord = command2.getCommandWord();
-
-                while ((commandWord == commandWord.YES || commandWord == commandWord.NO) == false) {
-                    System.out.println("That is not a valid command here. Typo?");
                     //input
-                    command2 = parser.getCommand();
+                    Command command2 = parser.getCommand();
 
                     //reads input
-                    commandWord = command2.getCommandWord();
+                    CommandWord commandWord = command2.getCommandWord();
 
+                    while ((commandWord == commandWord.YES || commandWord == commandWord.NO) == false) {
+                        System.out.println("That is not a valid command here. Typo?");
+                        //input
+                        command2 = parser.getCommand();
+
+                        //reads input
+                        commandWord = command2.getCommandWord();
+
+                    }
+                    if (commandWord == commandWord.YES) //if input is yes start the fight
+                    {
+                        currentRoom.startFight(protagonist);
+                    } else if (commandWord == commandWord.NO) //if no ignore
+                    {
+                        System.out.println("You ignored the enemy");
+                    }
                 }
-                if (commandWord == commandWord.YES) //if input is yes start the fight
+
+                if (currentRoom.isEventTrigger()) //if the room has an event ready to activate run the event
                 {
-                    currentRoom.startFight(protagonist);
-                } 
-                else if (commandWord == commandWord.NO) //if no ignore
-                {
-                    System.out.println("You ignored the enemy");
+                    currentRoom.event();
                 }
-            }
 
-            if (currentRoom.isEventTrigger()) //if the room has an event ready to activate run the event
-            {
-                currentRoom.event();
-            }
-
-            System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
-        }
-        else {
-            victory();
+                System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
+            } else {
+                victory();
             }
         }
     }
-    
+
     private void victory() {
         int calculateScore = score.calculateScore(new Date().getTime(), this.protagonist);
         TextFormater output = new TextFormater(70, '#', '-');
-        output.setBothPrint(new String[]{"You feel the burning hot sun on your forehead", "", "You used " + (Score.getRest()+1) + " days", "Your total score is: "+calculateScore, ""}, new String[]{"Congratulations you escaped the cave!"});
+        output.setBothPrint(new String[]{"You feel the burning hot sun on your forehead", "", "You used " + (Score.getRest() + 1) + " days", "Your total score is: " + calculateScore, ""}, new String[]{"Congratulations you escaped the cave!"});
     }
-    
+
     private boolean quit(Command command) {
         if (command.hasSecondWord()) {
             System.out.println("Quit what?");
