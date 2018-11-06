@@ -21,7 +21,7 @@ public class SuperPickaxe extends Pickaxe {
     
     @Override
     public int getScoreValue() {
-        return (int) (head.getScoreValue() * 4.5);
+        return (int) (250 * 4.5);
     }
 
 }

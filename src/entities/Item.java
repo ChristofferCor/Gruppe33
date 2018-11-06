@@ -76,7 +76,7 @@ public abstract class Item {
     }
     
     public int getScoreValue(){
-        return 0;
+        return (int)this.value;
     }
 
 }
