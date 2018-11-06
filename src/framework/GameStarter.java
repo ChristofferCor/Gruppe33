@@ -22,7 +22,7 @@ public class GameStarter {
         AttackCatalogue browser = new AttackCatalogue();
         
         fightsystem.Character protagonist = new fightsystem.Character();
-        Attack[] attack = {browser.getAttack("Hack"), browser.getAttack("Slice"), browser.getAttack("Chop")};
+        Attack[] attack = {browser.getAttack("slap"), browser.getAttack("slice"), browser.getAttack("chop")};
         protagonist.setAttacks(attack);
         
         Game game = new Game(protagonist, browser);

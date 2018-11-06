@@ -17,9 +17,4 @@ public class Material extends Item {
         super(name, id, description, value);
         this.scoreValue = scoreValue;
     }
-
-    @Override
-    public int getScoreValue() {
-        return this.scoreValue;
-    }
 }
