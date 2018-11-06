@@ -1,9 +1,8 @@
 package framework;
 
-import entities.Item;
-import entities.ItemCatalogue;
-import entities.Materials;
+import entities.*;
 import fightsystem.*;
+import java.util.ArrayList;
 
 /**
  * This class is the games center frame. You use it to create a new game object
@@ -43,7 +42,7 @@ public class Game {
     private void createRooms() {
         Room home, townSquare, caveEntrance, cave1, cave2, cave3, cave4, cave5, cave6, cave7, cave8, cave9, cave10, cave11;
         Attack[] attack = {browser.getAttack("Hack"), browser.getAttack("Slice"), browser.getAttack("Chop")};
-
+      
         home = new Room("You are in your loving home.", 1);
         townSquare = new Room("You are in the town square.", 2);
         caveEntrance = new Room("You are at the mine entrance.", 3, true, 1); // displays description, boolean for first time event and room id to distinguish between different first time event rooms.
@@ -78,7 +77,6 @@ public class Game {
         cave3.setExit("south", cave1);
         cave3.setExit("north", cave4);
         cave3.setExit("east", cave5);
-        
 
         cave4.setExit("south", cave3);
         cave4.setExit("east", cave6);
@@ -188,6 +186,30 @@ public class Game {
         } else if (commandWord == CommandWord.REST) {
             this.protagonist.setHp(this.protagonist.getHp() + 25); // Adds 25 HP to the player
             System.out.println("You rest and get 25 HP. Your total HP is " + protagonist.getHp());
+            // Rests and restores 25 HP to the player.
+        } else if (commandWord == CommandWord.CRAFT) {
+            if (this.currentRoom.getStartDescription().equals("You are at the mine entrance")) {
+                Crafting crafter = new Crafting(protagonist);
+                ArrayList<Item> inv = protagonist.getInventory();
+                if (inv.contains(ItemCatalogue.getItem(3))) {
+                    boolean hasPickaxe = false;
+                    for (Item item : inv) {
+                        if (item instanceof Pickaxe) {
+                            hasPickaxe = true;
+                        }
+                    }
+                    if (hasPickaxe) {
+                        crafter.craftAddExtra();
+                    } else {
+                        crafter.craftPickaxe();
+                    }
+                } else {
+                    System.out.println("You haven't learned how to craft yet!");
+                }
+            } else {
+                System.out.println("There is no furnace in this room!");
+                return false;
+            }
         }
         return wantToQuit;
     }
@@ -244,7 +266,6 @@ public class Game {
                     commandWord = command2.getCommandWord();
 
                 }
-                
                 if (commandWord == commandWord.YES) //if input is yes start the fight
                 {
                     currentRoom.startFight(protagonist);

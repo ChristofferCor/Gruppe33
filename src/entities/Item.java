@@ -50,6 +50,12 @@ public abstract class Item {
     public double getValue() {
         return value;
     }
+    
+    public void setName(String name) {
+        if (name != null) {
+          this.name = name;   
+        }
+    }
 
     @Override
     public String toString() {

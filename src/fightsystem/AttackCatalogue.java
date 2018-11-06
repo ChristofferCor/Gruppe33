@@ -25,13 +25,13 @@ public class AttackCatalogue {
     }
 
     private void initiateAttacks() {
-        Catalogue.add(new Attack("Hit", 2, 100, 5000)); //Default attack, only added if error
-        Catalogue.add(new Attack("Hack", 10, 70, 3000));
-        Catalogue.add(new Attack("Slice", 5, 95, 2500));
-        Catalogue.add(new Attack("Chop", 7.5, 80, 4000));
-        Catalogue.add(new Attack("Slap", 15, 50, 2000));
-        Catalogue.add(new Attack("Stomp", 8, 85, 3500));
-        Catalogue.add(new Attack("Kick-ass", 5, 100, 3000));
+        Catalogue.add(new Attack("hit", 2, 100, 5000)); //Default attack, only added if error
+        Catalogue.add(new Attack("hack", 10, 70, 3000));
+        Catalogue.add(new Attack("slice", 5, 95, 2500));
+        Catalogue.add(new Attack("chop", 7.5, 80, 4000));
+        Catalogue.add(new Attack("slap", 15, 50, 2000));
+        Catalogue.add(new Attack("stomp", 8, 85, 3500));
+        Catalogue.add(new Attack("kick-ass", 5, 100, 3000));
     }
     
     /**
