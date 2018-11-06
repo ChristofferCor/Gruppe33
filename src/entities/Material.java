@@ -9,11 +9,11 @@ package entities;
  *
  * @author sebastian
  */
-public class Materials extends Item {
+public class Material extends Item {
 
     private int scoreValue;
 
-    public Materials(String name, int id, String description, double value, int scoreValue) {
+    public Material(String name, int id, String description, double value, int scoreValue) {
         super(name, id, description, value);
         this.scoreValue = scoreValue;
     }

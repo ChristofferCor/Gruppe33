@@ -1,6 +1,6 @@
 package framework;
 
-import entities.Materials;
+import entities.Material;
 import fightsystem.*;
 /**
  * This class is the games center frame. 
@@ -73,7 +73,7 @@ public class Game
         cave2.setExit("east", cave8);
         cave2.setExit("north", cave1);
         
-        Materials iron = new Materials("Iron", 1, "Piece of iron.", 10, 250);
+        Material iron = new Material("Iron", 1, "Piece of iron.", 10, 250);
         
         cave3.setExit("south", cave1);
         cave3.setExit("north", cave4);
@@ -166,6 +166,13 @@ public class Game
             // Take item from room and add to inventory. Deletes the item from the room after.
         } else if (commandWord == CommandWord.REST) {
             // Rests and restores 25 HP to the player.
+        } else if (commandWord == CommandWord.CRAFT) {
+            if (this.currentRoom.getStartDescription().equals("You are at the mine entrance")) {
+                // Doing it
+            } else {
+                System.out.println("There is no furnace in this room!");
+                return false;
+            }
         }
         return wantToQuit;
     }
@@ -238,7 +245,7 @@ public class Game
            
         }
     }
-
+    
     private boolean quit(Command command) 
     {
         if(command.hasSecondWord()) {
