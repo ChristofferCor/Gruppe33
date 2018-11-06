@@ -126,7 +126,7 @@ public class Room {
         return this.getItemList() + "\n" + getExitString();
     }
 
-    private String getExitString() {
+    public String getExitString() {
         String returnString = "Exits:";
         Set<String> keys = exits.keySet();
         for (String exit : keys) {
@@ -155,7 +155,7 @@ public class Room {
     }
 
     // Method for first time event in select rooms. Checks the firstTimeID for the rooms, that have a first time event.
-    public void firstTimeEvent(fightsystem.Character protagonist, ItemCatalogue catalogue) {
+    public void firstTimeEvent(fightsystem.Character protagonist) {
         if (this.firstTimeID == 1) {
             System.out.println("The entrance behind you caved in. Your pickaxe broke too.");
             System.out.println("'Shit happens' you think for yourself");
@@ -167,7 +167,7 @@ public class Room {
         } else if (this.firstTimeID == 3) {
             System.out.println("You hear a rumble through the corridors. You figure it must come from the southern part of the mine");
             this.eventRoom.setEventTrigger(true);
-            this.eventRoom.setItems(catalogue.getItem(300));
+            this.eventRoom.setItems(ItemCatalogue.getItem(300));
         }
     }
 

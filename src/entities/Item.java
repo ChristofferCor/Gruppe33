@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package entities;
+import fightsystem.*;
 
 /**
  *
@@ -62,7 +63,7 @@ public abstract class Item {
         return name;
     }
 
-    public void use() {
+    public void use(fightsystem.Character protagonist) {
         System.out.println("The item can't be used");
     }
 

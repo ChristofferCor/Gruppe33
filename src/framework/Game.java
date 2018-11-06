@@ -19,6 +19,8 @@ public class Game {
     private fightsystem.Character protagonist;
     private fightsystem.AttackCatalogue browser;
     private ItemCatalogue catalogue = new ItemCatalogue();
+    private Room victoryRoom;
+    private boolean finished = false;
 
     //Constructor
     /**
@@ -57,7 +59,9 @@ public class Game {
         cave9 = new Room("You stand in the ninth mine room.", 12);
         cave10 = new Room("You stand in the tenth mine room.", 13, true, 3);
         cave11 = new Room("You stand in the eleventh mine room.", 14);
+        victoryRoom = new Room ("You are back at the town square. Nobody noticed you were gone, but you won, hurray!", 15);
 
+        
         home.setExit("east", townSquare);
 
         townSquare.setExit("west", home);
@@ -72,7 +76,7 @@ public class Game {
         cave2.setExit("west", cave11);
         cave2.setExit("east", cave8);
         cave2.setExit("north", cave1);
-        cave2.setItems(catalogue.getItem(100));
+        cave2.setItems(ItemCatalogue.getItem(100));
 
         cave3.setExit("south", cave1);
         cave3.setExit("north", cave4);
@@ -81,7 +85,7 @@ public class Game {
         cave4.setExit("south", cave3);
         cave4.setExit("east", cave6);
         fightsystem.Character crazyMiner = new fightsystem.Character("Crazy miner", 25, 75, 50);
-        crazyMiner.addToInventory(catalogue.getItem(3));
+        crazyMiner.addToInventory(ItemCatalogue.getItem(1));
         crazyMiner.setAttacks(attack);
         cave4.setEnemy(crazyMiner);
 
@@ -89,8 +93,8 @@ public class Game {
         cave5.setExit("north", cave6);
         cave5.setExit("south", cave7);
         fightsystem.Character childhoodBully = new fightsystem.Character("Childhood Bully", 25, 75, 50);
-        childhoodBully.addToInventory(catalogue.getItem(4));
-        childhoodBully.addToInventory(catalogue.getItem(300));
+        childhoodBully.addToInventory(ItemCatalogue.getItem(2));
+        childhoodBully.addToInventory(ItemCatalogue.getItem(300));
         childhoodBully.setAttacks(attack);
         cave5.setEnemy(childhoodBully);
 
@@ -101,20 +105,20 @@ public class Game {
         cave7.setExit("east", cave9);
         cave7.setExit("north", cave5);
         cave7.setExit("south", cave8);
-        cave7.setItems(catalogue.getItem(200));
+        cave7.setItems(ItemCatalogue.getItem(200));
 
         cave8.setExit("north", cave7);
         cave8.setExit("west", cave2);
-        cave8.setItems(catalogue.getItem(300));
+        cave8.setItems(ItemCatalogue.getItem(300));
 
         cave9.setExit("west", cave7);
         fightsystem.Character trappedLunatic = new fightsystem.Character("Trapped lunatic", 25, 75, 50);
-        trappedLunatic.addToInventory(catalogue.getItem(5));
+        trappedLunatic.addToInventory(ItemCatalogue.getItem(3));
         trappedLunatic.setAttacks(attack);
         cave9.setEnemy(trappedLunatic);
 
         cave10.setExit("south", cave6);
-        cave10.setItems(catalogue.getItem(101));
+        cave10.setItems(ItemCatalogue.getItem(101));
         cave10.setEventRoom(cave11);
 
         cave11.setExit("east", cave2);
@@ -128,8 +132,7 @@ public class Game {
      */
     public void play() {
         printWelcome();
-
-        boolean finished = false;
+        
         while (!finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
@@ -152,6 +155,9 @@ public class Game {
 
     private boolean processCommand(Command command) {
         boolean wantToQuit = false;
+        if (currentRoom == victoryRoom){
+            return true;
+        }
 
         CommandWord commandWord = command.getCommandWord();
 
@@ -170,7 +176,28 @@ public class Game {
             System.out.println(protagonist.getInventory());
 
         } else if (commandWord == CommandWord.USE) {
-            // Use an item in the inventory
+            String itemName = command.getSecondWord();
+            Item tempItem = protagonist.hasItem(itemName);
+            if (tempItem != null) {
+                tempItem.use(protagonist);
+                if (tempItem instanceof Consumables) {
+                    protagonist.removeFromInventory(tempItem);
+                }
+            } else if (itemName.equals("Pickaxe") && currentRoom.getRoomID() == 3){
+                for (Item i : protagonist.getInventory()){
+                    if (i instanceof Pickaxe) {
+                        currentRoom.setExit("north", victoryRoom);
+                        System.out.println("You dig a small hole though the rubble for you to fit through. You hear birds and see the sunlight. You can now leave the mine.");
+                        System.out.println(currentRoom.getExitString());
+                    }
+                }
+            } else if (itemName.equals("Pickaxe") && currentRoom.getRoomID() != 3) {
+                System.out.println("You try and mine something. You quickly stop as you ain't getting anywhere. You cry a little.");
+            }
+            else {
+                System.out.println("You search your pockets, but find nothing fitting that name. You feel stupid.");
+            }
+            
         } else if (commandWord == CommandWord.TAKE) {
 
             String itemName = command.getSecondWord();
@@ -180,7 +207,7 @@ public class Game {
                 System.out.println("You take " + itemName);
                 currentRoom.removeItems(tempItem);
             } else {
-                System.out.println("No items fit that name");
+                System.out.println("No items fit that name, why would you take something that doesn't exist? You rethink your life.");
             }
 
         } else if (commandWord == CommandWord.REST) {
@@ -237,11 +264,12 @@ public class Game {
         } else {
 
             currentRoom = nextRoom;
+            if( currentRoom != victoryRoom) {
 
             currentRoom.visitCounterPlus();
 
             if (currentRoom.getVisitCounter() == 1 && currentRoom.isFirstTimeEvent()) { // If the visit count is 1 and there's a first time event, run first time event.
-                currentRoom.firstTimeEvent(protagonist, catalogue);
+                currentRoom.firstTimeEvent(protagonist);
             }
 
             System.out.println(currentRoom.getStartDescription()); //prints description
@@ -283,8 +311,16 @@ public class Game {
 
             System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
         }
+        else {
+            victory();
+            }
+        }
     }
-
+    
+    private void victory() {
+        System.out.println("victory");
+    }
+    
     private boolean quit(Command command) {
         if (command.hasSecondWord()) {
             System.out.println("Quit what?");

@@ -139,4 +139,14 @@ public class Character {
     public double getCash(){
         return this.cash;
     }
+    
+        // Checks if the character has item
+    public Item hasItem(String itemName) {
+        for (Item i : inventory) {
+            if (i.getName().equals(itemName)) {
+                return i;
+            }
+        }
+        return null;
+    }
 }
