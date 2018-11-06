@@ -176,7 +176,6 @@ public class Game {
         } else if (commandWord == CommandWord.TAKE) {
 
             String itemName = command.getSecondWord();
-            System.out.println(itemName);
             Item tempItem = currentRoom.hasItem(itemName);
             if (tempItem != null) {
                 protagonist.addToInventory(tempItem);
@@ -262,9 +261,6 @@ public class Game {
             }
 
             System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
-
-            System.out.println("Times visited room: " + currentRoom.getVisitCounter()); // Test to see if it funktions
-
         }
     }
 
