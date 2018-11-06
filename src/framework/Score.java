@@ -7,6 +7,7 @@ package framework;
 
 import entities.Item;
 import fightsystem.Character;
+import java.util.Date;
 
 /**
  *
@@ -16,10 +17,19 @@ public class Score {
     private static int score;
     private static long startTime;
     private static int rest;
+
+    public static void increaseRest() {
+        Score.rest++;
+    }
     
-    public Score(long startTime){
-        this.startTime = startTime;
+    public static int getRest(){
+        return Score.rest;
+    }
+    
+    public Score(){
+        this.startTime = new Date().getTime();
         this.score = 0;
+        this.rest = 0;
     }
     
     public int calculateScore(long endTime, Character protagonist){ //NEEDS FIXING!
@@ -27,6 +37,8 @@ public class Score {
         for(Item obj : protagonist.getInventory()){
             score += obj.getScoreValue();
         }
+        score -= score*(this.rest/100);
+        score -= score * ((endTime-Score.startTime)/21600000);
         this.score = score;
         return this.score;
     }

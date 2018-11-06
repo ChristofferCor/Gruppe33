@@ -24,6 +24,6 @@ public class Pickaxe extends KeyItem {
 
     @Override
     public int getScoreValue() {
-        return (int) (head.getScoreValue() * 3);
+        return (int) (250 * 3);
     }
 }

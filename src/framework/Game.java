@@ -184,17 +184,17 @@ public class Game {
             }
 
         } else if (commandWord == CommandWord.REST) {
+            Score.increaseRest();
             this.protagonist.setHp(this.protagonist.getHp() + 25); // Adds 25 HP to the player
-            System.out.println("You rest and get 25 HP. Your total HP is " + protagonist.getHp());
-            // Rests and restores 25 HP to the player.
+            System.out.println("(DAY " + (Score.getRest()+1) + ") You rested and got 25 HP. Your total HP is " + protagonist.getHp());
         } else if (commandWord == CommandWord.CRAFT) {
-            if (this.currentRoom.getStartDescription().equals("You are at the mine entrance")) {
+            if (this.currentRoom.getRoomID() == 3) {
                 Crafting crafter = new Crafting(protagonist);
                 ArrayList<Item> inv = protagonist.getInventory();
                 if (inv.contains(ItemCatalogue.getItem(3))) {
                     boolean hasPickaxe = false;
                     for (Item item : inv) {
-                        if (item instanceof Pickaxe) {
+                        if (item instanceof Pickaxe && !(item instanceof SuperPickaxe)) {
                             hasPickaxe = true;
                         }
                     }
