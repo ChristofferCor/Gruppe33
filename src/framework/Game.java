@@ -3,6 +3,8 @@ package framework;
 import entities.*;
 import fightsystem.*;
 import java.util.ArrayList;
+import java.util.Date;
+import util.TextFormater;
 
 /**
  * This class is the games center frame. You use it to create a new game object
@@ -21,6 +23,7 @@ public class Game {
     private ItemCatalogue catalogue = new ItemCatalogue();
     private Room victoryRoom;
     private boolean finished = false;
+    private Score score;
 
     //Constructor
     /**
@@ -35,6 +38,7 @@ public class Game {
         this.protagonist = protagonist;
         createRooms();
         parser = new Parser();
+        this.score = new Score();
     }
 
     /**
@@ -318,7 +322,9 @@ public class Game {
     }
     
     private void victory() {
-        System.out.println("victory");
+        int calculateScore = score.calculateScore(new Date().getTime(), this.protagonist);
+        TextFormater output = new TextFormater(70, '#', '-');
+        output.setBothPrint(new String[]{"You feel the burning hot sun on your forehead", "", "You used " + (Score.getRest()+1) + " days", "Your total score is: "+calculateScore, ""}, new String[]{"Congratulations you escaped the cave!"});
     }
     
     private boolean quit(Command command) {
