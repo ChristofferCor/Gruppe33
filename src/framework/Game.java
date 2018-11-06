@@ -1,10 +1,6 @@
 package framework;
 
-import entities.Crafting;
-import entities.Item;
-import entities.ItemCatalogue;
-import entities.Material;
-import entities.Pickaxe;
+import entities.*;
 import fightsystem.*;
 import java.util.ArrayList;
 
@@ -22,12 +18,15 @@ public class Game {
     private Room currentRoom;
     private fightsystem.Character protagonist;
     private fightsystem.AttackCatalogue browser;
+    private ItemCatalogue catalogue = new ItemCatalogue();
 
     //Constructor
     /**
      * This constructor takes no arguments but constructs a object, runs the
      * private method createRooms and assigns the attribute: parser, a new
      * object from the Parser class
+     * @param protagonist
+     * @param browser
      */
     public Game(fightsystem.Character protagonist, fightsystem.AttackCatalogue browser) {
         this.browser = browser;
@@ -43,21 +42,21 @@ public class Game {
     private void createRooms() {
         Room home, townSquare, caveEntrance, cave1, cave2, cave3, cave4, cave5, cave6, cave7, cave8, cave9, cave10, cave11;
         Attack[] attack = {browser.getAttack("Hack"), browser.getAttack("Slice"), browser.getAttack("Chop")};
-
-        home = new Room("You are in your loving home");
-        townSquare = new Room("You are in the town square");
-        caveEntrance = new Room("You are at the mine entrance", true, 1); // displays description, boolean for first time event and room id to distinguish between different first time event rooms.
-        cave1 = new Room("You stand in the first mine room", false, 0, false, 1);
-        cave3 = new Room("You stand in the third mine room");
-        cave2 = new Room("You stand in the second mine room");
-        cave4 = new Room("You stand in the fourth mine room", true, 3);
-        cave5 = new Room("You stand in the fifth mine room", true, 2);
-        cave6 = new Room("You stand in the sixth mine room");
-        cave7 = new Room("You stand in the seventh mine room");
-        cave8 = new Room("You stand in the eighth mine room");
-        cave9 = new Room("You stand in the ninth mine room");
-        cave10 = new Room("You stand in the tenth mine room");
-        cave11 = new Room("You stand in the eleventh mine room");
+      
+        home = new Room("You are in your loving home.", 1);
+        townSquare = new Room("You are in the town square.", 2);
+        caveEntrance = new Room("You are at the mine entrance.", 3, true, 1); // displays description, boolean for first time event and room id to distinguish between different first time event rooms.
+        cave1 = new Room("You stand in the first mine room.", 4);
+        cave3 = new Room("You stand in the third mine room.", 5, true, 2);
+        cave2 = new Room("You stand in the second mine room.", 6);
+        cave4 = new Room("You stand in the fourth mine room.", 7);
+        cave5 = new Room("You stand in the fifth mine room.", 8);
+        cave6 = new Room("You stand in the sixth mine room.", 9);
+        cave7 = new Room("You stand in the seventh mine room. The exit to the east has a 'WARNING' sign besides it.", 10);
+        cave8 = new Room("You stand in the eighth mine room.", 11);
+        cave9 = new Room("You stand in the ninth mine room.", 12);
+        cave10 = new Room("You stand in the tenth mine room.", 13, true, 3);
+        cave11 = new Room("You stand in the eleventh mine room.", 14);
 
         home.setExit("east", townSquare);
 
@@ -66,37 +65,34 @@ public class Game {
 
         caveEntrance.setExit("east", cave1);
 
-        
-        
         cave1.setExit("west", caveEntrance);
         cave1.setExit("north", cave3);
         cave1.setExit("south", cave2);
 
-        fightsystem.Character wombat = new fightsystem.Character("Wombat", 25, 75, 50);
-        wombat.setAttacks(attack);
-        cave1.setEnemy(wombat);
-
         cave2.setExit("west", cave11);
         cave2.setExit("east", cave8);
         cave2.setExit("north", cave1);
-
-        Material iron = new Material("Iron", 1, "Piece of iron.", 10, 250);
+        cave2.setItems(catalogue.getItem(100));
 
         cave3.setExit("south", cave1);
         cave3.setExit("north", cave4);
         cave3.setExit("east", cave5);
-        cave3.setItems(iron);
 
         cave4.setExit("south", cave3);
         cave4.setExit("east", cave6);
-
-        cave4.setEventRoom(cave1);
+        fightsystem.Character crazyMiner = new fightsystem.Character("Crazy miner", 25, 75, 50);
+        crazyMiner.addToInventory(catalogue.getItem(3));
+        crazyMiner.setAttacks(attack);
+        cave4.setEnemy(crazyMiner);
 
         cave5.setExit("west", cave3);
         cave5.setExit("north", cave6);
         cave5.setExit("south", cave7);
-
-        cave5.setEventRoom(caveEntrance, townSquare);
+        fightsystem.Character childhoodBully = new fightsystem.Character("Childhood Bully", 25, 75, 50);
+        childhoodBully.addToInventory(catalogue.getItem(4));
+        childhoodBully.addToInventory(catalogue.getItem(300));
+        childhoodBully.setAttacks(attack);
+        cave5.setEnemy(childhoodBully);
 
         cave6.setExit("north", cave10);
         cave6.setExit("west", cave4);
@@ -105,13 +101,21 @@ public class Game {
         cave7.setExit("east", cave9);
         cave7.setExit("north", cave5);
         cave7.setExit("south", cave8);
+        cave7.setItems(catalogue.getItem(200));
 
         cave8.setExit("north", cave7);
         cave8.setExit("west", cave2);
+        cave8.setItems(catalogue.getItem(300));
 
         cave9.setExit("west", cave7);
+        fightsystem.Character trappedLunatic = new fightsystem.Character("Trapped lunatic", 25, 75, 50);
+        trappedLunatic.addToInventory(catalogue.getItem(5));
+        trappedLunatic.setAttacks(attack);
+        cave9.setEnemy(trappedLunatic);
 
         cave10.setExit("south", cave6);
+        cave10.setItems(catalogue.getItem(101));
+        cave10.setEventRoom(cave11);
 
         cave11.setExit("east", cave2);
 
@@ -125,19 +129,21 @@ public class Game {
     public void play() {
         printWelcome();
 
-        
         boolean finished = false;
         while (!finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Thank you for playing. Goodbye.");
     }
 
     private void printWelcome() {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome to The Keymaster - Master of Keys!");
+        System.out.println("The Keymaster - Master of Keys is a new, incredibly amazing adventure game.");
+        System.out.println("You are a young dwarf and is finally old enough to work in the local mines.");
+        System.out.println("This is a big day for you. You are becoming a man.");
+        System.out.println("You start in your loving home.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getStartDescription());
@@ -161,12 +167,25 @@ public class Game {
         } else if (commandWord == CommandWord.QUIT) {
             wantToQuit = quit(command);
         } else if (commandWord == CommandWord.INVENTORY) {
-            // Checks inventory
+            System.out.println(protagonist.getInventory());
+
         } else if (commandWord == CommandWord.USE) {
             // Use an item in the inventory
         } else if (commandWord == CommandWord.TAKE) {
-            // Take item from room and add to inventory. Deletes the item from the room after.
+
+            String itemName = command.getSecondWord();
+            Item tempItem = currentRoom.hasItem(itemName);
+            if (tempItem != null) {
+                protagonist.addToInventory(tempItem);
+                System.out.println("You take " + itemName);
+                currentRoom.removeItems(tempItem);
+            } else {
+                System.out.println("No items fit that name");
+            }
+
         } else if (commandWord == CommandWord.REST) {
+            this.protagonist.setHp(this.protagonist.getHp() + 25); // Adds 25 HP to the player
+            System.out.println("You rest and get 25 HP. Your total HP is " + protagonist.getHp());
             // Rests and restores 25 HP to the player.
         } else if (commandWord == CommandWord.CRAFT) {
             if (this.currentRoom.getStartDescription().equals("You are at the mine entrance")) {
@@ -197,7 +216,7 @@ public class Game {
 
     private void printHelp() {
         System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("In the mines. You feel sorry for yourself.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
@@ -222,7 +241,7 @@ public class Game {
             currentRoom.visitCounterPlus();
 
             if (currentRoom.getVisitCounter() == 1 && currentRoom.isFirstTimeEvent()) { // If the visit count is 1 and there's a first time event, run first time event.
-                currentRoom.firstTimeEvent();
+                currentRoom.firstTimeEvent(protagonist, catalogue);
             }
 
             System.out.println(currentRoom.getStartDescription()); //prints description
@@ -230,7 +249,7 @@ public class Game {
             if (currentRoom.isEnemy()) //if there is an enemy run this thing
             {
                 //asks if the player want to fight
-                System.out.println("You see a " + currentRoom.getEnemyName() + " do you want to engage? ");
+                System.out.println("You see a " + currentRoom.getEnemyName() + " do you want to engage? Yes or no?");
 
                 //input
                 Command command2 = parser.getCommand();
@@ -238,10 +257,20 @@ public class Game {
                 //reads input
                 CommandWord commandWord = command2.getCommandWord();
 
+                while ((commandWord == commandWord.YES || commandWord == commandWord.NO) == false) {
+                    System.out.println("That is not a valid command here. Typo?");
+                    //input
+                    command2 = parser.getCommand();
+
+                    //reads input
+                    commandWord = command2.getCommandWord();
+
+                }
                 if (commandWord == commandWord.YES) //if input is yes start the fight
                 {
                     currentRoom.startFight(protagonist);
-                } else if (commandWord == commandWord.NO) //if no ignore
+                } 
+                else if (commandWord == commandWord.NO) //if no ignore
                 {
                     System.out.println("You ignored the enemy");
                 }
@@ -253,9 +282,6 @@ public class Game {
             }
 
             System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
-
-            System.out.println("Times visited room: " + currentRoom.getVisitCounter()); // Test to see if it funktions
-
         }
     }
 
