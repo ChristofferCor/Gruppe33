@@ -20,22 +20,25 @@ public class Choose {
         System.out.println("Type start, how to play(h2p), quit ");
         String choice = myScanner.next();
         
-        if (choice.equals("start")) {
-            AttackCatalogue browser = new AttackCatalogue();
-        
-            fightsystem.Character protagonist = new fightsystem.Character();
-            Attack[] attack = {browser.getAttack("slap"), browser.getAttack("slice"), browser.getAttack("chop")};
-            protagonist.setAttacks(attack);
-        
-            Game game = new Game(protagonist, browser);
-            game.play();
-        } else if (choice.equals("h2p")) {
-            h2p();
-        } else if (choice.equals("quit")) {
-            quit();
-        } else{
-            System.out.println(" What you typed is not valid ");
-            choose();
+        switch (choice) {
+            case "start":
+                AttackCatalogue browser = new AttackCatalogue();
+                fightsystem.Character protagonist = new fightsystem.Character();
+                Attack[] attack = {browser.getAttack("slap"), browser.getAttack("slice"), browser.getAttack("chop")};
+                protagonist.setAttacks(attack);
+                Game game = new Game(protagonist, browser);
+                game.play();
+                break;
+            case "h2p":
+                h2p();
+                break;
+            case "quit":
+                quit();
+                break;
+            default:
+                System.out.println(" What you typed is not valid ");
+                choose();
+                break;
         }
     }
     
