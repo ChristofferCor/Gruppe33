@@ -98,7 +98,7 @@ public class Game {
         cave5.setExit("west", cave3);
         cave5.setExit("north", cave6);
         cave5.setExit("south", cave7);
-        fightsystem.Character childhoodBully = new fightsystem.Character("Childhood Bully", 25, 75, 50);
+        fightsystem.Character childhoodBully = new fightsystem.Character("Childhood Bully", 40, 150, 125);
         childhoodBully.addToInventory(ItemCatalogue.getItem(2));
         childhoodBully.addToInventory(ItemCatalogue.getItem(300));
         childhoodBully.setAttacks(attack);
@@ -118,7 +118,7 @@ public class Game {
         cave8.setItems(ItemCatalogue.getItem(300));
 
         cave9.setExit("west", cave7);
-        fightsystem.Character trappedLunatic = new fightsystem.Character("Trapped lunatic", 25, 75, 50);
+        fightsystem.Character trappedLunatic = new fightsystem.Character("Trapped lunatic", 60, 75, 50);
         trappedLunatic.addToInventory(ItemCatalogue.getItem(3));
         trappedLunatic.setAttacks(attack);
         cave9.setEnemy(trappedLunatic);
@@ -198,7 +198,7 @@ public class Game {
                             if (currentRoom.getRoomID() == 3) {
                                 if (isDug == false) {
                                     currentRoom.setExit("north", victoryRoom);
-                                    System.out.println("You dig a small hole through the rubble for you to fit through. You hear birds sing and see the sun shining. You can now leave the mine.");
+                                    System.out.println("You dig a small hole through the rubble for you to fit through. You hear birds singing and see the sun shining. You can now leave the mine.");
                                     System.out.println(currentRoom.getExitString());
                                     isDug = true;
                                 } else {
@@ -262,13 +262,15 @@ public class Game {
 
     private void printHelp() {
         System.out.println("You are lost. You are alone. You wander");
-        System.out.println("In the mines. You feel sorry for yourself.");
+        System.out.println("You feel sorry for yourself.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
     }
 
     private boolean goRoom(Command command) {
+        boolean wantsToQuit = false;
+        
         if (!command.hasSecondWord()) {
             System.out.println("Go where?");
             return false;
@@ -279,7 +281,7 @@ public class Game {
         Room nextRoom = currentRoom.getExit(direction);
 
         if (nextRoom == null) {
-            System.out.println("There is no door!");
+            System.out.println("There is no passage!");
         } else {
 
             currentRoom = nextRoom;
@@ -304,7 +306,7 @@ public class Game {
                     //reads input
                     CommandWord commandWord = command2.getCommandWord();
 
-                    while ((commandWord == commandWord.YES || commandWord == commandWord.NO) == false) {
+                    while ((commandWord == CommandWord.YES || commandWord == CommandWord.NO) == false) {
                         System.out.println("That is not a valid command here. Typo?");
                         //input
                         command2 = parser.getCommand();
@@ -313,10 +315,10 @@ public class Game {
                         commandWord = command2.getCommandWord();
 
                     }
-                    if (commandWord == commandWord.YES) //if input is yes start the fight
+                    if (commandWord == CommandWord.YES) //if input is yes start the fight
                     {
-                        return currentRoom.startFight(protagonist);
-                    } else if (commandWord == commandWord.NO) //if no ignore
+                        wantsToQuit = currentRoom.startFight(protagonist);
+                    } else if (commandWord == CommandWord.NO) //if no ignore
                     {
                         System.out.println("You ignored the enemy");
                     }
@@ -328,6 +330,7 @@ public class Game {
                 }
 
                 System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
+                return wantsToQuit;
             } else {
                 victory();
                 return true;

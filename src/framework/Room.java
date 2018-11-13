@@ -16,14 +16,14 @@ public class Room {
     private int visitCounter = 0; // Attribute for visit counter
     private int firstTimeID = 0; // Attribute for firstTimeID
     private ArrayList<Item> items = new ArrayList<>(); //used for items placed in the rooms.
-    private fightsystem.Character enemy = null; //Varibale that holds an enemy
+    private fightsystem.Character enemy = null; //Variable that holds an enemy
     private int roomID;
 
     private boolean eventTrigger = false; //checks of the even is ready to be activated
     private int eventNumber = 0; //checks what event to activate
 
     private Room eventRoom; //A room this room can interact with
-    private Room eventRoom2; //Another room this rom can interact with
+    private Room eventRoom2; //Another room this room can interact with
 
     // Constructor for Room with 4 variables (used for rooms with a first time event)
     public Room(String description, int roomID, boolean firstTime, int firstTimeID) {
@@ -177,7 +177,6 @@ public class Room {
 
     public void event() {
         if (this.eventNumber == 1) {
-            System.out.println("This works");
             this.eventTrigger = false;
         }
     }
@@ -195,7 +194,7 @@ public class Room {
     public String getItemList() {
         String returnString = "Items in room: ";
         for (Item i : items) {
-            returnString += " " + i.getName();
+            returnString += "" + i.getName();
         }
         return returnString;
     }
