@@ -141,7 +141,6 @@ public class Game {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing. Goodbye.");
     }
 
     private void printWelcome() {
@@ -173,7 +172,7 @@ public class Game {
         if (commandWord == CommandWord.HELP) {
             printHelp();
         } else if (commandWord == CommandWord.GO) {
-            goRoom(command);
+            wantToQuit = goRoom(command);
         } else if (commandWord == CommandWord.QUIT) {
             wantToQuit = quit(command);
         } else if (commandWord == CommandWord.INVENTORY) {
@@ -255,10 +254,10 @@ public class Game {
         parser.showCommands();
     }
 
-    private void goRoom(Command command) {
+    private boolean goRoom(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("Go where?");
-            return;
+            return false;
         }
 
         String direction = command.getSecondWord();
@@ -302,7 +301,7 @@ public class Game {
                     }
                     if (commandWord == commandWord.YES) //if input is yes start the fight
                     {
-                        currentRoom.startFight(protagonist);
+                        return currentRoom.startFight(protagonist);
                     } else if (commandWord == commandWord.NO) //if no ignore
                     {
                         System.out.println("You ignored the enemy");
@@ -317,8 +316,10 @@ public class Game {
                 System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
             } else {
                 victory();
+                return true;
             }
         }
+        return false;
     }
 
     private void victory() {
@@ -333,6 +334,7 @@ public class Game {
             System.out.println("Quit what?");
             return false;
         } else {
+            System.out.println("Thank you for playing. Goodbye.");
             return true;
         }
     }

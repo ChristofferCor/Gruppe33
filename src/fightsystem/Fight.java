@@ -5,6 +5,7 @@ package fightsystem;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import framework.Choose;
 import util.FightTextFormater;
 import java.util.Scanner;
 import java.util.Date;
@@ -87,6 +88,7 @@ public class Fight {
                 output.setBody(new String[]{"The " + this.monster.getName() + " defeated you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"});
                 output.setHead(new String[]{"You unfortunately died of slowness"});
                 output.oldPrint();
+                Choose.choose();
                 break;
             case Fight.VICTORY:
                 output.setBody(new String[]{"You speedtyped your way around the " + this.monster.getName(), "", "You made it out with " + this.player.getHp() + " HP left"});
