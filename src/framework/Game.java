@@ -188,12 +188,13 @@ public class Game {
                 if (protagonist.getInventory().isEmpty()) {
                     System.out.println("You have no items");
                 } else {
+                    String noItemFits = "You search your pockets, but find nothing fitting that name. You feel stupid.";
                     if (tempItem != null) {
                         tempItem.use(protagonist);
                         if (tempItem instanceof Consumables) {
                             protagonist.removeFromInventory(tempItem);
                         }
-                    } else if (itemName.equalsIgnoreCase("Pickaxe")) {
+                    } else if (itemName.equalsIgnoreCase("pickaxe")) {
                         if (hasPickaxe == true) {
                             if (currentRoom.getRoomID() == 3) {
                                 if (isDug == false) {
@@ -208,10 +209,10 @@ public class Game {
                                 System.out.println("You try and mine something, but get nowhere. You feel stupid.");
                             }
                         } else {
-                            System.out.println("You search your pockets, but find nothing fitting that name. You feel stupid.");
+                            System.out.println(noItemFits);
                         }
                     } else {
-                        System.out.println("You search your pockets, but find nothing fitting that name. You feel stupid.");
+                        System.out.println(noItemFits);
                     }
                 }
             } else {
@@ -238,16 +239,16 @@ public class Game {
                 Crafting crafter = new Crafting(protagonist);
                 ArrayList<Item> inv = protagonist.getInventory();
                 if (inv.contains(ItemCatalogue.getItem(3))) {
-                    boolean hasInvPickaxe = false;
+                    boolean hasPickaxe = false;
                     for (Item item : inv) {
                         if (item instanceof Pickaxe && !(item instanceof SuperPickaxe)) {
-                            hasInvPickaxe = true;
+                            hasPickaxe = true;
                         }
                     }
-                    if (hasInvPickaxe) {
+                    if (hasPickaxe) {
                         crafter.craftAddExtra();
                     } else {
-                        hasPickaxe = crafter.craftPickaxe();
+                        this.hasPickaxe = crafter.craftPickaxe();
                     }
                 } else {
                     System.out.println("You haven't learned how to craft yet!");
