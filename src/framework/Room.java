@@ -61,14 +61,18 @@ public class Room {
         }
     }
 
-    public void startFight(fightsystem.Character protagonist) {
+    public boolean startFight(fightsystem.Character protagonist) {
         Fight fight = new Fight(protagonist, this.enemy);
-        if (fight.fight() == 2) {
+        int fightStatus = fight.fight();
+        if (fightStatus == 2) {
             for (Item i : this.enemy.getInventory()) {
                 protagonist.addToInventory(i);
                 System.out.println("You take " + i + " from the enemy.");
             }
+        } else if (fightStatus == 1) {
+            return true;
         }
+        return false;
     }
 
     public void setExit(String direction, Room neighbor) {

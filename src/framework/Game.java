@@ -143,7 +143,6 @@ public class Game {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing. Goodbye.");
     }
 
     private void printWelcome() {
@@ -175,7 +174,7 @@ public class Game {
         if (commandWord == CommandWord.HELP) {
             printHelp();
         } else if (commandWord == CommandWord.GO) {
-            goRoom(command);
+            wantToQuit = goRoom(command);
         } else if (commandWord == CommandWord.QUIT) {
             wantToQuit = quit(command);
         } else if (commandWord == CommandWord.INVENTORY) {
@@ -269,10 +268,10 @@ public class Game {
         parser.showCommands();
     }
 
-    private void goRoom(Command command) {
+    private boolean goRoom(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("Go where?");
-            return;
+            return false;
         }
 
         String direction = command.getSecondWord();
@@ -316,7 +315,7 @@ public class Game {
                     }
                     if (commandWord == commandWord.YES) //if input is yes start the fight
                     {
-                        currentRoom.startFight(protagonist);
+                        return currentRoom.startFight(protagonist);
                     } else if (commandWord == commandWord.NO) //if no ignore
                     {
                         System.out.println("You ignored the enemy");
@@ -331,14 +330,17 @@ public class Game {
                 System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
             } else {
                 victory();
+                return true;
             }
         }
+        return false;
     }
 
     private void victory() {
         int calculateScore = score.calculateScore(new Date().getTime(), this.protagonist);
         TextFormater output = new TextFormater(70, '#', '-');
         output.setBothPrint(new String[]{"You feel the burning hot sun on your forehead", "", "You used " + (Score.getRest() + 1) + " days", "Your total score is: " + calculateScore, ""}, new String[]{"Congratulations you escaped the cave!"});
+        Choose.choose();
     }
 
     private boolean quit(Command command) {
@@ -346,6 +348,7 @@ public class Game {
             System.out.println("Quit what?");
             return false;
         } else {
+            System.out.println("Thank you for playing. Goodbye.");
             return true;
         }
     }

@@ -7,6 +7,7 @@ package framework;
 
 import fightsystem.Attack;
 import fightsystem.AttackCatalogue;
+import static java.lang.Compiler.command;
 import java.util.Scanner;
 
 /**
@@ -54,6 +55,7 @@ public class Choose {
         choose();
     }
     public static void quit(){
+        System.out.println("Bye, Bye ");
         System.out.println("Thank you for playing. Goodbye.");
     }
 }
