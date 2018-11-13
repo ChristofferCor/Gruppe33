@@ -37,7 +37,7 @@ public class Choose {
                 quit();
                 break;
             default:
-                System.out.println(" What you typed is not valid ");
+                System.out.println("What you typed is not valid\n ");
                 choose();
                 break;
         }
