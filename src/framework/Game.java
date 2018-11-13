@@ -325,6 +325,7 @@ public class Game {
         int calculateScore = score.calculateScore(new Date().getTime(), this.protagonist);
         TextFormater output = new TextFormater(70, '#', '-');
         output.setBothPrint(new String[]{"You feel the burning hot sun on your forehead", "", "You used " + (Score.getRest() + 1) + " days", "Your total score is: " + calculateScore, ""}, new String[]{"Congratulations you escaped the cave!"});
+        Choose.choose();
     }
 
     private boolean quit(Command command) {
