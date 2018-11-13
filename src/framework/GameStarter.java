@@ -19,14 +19,7 @@ public class GameStarter {
      */
     public static void main(String[] args) {
         
-        AttackCatalogue browser = new AttackCatalogue();
-        
-        fightsystem.Character protagonist = new fightsystem.Character();
-        Attack[] attack = {browser.getAttack("slap"), browser.getAttack("slice"), browser.getAttack("chop")};
-        protagonist.setAttacks(attack);
-        
-        Game game = new Game(protagonist, browser);
-        game.play();
+        Choose.choose();
     }
     
 }
