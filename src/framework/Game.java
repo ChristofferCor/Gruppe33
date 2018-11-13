@@ -197,7 +197,7 @@ public class Game {
                         }
                     }
                 } else if (itemName.equals("Pickaxe") && currentRoom.getRoomID() != 3) {
-                    System.out.println("You try and mine something. You quickly stop as you ain't getting anywhere. You cry a little.");
+                    System.out.println("You stare into the thin air. You don't know what to use or how it would make sense in this situation. You feel stupid.");
                 } else {
                     System.out.println("You search your pockets, but find nothing fitting that name. You feel stupid.");
                 }
