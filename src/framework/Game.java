@@ -98,7 +98,7 @@ public class Game {
         cave5.setExit("west", cave3);
         cave5.setExit("north", cave6);
         cave5.setExit("south", cave7);
-        fightsystem.Character childhoodBully = new fightsystem.Character("Childhood Bully", 25, 75, 50);
+        fightsystem.Character childhoodBully = new fightsystem.Character("Childhood Bully", 40, 150, 125);
         childhoodBully.addToInventory(ItemCatalogue.getItem(2));
         childhoodBully.addToInventory(ItemCatalogue.getItem(300));
         childhoodBully.setAttacks(attack);
@@ -118,7 +118,7 @@ public class Game {
         cave8.setItems(ItemCatalogue.getItem(300));
 
         cave9.setExit("west", cave7);
-        fightsystem.Character trappedLunatic = new fightsystem.Character("Trapped lunatic", 25, 75, 50);
+        fightsystem.Character trappedLunatic = new fightsystem.Character("Trapped lunatic", 60, 75, 50);
         trappedLunatic.addToInventory(ItemCatalogue.getItem(3));
         trappedLunatic.setAttacks(attack);
         cave9.setEnemy(trappedLunatic);
@@ -269,6 +269,8 @@ public class Game {
     }
 
     private boolean goRoom(Command command) {
+        boolean wantsToQuit = false;
+        
         if (!command.hasSecondWord()) {
             System.out.println("Go where?");
             return false;
@@ -304,7 +306,7 @@ public class Game {
                     //reads input
                     CommandWord commandWord = command2.getCommandWord();
 
-                    while ((commandWord == commandWord.YES || commandWord == commandWord.NO) == false) {
+                    while ((commandWord == CommandWord.YES || commandWord == CommandWord.NO) == false) {
                         System.out.println("That is not a valid command here. Typo?");
                         //input
                         command2 = parser.getCommand();
@@ -313,10 +315,10 @@ public class Game {
                         commandWord = command2.getCommandWord();
 
                     }
-                    if (commandWord == commandWord.YES) //if input is yes start the fight
+                    if (commandWord == CommandWord.YES) //if input is yes start the fight
                     {
-                        return currentRoom.startFight(protagonist);
-                    } else if (commandWord == commandWord.NO) //if no ignore
+                        wantsToQuit = currentRoom.startFight(protagonist);
+                    } else if (commandWord == CommandWord.NO) //if no ignore
                     {
                         System.out.println("You ignored the enemy");
                     }
@@ -328,6 +330,7 @@ public class Game {
                 }
 
                 System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
+                return wantsToQuit;
             } else {
                 victory();
                 return true;
