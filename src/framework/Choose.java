@@ -43,7 +43,8 @@ public class Choose {
     }
     
     public static void h2p(){
-        System.out.println("The ultimate goal of this game is for you to have fun."
+        System.out.println(
+                "The ultimate goal of this game is for you to have fun."
                 + "\nTo play this game you need to be fast at typing."
                 + "\nYou will have to fight monsters to get the matrial needed to build a new pickaxe."
                 + "\nGo through the cave system to find new mobs, items and treasure."
