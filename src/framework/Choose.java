@@ -47,7 +47,8 @@ public class Choose {
                 + "\nTo play this game you need to be fast at typing."
                 + "\nYou will have to fight monsters to get the matrial needed to build a new pickaxe."
                 + "\nGo through the cave system to find new mobs, items and treasure."
-                + "\nTo end the game you wil have to build a pickaxe and get out of the devastating cave system");
+                + "\nTo end the game you wil have to build a pickaxe and get out of the devastating cave system"
+        );
         System.out.println("");
         choose();
     }
