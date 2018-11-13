@@ -47,9 +47,9 @@ public class Choose {
         System.out.println(
                 "The ultimate goal of this game is for you to have fun."
                 + "\nTo play this game you need to be fast at typing."
-                + "\nYou will have to fight monsters to get the matrial needed to build a new pickaxe."
+                + "\nYou will have to fight monsters to get the material needed to build a new pickaxe."
                 + "\nGo through the cave system to find new mobs, items and treasure."
-                + "\nTo end the game you wil have to build a pickaxe and get out of the devastating cave system"
+                + "\nTo win the game you will have to build a pickaxe and get out of the devastating cave system"
         );
         System.out.println("");
         choose();

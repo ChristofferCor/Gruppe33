@@ -198,7 +198,7 @@ public class Game {
                             if (currentRoom.getRoomID() == 3) {
                                 if (isDug == false) {
                                     currentRoom.setExit("north", victoryRoom);
-                                    System.out.println("You dig a small hole through the rubble for you to fit through. You hear birds sing and see the sun shining. You can now leave the mine.");
+                                    System.out.println("You dig a small hole through the rubble for you to fit through. You hear birds singing and see the sun shining. You can now leave the mine.");
                                     System.out.println(currentRoom.getExitString());
                                     isDug = true;
                                 } else {
@@ -262,7 +262,7 @@ public class Game {
 
     private void printHelp() {
         System.out.println("You are lost. You are alone. You wander");
-        System.out.println("In the mines. You feel sorry for yourself.");
+        System.out.println("You feel sorry for yourself.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
@@ -279,7 +279,7 @@ public class Game {
         Room nextRoom = currentRoom.getExit(direction);
 
         if (nextRoom == null) {
-            System.out.println("There is no door!");
+            System.out.println("There is no passage!");
         } else {
 
             currentRoom = nextRoom;
