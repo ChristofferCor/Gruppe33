@@ -24,6 +24,8 @@ public class Game {
     private Room victoryRoom;
     private boolean finished = false;
     private Score score;
+    private boolean isDug = false;
+    private boolean hasPickaxe = false;
 
     //Constructor
     /**
@@ -183,23 +185,34 @@ public class Game {
             if (command.hasSecondWord()) {
                 String itemName = command.getSecondWord();
                 Item tempItem = protagonist.hasItem(itemName);
-                if (tempItem != null) {
-                    tempItem.use(protagonist);
-                    if (tempItem instanceof Consumables) {
-                        protagonist.removeFromInventory(tempItem);
-                    }
-                } else if (itemName.equals("Pickaxe") && currentRoom.getRoomID() == 3) {
-                    for (Item i : protagonist.getInventory()) {
-                        if (i instanceof Pickaxe) {
-                            currentRoom.setExit("north", victoryRoom);
-                            System.out.println("You dig a small hole though the rubble for you to fit through. You hear birds and see the sunlight. You can now leave the mine.");
-                            System.out.println(currentRoom.getExitString());
-                        }
-                    }
-                } else if (itemName.equals("Pickaxe") && currentRoom.getRoomID() != 3) {
-                    System.out.println("You stare into the thin air. You don't know what to use or how it would make sense in this situation. You feel stupid.");
+                if (protagonist.getInventory().isEmpty()) {
+                    System.out.println("You have no items");
                 } else {
-                    System.out.println("You search your pockets, but find nothing fitting that name. You feel stupid.");
+                    if (tempItem != null) {
+                        tempItem.use(protagonist);
+                        if (tempItem instanceof Consumables) {
+                            protagonist.removeFromInventory(tempItem);
+                        }
+                    } else if (itemName.equalsIgnoreCase("Pickaxe")) {
+                        if (hasPickaxe == true) {
+                            if (currentRoom.getRoomID() == 3) {
+                                if (isDug == false) {
+                                    currentRoom.setExit("north", victoryRoom);
+                                    System.out.println("You dig a small hole through the rubble for you to fit through. You hear birds sing and see the sun shining. You can now leave the mine.");
+                                    System.out.println(currentRoom.getExitString());
+                                    isDug = true;
+                                } else {
+                                    System.out.println("You already dug through the rubble.");
+                                }
+                            } else {
+                                System.out.println("You try and mine something, but get nowhere. You feel stupid.");
+                            }
+                        } else {
+                            System.out.println("You search your pockets, but find nothing fitting that name. You feel stupid.");
+                        }
+                    } else {
+                        System.out.println("You search your pockets, but find nothing fitting that name. You feel stupid.");
+                    }
                 }
             } else {
                 System.out.println("Use what???");
@@ -225,16 +238,16 @@ public class Game {
                 Crafting crafter = new Crafting(protagonist);
                 ArrayList<Item> inv = protagonist.getInventory();
                 if (inv.contains(ItemCatalogue.getItem(3))) {
-                    boolean hasPickaxe = false;
+                    boolean hasInvPickaxe = false;
                     for (Item item : inv) {
                         if (item instanceof Pickaxe && !(item instanceof SuperPickaxe)) {
-                            hasPickaxe = true;
+                            hasInvPickaxe = true;
                         }
                     }
-                    if (hasPickaxe) {
+                    if (hasInvPickaxe) {
                         crafter.craftAddExtra();
                     } else {
-                        crafter.craftPickaxe();
+                        hasPickaxe = crafter.craftPickaxe();
                     }
                 } else {
                     System.out.println("You haven't learned how to craft yet!");

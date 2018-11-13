@@ -88,7 +88,7 @@ public class Room {
     // Checks if the room has item
     public Item hasItem(String itemName) {
         for (Item i : items) {
-            if (i.getName().equals(itemName)) {
+            if (i.getName().equalsIgnoreCase(itemName)) {
                 return i;
             }
         }
