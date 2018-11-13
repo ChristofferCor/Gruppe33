@@ -17,7 +17,7 @@ public class Choose {
     private static Scanner myScanner = new Scanner(System.in);   
     
     public static void choose() {
-        System.out.println("Type start, how to play(h2p), quit ");
+        System.out.println("Type start, how to play(?), quit ");
         String choice = myScanner.next();
         
         switch (choice) {
@@ -29,7 +29,7 @@ public class Choose {
                 Game game = new Game(protagonist, browser);
                 game.play();
                 break;
-            case "h2p":
+            case "?":
                 h2p();
                 break;
             case "quit":
