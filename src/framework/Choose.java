@@ -19,7 +19,7 @@ public class Choose {
     private static String inputLine;
     public static void choose() {
         System.out.println("Type start, how to play(?), quit ");
-        wordCheck();
+        inputLine = myScanner.nextLine();
         
         switch (inputLine) {
             case "start":
@@ -59,26 +59,8 @@ public class Choose {
         System.out.println("Thank you for playing. Goodbye.");
     }
     
-        public static void wordCheck() 
-    {
-        
-        String word1 = null;
-        String word2 = null;
-          
-        System.out.print("> "); 
 
-        inputLine = myScanner.nextLine();
-
-        Scanner choice = new Scanner(inputLine);
-        if(choice.hasNext()) {
-            word1 = choice.next();
-            if(choice.hasNext()) {
-                // Added nextLine to read the rest of the String instead of only the next word.
-                //Trim is used to remove spaces in the beginning and end of the String.
-                word2 = choice.nextLine().trim();
-            }
-        }
 
        
-    }
+    
 }
