@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
 import entities.ItemCatalogue;
+import gui.GameWindowsController;
 
 public class Room {
 
@@ -18,6 +19,8 @@ public class Room {
     private ArrayList<Item> items = new ArrayList<>(); //used for items placed in the rooms.
     private fightsystem.Character enemy = null; //Variable that holds an enemy
     private int roomID;
+    private String FXMLPath;
+    private GameWindowsController controller;
 
     private boolean eventTrigger = false; //checks of the even is ready to be activated
     private int eventNumber = 0; //checks what event to activate
@@ -26,28 +29,25 @@ public class Room {
     private Room eventRoom2; //Another room this room can interact with
 
     // Constructor for Room with 4 variables (used for rooms with a first time event)
-    public Room(String description, int roomID, boolean firstTime, int firstTimeID) {
-        this.description = description;
+    public Room(String description, int roomID, boolean firstTime, int firstTimeID, String FXMLPath) {
+        this(description, roomID, FXMLPath);
         exits = new HashMap<String, Room>();
         this.firstTime = firstTime;
         this.firstTimeID = firstTimeID;
-        this.roomID = roomID;
     }
 
     //Constructor for room with 6 variables used for rooms with an event and/or a first time event
-    public Room(String description, int roomID, boolean firstTime, int firstTimeID, boolean eventTrigger, int eventNumber) {
-        this.description = description;
-        this.roomID = roomID;
+    public Room(String description, int roomID, boolean firstTime, int firstTimeID, boolean eventTrigger, int eventNumber, String FXMLPath) {
+        this(description, roomID, firstTime, firstTimeID, FXMLPath);
         exits = new HashMap<String, Room>();
-        this.firstTime = firstTime;
-        this.firstTimeID = firstTimeID;
         this.eventTrigger = eventTrigger;
         this.eventNumber = eventNumber;
 
     }
 
     //Constrictor with 1 varibale used for normal rooms
-    public Room(String description, int roomID) {
+    public Room(String description, int roomID, String FXMLPath) {
+        this.FXMLPath = FXMLPath;
         this.description = description;
         this.roomID = roomID;
         exits = new HashMap<String, Room>();
@@ -156,6 +156,18 @@ public class Room {
     //Gets the name of the enemy in the room
     public String getEnemyName() {
         return enemy.getName();
+    }
+    
+    public String getFXMLPath(){
+        return this.FXMLPath;
+    }
+    
+    public void setController(GameWindowsController controller){
+        this.controller = controller;
+    }
+    
+    public GameWindowsController getController(){
+        return this.controller;
     }
 
     // Method for first time event in select rooms. Checks the firstTimeID for the rooms, that have a first time event.

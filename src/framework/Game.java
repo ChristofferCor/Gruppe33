@@ -2,8 +2,16 @@ package framework;
 
 import entities.*;
 import fightsystem.*;
+import gui.HomeController;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import util.TextFormater;
 
 /**
@@ -52,21 +60,21 @@ public class Game {
         Room home, townSquare, caveEntrance, cave1, cave2, cave3, cave4, cave5, cave6, cave7, cave8, cave9, cave10, cave11;
         Attack[] attack = {browser.getAttack("hit"), browser.getAttack("stomp"), browser.getAttack("kick-ass")};
 
-        home = new Room("You are in your loving home.", 1);
-        townSquare = new Room("You are in the town square.", 2);
-        caveEntrance = new Room("You are at the mine entrance.", 3, true, 1); // displays description, boolean for first time event and room id to distinguish between different first time event rooms.
-        cave1 = new Room("You stand in the first mine room.", 4);
-        cave3 = new Room("You stand in the third mine room.", 5, true, 2);
-        cave2 = new Room("You stand in the second mine room.", 6);
-        cave4 = new Room("You stand in the fourth mine room.", 7);
-        cave5 = new Room("You stand in the fifth mine room.", 8);
-        cave6 = new Room("You stand in the sixth mine room.", 9);
-        cave7 = new Room("You stand in the seventh mine room. The exit to the east has a 'WARNING' sign besides it.", 10);
-        cave8 = new Room("You stand in the eighth mine room.", 11);
-        cave9 = new Room("You stand in the ninth mine room.", 12);
-        cave10 = new Room("You stand in the tenth mine room.", 13, true, 3);
-        cave11 = new Room("You stand in the eleventh mine room.", 14);
-        victoryRoom = new Room("You are back at the town square. Nobody noticed you were gone, but you won, hurray!", 15);
+        home = new Room("You are in your loving home.", 1, "/gui/Home.fxml");
+        townSquare = new Room("You are in the town square.", 2, "/gui/TownSquare.fxml");
+        caveEntrance = new Room("You are at the mine entrance.", 3, true, 1, "/gui/CaveEntrance"); // displays description, boolean for first time event and room id to distinguish between different first time event rooms.
+        cave1 = new Room("You stand in the first mine room.", 4, "/gui/Cave1");
+        cave3 = new Room("You stand in the third mine room.", 5, true, 2, "/gui/Cave3");
+        cave2 = new Room("You stand in the second mine room.", 6, "/gui/Cave2");
+        cave4 = new Room("You stand in the fourth mine room.", 7, "/gui/Cave4");
+        cave5 = new Room("You stand in the fifth mine room.", 8, "/gui/Cave5");
+        cave6 = new Room("You stand in the sixth mine room.", 9, "/gui/Cave6");
+        cave7 = new Room("You stand in the seventh mine room. The exit to the east has a 'WARNING' sign besides it.", 10, "/gui/Cave7");
+        cave8 = new Room("You stand in the eighth mine room.", 11, "/gui/Cave8");
+        cave9 = new Room("You stand in the ninth mine room.", 12, "/gui/Cave9");
+        cave10 = new Room("You stand in the tenth mine room.", 13, true, 3, "/gui/Cave10");
+        cave11 = new Room("You stand in the eleventh mine room.", 14, "/gui/Cave11");
+        victoryRoom = new Room("You are back at the town square. Nobody noticed you were gone, but you won, hurray!", 15, "/gui/Victory");
 
         home.setExit("east", townSquare);
 
@@ -130,6 +138,24 @@ public class Game {
         cave11.setExit("east", cave2);
 
         currentRoom = home;
+        try {
+            updateStage();
+        } catch (IOException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void updateStage() throws IOException {
+        String FXMLPath = this.currentRoom.getFXMLPath();
+        Stage stage = GameStarter.stage;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLPath));
+        Parent root = loader.load();
+        this.currentRoom.setController(loader.getController());
+
+        Scene scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
@@ -139,23 +165,24 @@ public class Game {
     public void play() {
         printWelcome();
 
-        while (!finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
-        }
+        //while (!finished) {
+            //Command command = parser.getCommand();
+            //finished = processCommand(command);
+        //}
     }
 
     private void printWelcome() {
-        System.out.println();
-        System.out.println("Welcome to The Keymaster - Master of Keys!");
-        System.out.println("The Keymaster - Master of Keys is a new, incredibly amazing adventure game.");
-        System.out.println("You are a young dwarf and is finally old enough to work in the local mines.");
-        System.out.println("This is a big day for you. You are becoming a man.");
-        System.out.println("You start in your loving home.");
-        System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
-        System.out.println();
-        System.out.println(currentRoom.getStartDescription());
-        System.out.println(currentRoom.getEndString());
+        String outputText = "";
+        outputText += ("Welcome to The Keybinder - Master of Keys!\n\n");
+        outputText += ("The Keybinder - Master of Keys is a new, incredibly amazing adventure game.\n");
+        outputText += ("You are a young dwarf and is finally old enough to work in the local mines.\n");
+        outputText += ("This is a big day for you. You are becoming a man.\n");
+        outputText += ("You start in your loving home.\n");
+        outputText += ("Type '" + CommandWord.HELP + "' if you need help.\n");
+        outputText += "\n";
+        outputText += (currentRoom.getStartDescription() + "\n");
+        outputText += (currentRoom.getEndString());
+        currentRoom.getController().setOutputText(outputText);
     }
 
     private boolean processCommand(Command command) {
