@@ -10,6 +10,8 @@ import fightsystem.AttackCatalogue;
 import framework.Game;
 import framework.Room;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,10 +32,11 @@ public class GUIController {
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
-        this.stage = stage;      
+        stage.setResizable(false);
+        this.stage = stage;
         stage.show();
     }
-    
+
     public static void startGame() {
         AttackCatalogue browser = new AttackCatalogue();
         fightsystem.Character protagonist = new fightsystem.Character();
@@ -43,25 +46,35 @@ public class GUIController {
         GUIController.game.play();
     }
 
-    public void updateStage(FXMLRooms currentRoom) throws IOException {
+    public void updateStage(FXMLRooms currentRoom) {
         String FXMLPath = currentRoom.getFXMLPath();
         Stage stage = GUIController.stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLPath));
-        Parent root = loader.load();
-        currentRoom.setController(loader.getController());
+        Parent root;
+        try {
+            root = loader.load();
+            currentRoom.setController(loader.getController());
 
-        Scene scene = new Scene(root);
+            Scene scene = new Scene(root);
 
-        stage.setScene(scene);
-        GUIController.stage = stage;
-        stage.show();
+            stage.setScene(scene);
+            stage.setResizable(false);
+            GUIController.stage = stage;
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(GUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
     public static void setGui(GUIController gui) {
         GUIController.gui = gui;
     }
-    
+
     public static GUIController getGui() {
         return GUIController.gui;
+    }
+
+    public static FXMLRooms goRoom(String direction) {
+        return game.goRoom(direction);
     }
 }

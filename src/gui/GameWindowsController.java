@@ -10,8 +10,10 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
@@ -21,6 +23,7 @@ import javafx.scene.layout.GridPane;
  * @author corga
  */
 public class GameWindowsController implements Initializable {
+
     @FXML
     private Button buttonHelp;
     @FXML
@@ -33,6 +36,8 @@ public class GameWindowsController implements Initializable {
     private TextArea outputText;
     @FXML
     private GridPane controlGridPane;
+    @FXML
+    private ImageView player;
 
     /**
      * Initializes the controller class.
@@ -40,7 +45,7 @@ public class GameWindowsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void startHelp(ActionEvent event) {
@@ -50,18 +55,6 @@ public class GameWindowsController implements Initializable {
                 + "\nGo through the cave system to find new mobs, items and treasure."
                 + "\nTo win the game you will have to build a pickaxe and get out of the devastating cave system";
         setOutputText(outputText);
-    }
-
-    @FXML
-    private void startInventory(ActionEvent event) {
-    }
-
-    @FXML
-    private void startRest(ActionEvent event) {
-    }
-
-    @FXML
-    private void startCraft(ActionEvent event) {
     }
 
     @FXML
@@ -93,25 +86,53 @@ public class GameWindowsController implements Initializable {
                 break;
         }
     }
-    
-    private void goDown() {
-        setOutputText("NORTH");
+
+    void goDown() {
+        int posX = GridPane.getColumnIndex(this.player);
+        int posY = GridPane.getRowIndex(this.player) + 1;
+        moveCharacter(this.player, posX, posY);
+    }
+
+    void goUp() {
+        int posX = GridPane.getColumnIndex(this.player);
+        int posY = GridPane.getRowIndex(this.player) - 1;
+        moveCharacter(this.player, posX, posY);
+    }
+
+    void goLeft() {
+        int posX = GridPane.getColumnIndex(this.player) - 1;
+        int posY = GridPane.getRowIndex(this.player);
+        moveCharacter(this.player, posX, posY);
+    }
+
+    void goRight() {
+        int posX = GridPane.getColumnIndex(this.player) + 1;
+        int posY = GridPane.getRowIndex(this.player);
+        moveCharacter(this.player, posX, posY);
     }
     
-    private void goUp(){
-        setOutputText("SOUTH");
+    void setPlayer(ImageView player){
+        this.player = player;
     }
     
-    private void goLeft(){
-        setOutputText("EAST");
+    @FXML
+    private void startInventory(ActionEvent event) {
     }
-    
-    private void goRight(){
-        setOutputText("WEST");
+
+    @FXML
+    private void startRest(ActionEvent event) {
     }
-    
+
+    @FXML
+    private void startCraft(ActionEvent event) {
+    }
+
     public void setOutputText(String outputText) {
         this.outputText.setText(outputText);
     }
-    
+
+    void moveCharacter(Node character, int posX, int posY) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

@@ -5,7 +5,6 @@
  */
 package gui;
 
-import framework.Game;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,15 +14,14 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
 /**
  * FXML Controller class
  *
- * @author corga
+ * @author simon
  */
-public class HomeController extends GameWindowsController implements Initializable {
+public class TownSquareController extends GameWindowsController implements Initializable {
 
     @FXML
     private ImageView player;
@@ -47,14 +45,20 @@ public class HomeController extends GameWindowsController implements Initializab
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
     }
-    
-        @Override
+
+    @Override
     void moveCharacter(Node character, int posX, int posY) {
         if ((posX > 0 && posX < 9 && posY > 0 && posY < 5)) {
             GridPane.setConstraints(character, posX, posY);
-        } else if (posX == 9 && posY == 3) {
+        } else if (posX == 5 && posY == 5) {
             GridPane.setConstraints(character, posX, posY);
-            GUIController.getGui().updateStage(GUIController.goRoom("east"));
+            super.setOutputText("Loading next room");
+            GUIController.getGui().updateStage(GUIController.goRoom("south"));
+        } else if (posX == 0 && posY == 2) {
+            GridPane.setConstraints(character, posX, posY);
+            super.setOutputText("Loading next room");
+            GUIController.getGui().updateStage(GUIController.goRoom("west"));
         }
     }
+
 }

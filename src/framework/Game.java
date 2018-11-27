@@ -138,13 +138,8 @@ public class Game {
 
         cave11.setExit("east", cave2);
 
-        currentRoom = caveEntrance;
-        try {
-            GUIController.getGui().updateStage(this.currentRoom);
-        } catch (IOException ex) {
-            System.out.println("NOPE");
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        currentRoom = home;
+        GUIController.getGui().updateStage(this.currentRoom);
     }
 
     public Room getCurrentRoom() {
@@ -178,114 +173,119 @@ public class Game {
         //currentRoom.getController().setOutputText(outputText);
     }
 
-    private boolean processCommand(Command command) {
-        boolean wantToQuit = false;
-        if (currentRoom == victoryRoom) {
-            return true;
-        }
-
-        CommandWord commandWord = command.getCommandWord();
-
-        if (commandWord == CommandWord.UNKNOWN) {
-            System.out.println("I don't know what you mean...");
-            return false;
-        }
-
-        if (commandWord == CommandWord.HELP) {
-            printHelp();
-        } else if (commandWord == CommandWord.GO) {
-            wantToQuit = goRoom(command);
-        } else if (commandWord == CommandWord.QUIT) {
-            wantToQuit = quit(command);
-        } else if (commandWord == CommandWord.INVENTORY) {
-            System.out.println(protagonist.getInventory());
-
-        } else if (commandWord == CommandWord.USE) {
-            if (command.hasSecondWord()) {
-                String itemName = command.getSecondWord();
-                Item tempItem = protagonist.hasItem(itemName);
-                if (protagonist.getInventory().isEmpty()) {
-                    System.out.println("You have no items");
-                } else {
-                    String noItemFits = "You search your pockets, but find nothing fitting that name. You feel stupid.";
-                    if (tempItem != null) {
-                        tempItem.use(protagonist);
-                        if (tempItem instanceof Consumables) {
-                            protagonist.removeFromInventory(tempItem);
-                        }
-                    } else if (itemName.equalsIgnoreCase("pickaxe")) {
-                        if (hasPickaxe == true) {
-                            if (currentRoom.getRoomID() == 3) {
-                                if (isDug == false) {
-                                    currentRoom.setExit("north", victoryRoom);
-                                    System.out.println("You dig a small hole through the rubble for you to fit through. You hear birds singing and see the sun shining. You can now leave the mine.");
-                                    System.out.println(currentRoom.getExitString());
-                                    isDug = true;
-                                } else {
-                                    System.out.println("You already dug through the rubble.");
-                                }
-                            } else {
-                                System.out.println("You try and mine something, but get nowhere. You feel stupid.");
-                            }
-                        } else {
-                            System.out.println(noItemFits);
-                        }
-                    } else {
-                        System.out.println(noItemFits);
-                    }
-                }
-            } else {
-                System.out.println("Use what???");
-            }
-        } else if (commandWord == CommandWord.TAKE) {
-
-            String itemName = command.getSecondWord();
-            Item tempItem = currentRoom.hasItem(itemName);
-            if (tempItem != null) {
-                protagonist.addToInventory(tempItem);
-                System.out.println("You take " + itemName);
-                currentRoom.removeItems(tempItem);
-            } else {
-                System.out.println("No items fit that name, why would you take something that doesn't exist? You rethink your life.");
-            }
-
-        } else if (commandWord == CommandWord.REST) {
-            Score.increaseRest();
-            this.protagonist.setHp(this.protagonist.getHp() + 25); // Adds 25 HP to the player
-            System.out.println("(DAY " + (Score.getRest() + 1) + ") You rested and got 25 HP. Your total HP is " + protagonist.getHp());
-        } else if (commandWord == CommandWord.CRAFT) {
-            if (this.currentRoom.getRoomID() == 3) {
-                Crafting crafter = new Crafting(protagonist);
-                ArrayList<Item> inv = protagonist.getInventory();
-                if (inv.contains(ItemCatalogue.getItem(3))) {
-                    boolean hasPickaxe = false;
-                    for (Item item : inv) {
-                        if (item instanceof Pickaxe && !(item instanceof SuperPickaxe)) {
-                            hasPickaxe = true;
-                        }
-                    }
-                    if (hasPickaxe) {
-                        crafter.craftAddExtra();
-                    } else {
-                        this.hasPickaxe = crafter.craftPickaxe();
-                    }
-                } else {
-                    System.out.println("You haven't learned how to craft yet!");
-                }
-            } else {
-                System.out.println("There is no furnace in this room!");
-                return false;
-            }
-        }
-        return wantToQuit;
-    }
-
+    /**
+     * private boolean processCommand(Command command) { boolean wantToQuit =
+     * false; if (currentRoom == victoryRoom) { return true; }
+     *
+     * CommandWord commandWord = command.getCommandWord();
+     *
+     * if (commandWord == CommandWord.UNKNOWN) { System.out.println("I don't
+     * know what you mean..."); return false; }
+     *
+     * if (commandWord == CommandWord.HELP) { printHelp(); } else if
+     * (commandWord == CommandWord.GO) { wantToQuit = goRoom(command); } else if
+     * (commandWord == CommandWord.QUIT) { wantToQuit = quit(command); } else if
+     * (commandWord == CommandWord.INVENTORY) {
+     * System.out.println(protagonist.getInventory());
+     *
+     * } else if (commandWord == CommandWord.USE) { if (command.hasSecondWord())
+     * { String itemName = command.getSecondWord(); Item tempItem =
+     * protagonist.hasItem(itemName); if (protagonist.getInventory().isEmpty())
+     * { System.out.println("You have no items"); } else { String noItemFits =
+     * "You search your pockets, but find nothing fitting that name. You feel
+     * stupid."; if (tempItem != null) { tempItem.use(protagonist); if (tempItem
+     * instanceof Consumables) { protagonist.removeFromInventory(tempItem); } }
+     * else if (itemName.equalsIgnoreCase("pickaxe")) { if (hasPickaxe == true)
+     * { if (currentRoom.getRoomID() == 3) { if (isDug == false) {
+     * currentRoom.setExit("north", victoryRoom); System.out.println("You dig a
+     * small hole through the rubble for you to fit through. You hear birds
+     * singing and see the sun shining. You can now leave the mine.");
+     * System.out.println(currentRoom.getExitString()); isDug = true; } else {
+     * System.out.println("You already dug through the rubble."); } } else {
+     * System.out.println("You try and mine something, but get nowhere. You feel
+     * stupid."); } } else { System.out.println(noItemFits); } } else {
+     * System.out.println(noItemFits); } } } else { System.out.println("Use
+     * what???"); } } else if (commandWord == CommandWord.TAKE) {
+     *
+     * String itemName = command.getSecondWord(); Item tempItem =
+     * currentRoom.hasItem(itemName); if (tempItem != null) {
+     * protagonist.addToInventory(tempItem); System.out.println("You take " +
+     * itemName); currentRoom.removeItems(tempItem); } else {
+     * System.out.println("No items fit that name, why would you take something
+     * that doesn't exist? You rethink your life."); }
+     *
+     * } else if (commandWord == CommandWord.REST) { Score.increaseRest();
+     * this.protagonist.setHp(this.protagonist.getHp() + 25); // Adds 25 HP to
+     * the player System.out.println("(DAY " + (Score.getRest() + 1) + ") You
+     * rested and got 25 HP. Your total HP is " + protagonist.getHp()); } else
+     * if (commandWord == CommandWord.CRAFT) { if (this.currentRoom.getRoomID()
+     * == 3) { Crafting crafter = new Crafting(protagonist); ArrayList<Item> inv
+     * = protagonist.getInventory(); if (inv.contains(ItemCatalogue.getItem(3)))
+     * { boolean hasPickaxe = false; for (Item item : inv) { if (item instanceof
+     * Pickaxe && !(item instanceof SuperPickaxe)) { hasPickaxe = true; } } if
+     * (hasPickaxe) { crafter.craftAddExtra(); } else { this.hasPickaxe =
+     * crafter.craftPickaxe(); } } else { System.out.println("You haven't
+     * learned how to craft yet!"); } } else { System.out.println("There is no
+     * furnace in this room!"); return false; } } return wantToQuit; }
+     */
     private void printHelp() {
         System.out.println("You are lost. You are alone. You wander");
         System.out.println("You feel sorry for yourself.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
+    }
+
+    public Room goRoom(String direction) {
+        currentRoom = currentRoom.getExit(direction);
+
+        if (currentRoom != victoryRoom) {
+
+            currentRoom.visitCounterPlus();
+
+            if (currentRoom.getVisitCounter() == 1 && currentRoom.isFirstTimeEvent()) { // If the visit count is 1 and there's a first time event, run first time event.
+                currentRoom.firstTimeEvent(protagonist);
+            }
+
+            //System.out.println(currentRoom.getStartDescription()); //prints description
+            if (currentRoom.isEnemy()) //if there is an enemy run this thing
+            {
+                //asks if the player want to fight
+                System.out.println("You see a " + currentRoom.getEnemyName() + " do you want to engage? Yes or no?");
+
+                //input
+                //Command command2 = parser.getCommand();
+                //reads input
+                //CommandWord commandWord = command2.getCommandWord();
+
+                /*while ((commandWord == CommandWord.YES || commandWord == CommandWord.NO) == false) {
+                    System.out.println("That is not a valid command here. Typo?");
+                    //input
+                    command2 = parser.getCommand();
+
+                    //reads input
+                    commandWord = command2.getCommandWord();
+
+                }
+                if (commandWord == CommandWord.YES) //if input is yes start the fight
+                {
+                    wantsToQuit = currentRoom.startFight(protagonist);
+                } else if (commandWord == CommandWord.NO) //if no ignore
+                {
+                    System.out.println("You ignored the enemy");
+                } */
+            }
+
+            if (currentRoom.isEventTrigger()) //if the room has an event ready to activate run the event
+            {
+                currentRoom.event();
+            }
+
+            //System.out.println(currentRoom.getEndString()); //prints the end string (items and exits)
+        } else {
+            victory();
+        }
+        return currentRoom;
     }
 
     private boolean goRoom(Command command) {
