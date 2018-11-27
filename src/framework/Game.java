@@ -138,10 +138,11 @@ public class Game {
 
         cave11.setExit("east", cave2);
 
-        currentRoom = home;
+        currentRoom = caveEntrance;
         try {
             GUIController.getGui().updateStage(this.currentRoom);
         } catch (IOException ex) {
+            System.out.println("NOPE");
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

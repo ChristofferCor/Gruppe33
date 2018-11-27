@@ -5,6 +5,7 @@
  */
 package gui;
 
+import framework.Game;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -52,6 +53,5 @@ public class HomeController extends GameWindowsController implements Initializab
 
     @FXML
     private void startRest(ActionEvent event) {
-        GUIController.getGui().updateStage();
     }
 }
