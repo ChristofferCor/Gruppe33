@@ -5,11 +5,11 @@ import entities.Item;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashMap;
-import java.util.Iterator;
 import entities.ItemCatalogue;
+import gui.FXMLRooms;
 import gui.GameWindowsController;
 
-public class Room {
+public class Room implements FXMLRooms{
 
     private boolean firstTime = false; // Attribute for first time event
     private String description; //Description for the room
@@ -158,10 +158,12 @@ public class Room {
         return enemy.getName();
     }
     
+    @Override
     public String getFXMLPath(){
         return this.FXMLPath;
     }
     
+    @Override
     public void setController(GameWindowsController controller){
         this.controller = controller;
     }

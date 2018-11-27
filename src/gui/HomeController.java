@@ -28,26 +28,30 @@ public class HomeController extends GameWindowsController implements Initializab
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
     private void goDown() {
         editText("NORTH");
     }
-    
-    private void goUp(){
+
+    private void goUp() {
         editText("SOUTH");
     }
-    
-    private void goLeft(){
+
+    private void goLeft() {
         editText("EAST");
     }
-    
-    private void goRight(){
+
+    private void goRight() {
         editText("WEST");
     }
-    
+
     public void editText(String outputText) {
         super.setOutputText(outputText);
     }
-    
+
+    @FXML
+    private void startRest(ActionEvent event) {
+        GUIController.getGui().updateStage();
+    }
 }

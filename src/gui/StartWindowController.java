@@ -8,6 +8,7 @@ package gui;
 import fightsystem.Attack;
 import fightsystem.AttackCatalogue;
 import framework.Game;
+import framework.GameStarter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -44,13 +45,7 @@ public class StartWindowController implements Initializable {
 
     @FXML
     private void startGame(ActionEvent event) throws IOException {
-        AttackCatalogue browser = new AttackCatalogue();
-        fightsystem.Character protagonist = new fightsystem.Character();
-        Attack[] attack = {browser.getAttack("slap"), browser.getAttack("slice"), browser.getAttack("chop")};
-        protagonist.setAttacks(attack);
-        Game game = new Game(protagonist, browser);
-        game.play();
-
+        GUIController.startGame();
     }
 
     @FXML

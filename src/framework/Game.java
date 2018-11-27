@@ -2,6 +2,7 @@ package framework;
 
 import entities.*;
 import fightsystem.*;
+import gui.GUIController;
 import gui.HomeController;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,19 +63,19 @@ public class Game {
 
         home = new Room("You are in your loving home.", 1, "/gui/Home.fxml");
         townSquare = new Room("You are in the town square.", 2, "/gui/TownSquare.fxml");
-        caveEntrance = new Room("You are at the mine entrance.", 3, true, 1, "/gui/CaveEntrance"); // displays description, boolean for first time event and room id to distinguish between different first time event rooms.
-        cave1 = new Room("You stand in the first mine room.", 4, "/gui/Cave1");
-        cave3 = new Room("You stand in the third mine room.", 5, true, 2, "/gui/Cave3");
-        cave2 = new Room("You stand in the second mine room.", 6, "/gui/Cave2");
-        cave4 = new Room("You stand in the fourth mine room.", 7, "/gui/Cave4");
-        cave5 = new Room("You stand in the fifth mine room.", 8, "/gui/Cave5");
-        cave6 = new Room("You stand in the sixth mine room.", 9, "/gui/Cave6");
-        cave7 = new Room("You stand in the seventh mine room. The exit to the east has a 'WARNING' sign besides it.", 10, "/gui/Cave7");
-        cave8 = new Room("You stand in the eighth mine room.", 11, "/gui/Cave8");
-        cave9 = new Room("You stand in the ninth mine room.", 12, "/gui/Cave9");
-        cave10 = new Room("You stand in the tenth mine room.", 13, true, 3, "/gui/Cave10");
-        cave11 = new Room("You stand in the eleventh mine room.", 14, "/gui/Cave11");
-        victoryRoom = new Room("You are back at the town square. Nobody noticed you were gone, but you won, hurray!", 15, "/gui/Victory");
+        caveEntrance = new Room("You are at the mine entrance.", 3, true, 1, "/gui/CaveEntrance.fxml"); // displays description, boolean for first time event and room id to distinguish between different first time event rooms.
+        cave1 = new Room("You stand in the first mine room.", 4, "/gui/Cave1.fxml");
+        cave3 = new Room("You stand in the third mine room.", 5, true, 2, "/gui/Cave3.fxml");
+        cave2 = new Room("You stand in the second mine room.", 6, "/gui/Cave2.fxml");
+        cave4 = new Room("You stand in the fourth mine room.", 7, "/gui/Cave4.fxml");
+        cave5 = new Room("You stand in the fifth mine room.", 8, "/gui/Cave5.fxml");
+        cave6 = new Room("You stand in the sixth mine room.", 9, "/gui/Cave6.fxml");
+        cave7 = new Room("You stand in the seventh mine room. The exit to the east has a 'WARNING' sign besides it.", 10, "/gui/Cave7.fxml");
+        cave8 = new Room("You stand in the eighth mine room.", 11, "/gui/Cave8.fxml");
+        cave9 = new Room("You stand in the ninth mine room.", 12, "/gui/Cave9.fxml");
+        cave10 = new Room("You stand in the tenth mine room.", 13, true, 3, "/gui/Cave10.fxml");
+        cave11 = new Room("You stand in the eleventh mine room.", 14, "/gui/Cave11.fxml");
+        victoryRoom = new Room("You are back at the town square. Nobody noticed you were gone, but you won, hurray!", 15, "/gui/Victory.fxml");
 
         home.setExit("east", townSquare);
 
@@ -139,23 +140,14 @@ public class Game {
 
         currentRoom = home;
         try {
-            updateStage();
+            GUIController.getGui().updateStage(this.currentRoom);
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void updateStage() throws IOException {
-        String FXMLPath = this.currentRoom.getFXMLPath();
-        Stage stage = GameStarter.stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLPath));
-        Parent root = loader.load();
-        this.currentRoom.setController(loader.getController());
 
-        Scene scene = new Scene(root);
-
-        stage.setScene(scene);
-        stage.show();
+    public Room getCurrentRoom() {
+        return this.currentRoom;
     }
 
     /**
@@ -166,8 +158,8 @@ public class Game {
         printWelcome();
 
         //while (!finished) {
-            //Command command = parser.getCommand();
-            //finished = processCommand(command);
+        //Command command = parser.getCommand();
+        //finished = processCommand(command);
         //}
     }
 
@@ -182,7 +174,7 @@ public class Game {
         outputText += "\n";
         outputText += (currentRoom.getStartDescription() + "\n");
         outputText += (currentRoom.getEndString());
-        currentRoom.getController().setOutputText(outputText);
+        //currentRoom.getController().setOutputText(outputText);
     }
 
     private boolean processCommand(Command command) {
@@ -297,7 +289,7 @@ public class Game {
 
     private boolean goRoom(Command command) {
         boolean wantsToQuit = false;
-        
+
         if (!command.hasSecondWord()) {
             System.out.println("Go where?");
             return false;

@@ -5,6 +5,7 @@
  */
 package framework;
 
+import gui.GUIController;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -18,17 +19,10 @@ import javafx.stage.Stage;
  */
 public class GameStarter extends Application {
     
-    public static Stage stage;
-    
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/gui/StartWindow.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
-        this.stage = stage;
+        GUIController gui = new GUIController(stage);
+        GUIController.setGui(gui);
     }
 
     /**
