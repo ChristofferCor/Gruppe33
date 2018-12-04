@@ -51,7 +51,7 @@ public class Cave4Controller extends GameWindowsController implements Initializa
             GridPane.setConstraints(character, posX, posY);
             if (posX == 3 && posY == 2) {
                 //Start fight
-                System.out.println("FIGHT FIGHT");
+                super.startFight();
             }
         } else if (posX == 9 && posY == 2) {
             GridPane.setConstraints(character, posX, posY);

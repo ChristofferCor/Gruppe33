@@ -5,12 +5,18 @@
  */
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
@@ -110,11 +116,11 @@ public class GameWindowsController implements Initializable {
         int posY = GridPane.getRowIndex(this.player);
         moveCharacter(this.player, posX, posY);
     }
-    
-    void setPlayer(ImageView player){
+
+    void setPlayer(ImageView player) {
         this.player = player;
     }
-    
+
     @FXML
     private void startInventory(ActionEvent event) {
     }
@@ -133,6 +139,17 @@ public class GameWindowsController implements Initializable {
 
     void moveCharacter(Node character, int posX, int posY) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void startFight() {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/gui/Fight.fxml"));
+            GUIController.setPreviousScene(this.player.getScene());
+            this.player.getScene().setRoot(root);
+        } catch (IOException ex) {
+            Logger.getLogger(GameWindowsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

@@ -19,19 +19,20 @@ public class Character {
     private int strength;
     private double cash = 0;
     private ArrayList<Item> inventory = new ArrayList<>(); //Characters has an arraylist containing items.
+    private String imagePath;
 
     /**
      *
      */
     public Character() {
-        this(null, 100, 100, 100);
+        this(null, 100, 100, 100, "elf_m_idle_anim_f1");
     }
     /**
      *
      * @param hp
      */
     public Character(double hp) {
-        this(null, hp, 100, 100);
+        this(null, hp, 100, 100, "elf_m_idle_anim_f1");
     }
 
     /**
@@ -49,12 +50,13 @@ public class Character {
      * attacks. the value 100 is default, below is less damage (percentage) and
      * vice versa
      */
-    public Character(String name, double hp, int reactionTime, int strength) {
+    public Character(String name, double hp, int reactionTime, int strength, String imagePath) {
         this.hp = hp;
         this.maxHp = hp;
         this.name = name;
         this.reactionTime = reactionTime;
         this.strength = strength;
+        this.imagePath = imagePath;
     }
 
     /**
@@ -112,6 +114,10 @@ public class Character {
     public int getStrength() {
         return strength;
     }
+    
+    public void setImage(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
     /**
      * @param strength the strength to set
@@ -138,6 +144,10 @@ public class Character {
     
     public double getCash(){
         return this.cash;
+    }
+    
+    public String getImage(){
+        return this.imagePath;
     }
     
         // Checks if the character has item

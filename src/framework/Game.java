@@ -4,6 +4,7 @@ import entities.*;
 import fightsystem.*;
 import gui.GUIController;
 import gui.HomeController;
+import gui.fightInformation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +28,7 @@ public class Game {
     //Attributes
     private Parser parser;
     private Room currentRoom;
+    private Fight currentFight;
     private fightsystem.Character protagonist;
     private fightsystem.AttackCatalogue browser;
     private ItemCatalogue catalogue = new ItemCatalogue();
@@ -82,7 +84,7 @@ public class Game {
         townSquare.setExit("west", home);
         townSquare.setExit("south", caveEntrance);
 
-        caveEntrance.setExit("east", cave1);
+        caveEntrance.setExit("east", cave4);
 
         cave1.setExit("west", caveEntrance);
         cave1.setExit("north", cave3);
@@ -99,7 +101,7 @@ public class Game {
 
         cave4.setExit("south", cave3);
         cave4.setExit("east", cave6);
-        fightsystem.Character crazyMiner = new fightsystem.Character("Crazy miner", 25, 75, 50);
+        fightsystem.Character crazyMiner = new fightsystem.Character("Crazy miner", 25, 75, 50, "image_part_235");
         crazyMiner.addToInventory(ItemCatalogue.getItem(1));
         crazyMiner.setAttacks(attack);
         cave4.setEnemy(crazyMiner);
@@ -107,7 +109,7 @@ public class Game {
         cave5.setExit("west", cave3);
         cave5.setExit("north", cave6);
         cave5.setExit("south", cave7);
-        fightsystem.Character childhoodBully = new fightsystem.Character("Childhood Bully", 40, 150, 125);
+        fightsystem.Character childhoodBully = new fightsystem.Character("Childhood Bully", 40, 150, 125, "image_part_232");
         childhoodBully.addToInventory(ItemCatalogue.getItem(2));
         childhoodBully.addToInventory(ItemCatalogue.getItem(300));
         childhoodBully.setAttacks(attack);
@@ -127,7 +129,7 @@ public class Game {
         cave8.setItems(ItemCatalogue.getItem(300));
 
         cave9.setExit("west", cave7);
-        fightsystem.Character trappedLunatic = new fightsystem.Character("Trapped lunatic", 60, 75, 50);
+        fightsystem.Character trappedLunatic = new fightsystem.Character("Trapped lunatic", 60, 75, 50, "image_part_133");
         trappedLunatic.addToInventory(ItemCatalogue.getItem(3));
         trappedLunatic.setAttacks(attack);
         cave9.setEnemy(trappedLunatic);
@@ -288,6 +290,22 @@ public class Game {
         return currentRoom;
     }
 
+    public Fight engage() {
+        Fight fight = new Fight(protagonist, currentRoom.getEnemy());
+        return fight;
+        /*int fightStatus = fight.fight();
+        if (fightStatus == 2) {
+            for (Item i : this.enemy.getInventory()) {
+                protagonist.addToInventory(i);
+                System.out.println("You take " + i + " from the enemy.");
+            }
+        } else if (fightStatus == 1) {
+            return true;
+        }
+        return false;
+    }*/
+    }
+
     private boolean goRoom(Command command) {
         boolean wantsToQuit = false;
 
@@ -337,7 +355,7 @@ public class Game {
                     }
                     if (commandWord == CommandWord.YES) //if input is yes start the fight
                     {
-                        wantsToQuit = currentRoom.startFight(protagonist);
+                        //wantsToQuit = currentRoom.startFight(protagonist);
                     } else if (commandWord == CommandWord.NO) //if no ignore
                     {
                         System.out.println("You ignored the enemy");

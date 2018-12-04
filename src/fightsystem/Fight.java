@@ -6,9 +6,13 @@ package fightsystem;
  * and open the template in the editor.
  */
 import framework.Choose;
+import gui.fightInformation;
+import java.util.ArrayList;
+import java.util.Arrays;
 import util.FightTextFormater;
 import java.util.Scanner;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This is the main fighting system In here the controls for all fights are
@@ -16,18 +20,19 @@ import java.util.Date;
  *
  * @author Simon Holland Flarup
  */
-public class Fight {
+public class Fight implements fightInformation{
 
-    private static final int RUNNING = 0;
-    private static final int DEAD = 1;
-    private static final int VICTORY = 2;
-    private static final int FLEE = 3;
+    public static final int RUNNING = 0;
+    public static final int DEAD = 1;
+    public static final int VICTORY = 2;
+    public static final int FLEE = 3;
     
     private static int status;
     private int numAtk = 0;
     private final Character monster, player;
     private Scanner speedTyper;
     private FightTextFormater output;
+    private boolean yourTurn;
 
     /**
      * The Fight needs to start a fight with two given Character objects.
@@ -39,15 +44,23 @@ public class Fight {
         this.monster = monster;
         this.player = player;
         this.status = this.RUNNING;
+        yourTurn = (Math.random()>= 0.5);
 
-        this.output = new FightTextFormater(70, '#', '-', this.player, this.monster);
+        //this.output = new FightTextFormater(70, '#', '-', this.player, this.monster);
 
         for (Attack atk : this.monster.getAttacks()) {
             if (atk != null) {
                 this.numAtk++;
             }
         }
-
+    }
+    
+    public int getStatus(){
+        return this.status;
+    }
+    
+    public boolean getTurn(){
+        return this.yourTurn;
     }
 
     /**
@@ -56,82 +69,27 @@ public class Fight {
      * @return Returns an integer with a value corresponding to a status id. 0 =
      * running, 1 = dead, 2 = won
      */
-    public int fight() {
-        output.setBody("You encountered a " + monster.getName() + "!");
-        output.print();
-        sleep(4);
-        if (Math.random() <= 0.5) {
-            while (this.status == this.RUNNING) {
-                //displayStats();
-                yourTurn();
-                if (this.status != this.RUNNING) {
-                    break;
-                }
-                sleep(3);
-                theirTurn();
-                sleep(3);
-            }
+    public String fight() {
+        sleep(3);
+        if (yourTurn){
+            yourTurn = false;
+            return yourTurn();
         } else {
-            while (this.status == this.RUNNING) {
-                //displayStats();
-                theirTurn();
-                if (this.status != this.RUNNING) {
-                    break;
-                }
-                sleep(3);
-                yourTurn();
-                sleep(3);
-            }
+            yourTurn = true;
+            return theirTurn();
         }
-        switch (this.status) {
-            case Fight.DEAD:
-                output.setBody(new String[]{"The " + this.monster.getName() + " defeated you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"});
-                output.setHead(new String[]{"You unfortunately died of slowness"});
-                output.oldPrint();
-                Choose.choose();
-                break;
-            case Fight.VICTORY:
-                output.setBody(new String[]{"You speedtyped your way around the " + this.monster.getName(), "", "You made it out with " + this.player.getHp() + " HP left"});
-                output.setHead(new String[]{"Congratulations! You won"});
-                output.oldPrint();
-                break;
-            case Fight.FLEE:
-                output.setBody(new String[]{"The " + this.monster.getName() + " felt sorry for you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"});
-                output.setHead(new String[]{"You escaped like a coward!"});
-                output.oldPrint();
-                break;
-            default:
-                break;
-        }
-        return status;
     }
 
-    private void yourTurn() {
-
-        String tempString = "";
-        for (Attack atk : this.player.getAttacks()) {
-            if (atk != null) {
-                tempString += atk.getName();
-                tempString += "    ";
-            }
-        }
-        tempString = tempString.trim();
-
-        output.setBody(new String[]{"This is your chance, act quickly!", "", "Avaliable attacks:    " + tempString, "Enter 'Flee' to attempt it"});
-        output.print();
-        System.out.println("Enter attack: ");
-        System.out.print("> ");
-        speedTyper = new Scanner(System.in);
-        Date currentTime = new Date();
+    private String yourTurn() {
+        return ("This is your chance, act quickly!");
+        /*Date currentTime = new Date();
         long startTime = currentTime.getTime();
-        String input = speedTyper.next();
-        System.out.println("");
         currentTime = new Date();
         if (input.equals("Flee")) {
             flee(startTime, currentTime.getTime());
         } else {
             checkAttack(input, startTime, currentTime.getTime());
-        }
+        }*/
     }
 
     private void takeDamage(double dmg) {
@@ -158,7 +116,7 @@ public class Fight {
         }
     }
 
-    private void theirTurn() {
+    private String theirTurn() {
         int rng = (int) (Math.random() * 100);
         int atkNumber = (int) (rng / (100d / this.numAtk));
         double tempRng = Math.random() * 0.5; //Halfing the Math.random() value for balacing purposes.
@@ -170,18 +128,17 @@ public class Fight {
         if ((tempRng * (this.monster.getReactionTime() / 100d)) <= (this.monster.getAttacks()[atkNumber].getAccuracy() / 100d)) {
             double damage = ((this.monster.getAttacks()[atkNumber].getDmg()) * (this.monster.getStrength()) / 100d);
             takeDamage(damage);
-            output.setBody(new String[]{"The " + this.monster.getName() + " uses " + this.monster.getAttacks()[atkNumber].getName() + " against you and dealt " + damage + " DMG"});
-            output.print();
+            return ("The " + this.monster.getName() + " uses " + this.monster.getAttacks()[atkNumber].getName() + " against you and dealt " + damage + " DMG");
         } else {
-            output.setBody(new String[]{"The " + this.monster.getName() + " missed its " + this.monster.getAttacks()[atkNumber].getName() + " against you!"});
-            output.print();
+            return ("The " + this.monster.getName() + " missed its " + this.monster.getAttacks()[atkNumber].getName() + " against you!");
         }
     }
 
-    private void checkAttack(String attack, long start, long end) {
+    public String checkAttack(String attack, long start) {
         boolean correctAtk = false;
         boolean accuracyMiss = false;
         double hitChance;
+        long end = new Date().getTime();
 
         for (Attack atk : this.player.getAttacks()) {
             if (atk != null) {
@@ -195,28 +152,21 @@ public class Fight {
                 if (atk.getName().equals(attack) & (end - start) <= (atk.getCastTime() * (this.monster.getReactionTime() / 100d)) & !accuracyMiss) {
                     double damage = ((atk.getDmg()) * (this.player.getStrength()) / 100);
                     dealDamage(damage);
-                    output.setBody("Your " + attack + " succeded! You dealt " + damage + " DMG");
-                    output.print();
-                    correctAtk = true;
-                    break;
+                    return("Your " + attack + " succeded! You dealt " + damage + " DMG");
                 } else if (atk.getName().equals(attack)) {
-                    output.setBody(new String[]{"You missed! You need to cast it faster!", "", "Accuracy might be too low!"});
-                    output.print();
-                    correctAtk = true;
-                    break;
+                    return("You missed! You need to cast it faster! \nAccuracy might be too low!");
                 }
             }
         }
         if (!correctAtk) {
             if (Math.random() <= 0.5) {
                 takeDamage(1);
-                output.setBody(new String[]{"You drool! That's not a valid attack!", "", "OUCH! You accidentially hit yourself!"});
-                output.print();
+                return ("You drool! That's not a valid attack! \nOUCH! You accidentially hit yourself!");
             } else {
-                output.setBody("You drool! That's not a valid attack!");
-                output.print();
+                return("You drool! That's not a valid attack!");
             }
         }
+        return ("Error 165_Fight");
     }
 
     private void flee(long start, long end) {
@@ -248,5 +198,41 @@ public class Fight {
             //Thread.currentThread().interrupt();
             System.out.println("Error slept: " + ex);
         }
+    }
+
+    @Override
+    public String[] getName() {
+        String[] string = {"Erik som barn", this.monster.getName()};
+        return string;
+    }
+
+    @Override
+    public double[] getHp() {
+        double[] hpArray = {this.player.getHp(), this.monster.getHp()};
+        return hpArray;
+    }
+
+    @Override
+    public String imagePath() {
+        return this.monster.getImage();
+    }
+
+    @Override
+    public String setOutputText() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public void setObject(){
+        
+    }
+
+    @Override
+    public List<String> getAvailableAttacks() {
+        List<String> AvailableAttacks = new ArrayList<>();
+        for(Attack a : this.player.getAttacks()) {
+            AvailableAttacks.add(a.getName());
+        }
+        return AvailableAttacks;
     }
 }

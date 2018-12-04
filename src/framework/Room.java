@@ -61,7 +61,7 @@ public class Room implements FXMLRooms{
         }
     }
 
-    public boolean startFight(fightsystem.Character protagonist) {
+    /*public boolean startFight(fightsystem.Character protagonist) {
         Fight fight = new Fight(protagonist, this.enemy);
         int fightStatus = fight.fight();
         if (fightStatus == 2) {
@@ -73,7 +73,7 @@ public class Room implements FXMLRooms{
             return true;
         }
         return false;
-    }
+    }*/
 
     public void setExit(String direction, Room neighbor) {
         exits.put(direction, neighbor);
@@ -141,6 +141,10 @@ public class Room implements FXMLRooms{
 
     public Room getExit(String direction) {
         return exits.get(direction);
+    }
+    
+    public fightsystem.Character getEnemy(){
+        return this.enemy;
     }
 
     // Added an visit counter to the rooms

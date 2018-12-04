@@ -23,9 +23,10 @@ import javafx.stage.Stage;
  */
 public class GUIController {
 
-    private static Game game;
+    static Game game;
     private static Stage stage;
     private static GUIController gui;
+    private static Scene previousScene;
 
     public GUIController(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/gui/StartWindow.fxml"));
@@ -56,11 +57,11 @@ public class GUIController {
             currentRoom.setController(loader.getController());
 
             Scene scene = new Scene(root);
-
+           
             stage.setScene(scene);
-            stage.setResizable(false);
-            GUIController.stage = stage;
-            stage.show();
+            //stage.setResizable(false);
+            //GUIController.stage = stage;
+            //stage.show();
         } catch (IOException ex) {
             Logger.getLogger(GUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -76,5 +77,17 @@ public class GUIController {
 
     public static FXMLRooms goRoom(String direction) {
         return game.goRoom(direction);
+    }
+    
+    public static FXMLRooms getCurrentRoom(){
+        return game.getCurrentRoom();
+    }
+    
+    public static void setPreviousScene(Scene scene){
+        GUIController.previousScene = scene;
+    }
+    
+    public static Scene getPreviousScene() {
+        return GUIController.previousScene;
     }
 }
