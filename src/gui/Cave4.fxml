@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#captureKeys" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Cave1Controller">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#captureKeys" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Cave4Controller">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -76,7 +76,7 @@
                   </ImageView>
                   <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2">
                      <image>
-                        <Image url="@../Resources/floor_3.png" />
+                        <Image url="@../Resources/hole.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
@@ -264,6 +264,11 @@
                         <Image url="@../Resources/wall_top_mid.png" />
                      </image>
                   </ImageView>
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="9" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../Resources/edge.png" />
+                     </image>
+                  </ImageView>
                   <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="9" GridPane.rowIndex="1">
                      <image>
                         <Image url="@../Resources/wall_top_mid.png" />
@@ -279,9 +284,14 @@
                         <Image url="@../Resources/wall_top_mid.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="6" GridPane.rowIndex="5">
                      <image>
                         <Image url="@../Resources/wall_top_mid.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                     <image>
+                        <Image url="@../Resources/edge.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
@@ -299,9 +309,14 @@
                         <Image url="@../Resources/wall_top_mid.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="4">
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
                      <image>
-                        <Image url="@../Resources/edge.png" />
+                        <Image url="@../Resources/wall_top_mid.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.rowIndex="3">
+                     <image>
+                        <Image url="@../Resources/wall_top_mid.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="180.0" GridPane.columnIndex="5" GridPane.rowIndex="5">
@@ -309,64 +324,84 @@
                         <Image url="@../Resources/wall_top_mid.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.columnIndex="9" GridPane.rowIndex="2">
+                  <ImageView fitHeight="72.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                      <image>
-                        <Image url="@../Resources/wall_top_mid.png" />
+                        <Image url="@../Resources/image_part_235.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" GridPane.rowIndex="3">
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="2">
                      <image>
-                        <Image url="@../Resources/edge.png" />
+                        <Image url="@../Resources/image_part_055.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="5">
+                  <ImageView fx:id="player" fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                      <image>
-                        <Image url="@../Resources/edge.png" />
+                        <Image url="@../Resources/elf_m_idle_anim_f1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../Resources/coulmn_base.png" />
+                        <Image url="@../Resources/Outdoors_34.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3">
+                  <ImageView fitHeight="63.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                      <image>
-                        <Image url="@../Resources/coulmn_base.png" />
+                        <Image url="@../Resources/Outdoors_34.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="player" fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../Resources/elf_m_idle_anim_f3.png" />
+                        <Image url="@../Resources/image_part_123.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../Resources/column_mid.png" />
+                        <Image url="@../Resources/Outdoors_34.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../Resources/column_top.png" />
+                        <Image url="@../Resources/image_part_121.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <image>
-                        <Image url="@../Resources/column_top.png" />
+                        <Image url="@../Resources/Outdoors_34.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <image>
-                        <Image url="@../Resources/column_mid.png" />
+                        <Image url="@../Resources/image_part_121.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="46.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <image>
-                        <Image url="@../Resources/image_part_174.png" />
+                        <Image url="@../Resources/image_part_137.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BASELINE">
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <image>
-                        <Image url="@../Resources/image_part_156.png" />
+                        <Image url="@../Resources/image_part_137.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                     <image>
+                        <Image url="@../Resources/image_part_128.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../Resources/image_part_128.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@../Resources/image_part_128.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../Resources/image_part_128.png" />
                      </image>
                   </ImageView>
                </children>
