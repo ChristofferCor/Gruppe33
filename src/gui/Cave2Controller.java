@@ -23,7 +23,7 @@ import javafx.scene.layout.GridPane;
  *
  * @author corga
  */
-public class Cave1Controller extends GameWindowsController implements Initializable {
+public class Cave2Controller extends GameWindowsController implements Initializable {
 
     @FXML
     private ImageView player;
@@ -56,25 +56,5 @@ public class Cave1Controller extends GameWindowsController implements Initializa
             GridPane.setConstraints(character, posX, posY);
             GUIController.getGui().updateStage(GUIController.goRoom("east"));
         }
-    }
-
-    @FXML
-    private void captureKeys(KeyEvent event) {
-    }
-
-    @FXML
-    private void startHelp(ActionEvent event) {
-    }
-
-    @FXML
-    private void startInventory(ActionEvent event) {
-    }
-
-    @FXML
-    private void startRest(ActionEvent event) {
-    }
-
-    @FXML
-    private void startCraft(ActionEvent event) {
     }
 }
