@@ -5,12 +5,15 @@
  */
 package gui;
 
+import entities.Item;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -45,8 +49,11 @@ public class GameWindowsController implements Initializable {
     private GridPane controlGridPane;
     @FXML
     private ImageView player;
+    @FXML
+    private ListView<String> listViewInventory;
     
     private FXMLRooms room;
+    private ObservableList<String> items = FXCollections.observableArrayList();
     
     private Runnable delayUpdateStage = new Runnable() {
         public void run() {
@@ -69,7 +76,8 @@ public class GameWindowsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        //items.addAll(GUIController.game.getInventory());
+        //listViewInventory.setItems(items);
     }
 
     @FXML
