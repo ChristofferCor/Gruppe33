@@ -53,11 +53,11 @@ public class TownSquareController extends GameWindowsController implements Initi
         } else if (posX == 5 && posY == 5) {
             GridPane.setConstraints(character, posX, posY);
             super.setOutputText("Loading next room");
-            GUIController.getGui().updateStage(GUIController.goRoom("south"));
+            super.delayUpdateStage(GUIController.goRoom("south"));
         } else if (posX == 0 && posY == 2) {
             GridPane.setConstraints(character, posX, posY);
             super.setOutputText("Loading next room");
-            GUIController.getGui().updateStage(GUIController.goRoom("west"));
+            super.delayUpdateStage(GUIController.goRoom("west"));
         }
     }
 

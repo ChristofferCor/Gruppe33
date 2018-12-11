@@ -61,6 +61,8 @@ public class FightController implements Initializable {
     private ListView<String> attackList;
     @FXML
     private Button fleeButton;
+    @FXML
+    private GridPane fightGridPane;
 
     private ObservableList<String> items = FXCollections.observableArrayList();
     private boolean acceptInput = false;
@@ -68,8 +70,19 @@ public class FightController implements Initializable {
 
     private Runnable fightLoop = new Runnable() {
         public void run() {
-            //sleep(1);
             runFight();
+        }
+    };
+
+    private Runnable delayUpdateStage = new Runnable() {
+        public void run() {
+            sleep(3);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    GUIController.getGui().updateStage(GUIController.getCurrentRoom());
+                }
+            });
         }
     };
 
@@ -79,7 +92,7 @@ public class FightController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.fight = GUIController.game.engage();
-        Image image = new Image("/resources/" + fight.imagePath() + ".png"); //Could make an interface for this.
+        Image image = new Image("/resources/" + fight.imagePath() + ".png");
         enemy.setImage(image);
 
         enemyName.setText(fight.getName()[1]);
@@ -91,7 +104,8 @@ public class FightController implements Initializable {
         attackList.setItems(items);
 
         outputText.setText("You encountered a " + fight.getName()[1] + "!");
-        Platform.runLater(fightLoop);
+        Thread thread = new Thread(fightLoop);
+        thread.start();
     }
 
     private void updateHp() {
@@ -100,6 +114,7 @@ public class FightController implements Initializable {
     }
 
     private void runFight() {
+        updateHp();
         outputText.setText(fight.fight());
         switch (fight.getStatus()) {
             case Fight.RUNNING:
@@ -109,41 +124,25 @@ public class FightController implements Initializable {
                     startTime = new Date().getTime();
                 } else {
                     System.out.println("Their Turn!");
-                    Platform.runLater(fightLoop);
+                    Thread thread = new Thread(fightLoop);
+                    thread.start();
                 }
-            break;
+                break;
             case Fight.DEAD:
+                this.outputText.setText("The " + fight.getName()[1] + " defeated you\n" + "It had " + fight.getHp()[1] + " HP left, what a shame!");
+                System.out.println("Died");
+                new Thread(delayUpdateStage).start();
+                break;
             case Fight.VICTORY:
+                this.outputText.setText("You speedtyped your way around the " + fight.getName()[1] + "\n" + "You made it out with " + fight.getHp()[0] + " HP left");
+                System.out.println("Won");
+                new Thread(delayUpdateStage).start();
+                break;
             case Fight.FLEE:
+                System.out.println("Error 128-FightController");
+                break;
         }
         updateHp();
-    }
-
-    /*
-            switch (this.status) {
-            case Fight.DEAD:
-                output.setBody(new String[]{"The " + this.monster.getName() + " defeated you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"});
-                output.setHead(new String[]{"You unfortunately died of slowness"});
-                output.oldPrint();
-                Choose.choose();
-                break;
-            case Fight.VICTORY:
-                output.setBody(new String[]{"You speedtyped your way around the " + this.monster.getName(), "", "You made it out with " + this.player.getHp() + " HP left"});
-                output.setHead(new String[]{"Congratulations! You won"});
-                output.oldPrint();
-                break;
-            case Fight.FLEE:
-                output.setBody(new String[]{"The " + this.monster.getName() + " felt sorry for you", "", "It had " + this.monster.getHp() + " HP left, what a shame!"});
-                output.setHead(new String[]{"You escaped like a coward!"});
-                output.oldPrint();
-                break;
-            default:
-                break;
-        }
-    
-     */
-    public void setFight() {
-
     }
 
     @FXML
@@ -154,7 +153,8 @@ public class FightController implements Initializable {
                 this.outputText.setText(text);
                 System.out.println(text);
                 this.acceptInput = false;
-                Platform.runLater(fightLoop);
+                Thread thread = new Thread(fightLoop);
+                thread.start();
             }
             attackInput.clear();
         }
@@ -163,7 +163,7 @@ public class FightController implements Initializable {
     @FXML
     private void flee(ActionEvent event) {
         this.outputText.setText("The " + fight.getName()[1] + " felt sorry for you \nIt had " + fight.getHp()[1] + " HP left, what a shame!");
-        GUIController.getGui().updateStage(GUIController.getCurrentRoom());
+        new Thread(delayUpdateStage).start();
     }
 
     /**

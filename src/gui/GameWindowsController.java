@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,6 +45,24 @@ public class GameWindowsController implements Initializable {
     private GridPane controlGridPane;
     @FXML
     private ImageView player;
+    
+    private FXMLRooms room;
+    
+    private Runnable delayUpdateStage = new Runnable() {
+        public void run() {
+            try {
+                Thread.sleep(50);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        GUIController.getGui().updateStage(room);
+                    }
+                });
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GameWindowsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    };
 
     /**
      * Initializes the controller class.
@@ -150,6 +169,11 @@ public class GameWindowsController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(GameWindowsController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void delayUpdateStage(FXMLRooms room) {
+        this.room = room;
+        new Thread(delayUpdateStage).start();
     }
 
 }

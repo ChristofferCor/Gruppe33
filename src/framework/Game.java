@@ -84,7 +84,7 @@ public class Game {
         townSquare.setExit("west", home);
         townSquare.setExit("south", caveEntrance);
 
-        caveEntrance.setExit("east", cave4);
+        caveEntrance.setExit("east", cave1);
 
         cave1.setExit("west", caveEntrance);
         cave1.setExit("north", cave3);

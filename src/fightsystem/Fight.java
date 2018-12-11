@@ -82,14 +82,6 @@ public class Fight implements fightInformation{
 
     private String yourTurn() {
         return ("This is your chance, act quickly!");
-        /*Date currentTime = new Date();
-        long startTime = currentTime.getTime();
-        currentTime = new Date();
-        if (input.equals("Flee")) {
-            flee(startTime, currentTime.getTime());
-        } else {
-            checkAttack(input, startTime, currentTime.getTime());
-        }*/
     }
 
     private void takeDamage(double dmg) {
@@ -100,7 +92,7 @@ public class Fight implements fightInformation{
         this.player.setHp(health);
         if (this.player.getHp() <= 0) { //See dealDamage(). Status '1' is defeat.
             this.player.setHp(0);
-            this.status = 1;
+            this.status = DEAD;
         }
     }
 
@@ -112,7 +104,7 @@ public class Fight implements fightInformation{
         this.monster.setHp(health);
         if (health <= 0) { //Checks if the monsters HP fell below or hit zero. If so the status is changed to '2' which means victory.
             this.monster.setHp(0);
-            this.status = 2;
+            this.status = VICTORY;
         }
     }
 
@@ -166,7 +158,7 @@ public class Fight implements fightInformation{
                 return("You drool! That's not a valid attack!");
             }
         }
-        return ("Error 165_Fight");
+        return ("Error 161_Fight");
     }
 
     private void flee(long start, long end) {
@@ -180,7 +172,7 @@ public class Fight implements fightInformation{
             output.setBody(new String[]{"You tried to flee away!", "", "The " + this.monster.getName() + " caught you, dealing you " + fleeDmg + " DMG", "You need to react faster"});
             output.print();
         } else {
-            this.status = 3;
+            this.status = FLEE;
         }
     }
 

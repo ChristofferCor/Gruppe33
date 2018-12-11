@@ -56,11 +56,11 @@ public class Cave4Controller extends GameWindowsController implements Initializa
         } else if (posX == 9 && posY == 2) {
             GridPane.setConstraints(character, posX, posY);
             super.setOutputText("Loading next room");
-            GUIController.getGui().updateStage(GUIController.goRoom("west"));
+                        super.delayUpdateStage(GUIController.goRoom("west"));
         } else if (posX == 4 && posY == 5) {
             GridPane.setConstraints(character, posX, posY);
             super.setOutputText("Loading next room");
-            GUIController.getGui().updateStage(GUIController.goRoom("south"));
+            super.delayUpdateStage(GUIController.goRoom("south"));
         }
     }
 

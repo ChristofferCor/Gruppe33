@@ -57,7 +57,7 @@ public class CaveEntranceController extends GameWindowsController implements Ini
             GridPane.setConstraints(character, posX, posY);
         } else if (posX == 9 && posY == 2) {
             GridPane.setConstraints(character, posX, posY);
-            GUIController.getGui().updateStage(GUIController.goRoom("east"));
+            super.delayUpdateStage(GUIController.goRoom("east"));
         }
     }
 

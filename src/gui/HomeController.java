@@ -47,14 +47,14 @@ public class HomeController extends GameWindowsController implements Initializab
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
     }
-    
-        @Override
+
+    @Override
     void moveCharacter(Node character, int posX, int posY) {
         if ((posX > 0 && posX < 9 && posY > 0 && posY < 5)) {
             GridPane.setConstraints(character, posX, posY);
         } else if (posX == 9 && posY == 3) {
             GridPane.setConstraints(character, posX, posY);
-            GUIController.getGui().updateStage(GUIController.goRoom("east"));
+            super.delayUpdateStage(GUIController.goRoom("east"));
         }
     }
 }
