@@ -90,10 +90,10 @@ public abstract class Item {
         return this.imgPath;
     }
     
-    public ArrayList<Integer> getPosition() {
-        ArrayList<Integer> position = new ArrayList<>();
-        position.add(posX);
-        position.add(posY);
+    public int[] getPosition() {
+        int[] position = new int[2];
+        position[0] = this.posX;
+        position[1] = this.posY;
         return position;
     }
 
