@@ -16,12 +16,12 @@ import java.util.Scanner;
  */
 public class Choose {
     private static Scanner myScanner = new Scanner(System.in);   
-    
+    private static String inputLine;
     public static void choose() {
         System.out.println("Type start, how to play(?), quit ");
-        String choice = myScanner.next();
+        inputLine = myScanner.nextLine();
         
-        switch (choice) {
+        switch (inputLine) {
             case "start":
                 AttackCatalogue browser = new AttackCatalogue();
                 fightsystem.Character protagonist = new fightsystem.Character();
@@ -37,7 +37,7 @@ public class Choose {
                 quit();
                 break;
             default:
-                System.out.println(" What you typed is not valid ");
+                System.out.println("What you typed is not valid\n ");
                 choose();
                 break;
         }
@@ -49,7 +49,7 @@ public class Choose {
                 + "\nTo play this game you need to be fast at typing."
                 + "\nYou will have to fight monsters to get the material needed to build a new pickaxe."
                 + "\nGo through the cave system to find new mobs, items and treasure."
-                + "\nTo win the game you will have to build a pickaxe and get out of the devastating cave system"
+                + "\nTo win the game you will have to build a pickaxe and get out of the devastating cave system."
         );
         System.out.println("");
         choose();
@@ -58,4 +58,9 @@ public class Choose {
         System.out.println("Bye, Bye ");
         System.out.println("Thank you for playing. Goodbye.");
     }
+    
+
+
+       
+    
 }
