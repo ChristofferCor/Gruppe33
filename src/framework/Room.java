@@ -9,7 +9,7 @@ import entities.ItemCatalogue;
 import gui.FXMLRooms;
 import gui.GameWindowsController;
 
-public class Room implements FXMLRooms{
+public class Room implements FXMLRooms {
 
     private boolean firstTime = false; // Attribute for first time event
     private String description; //Description for the room
@@ -74,7 +74,6 @@ public class Room implements FXMLRooms{
         }
         return false;
     }*/
-
     public void setExit(String direction, Room neighbor) {
         exits.put(direction, neighbor);
     }
@@ -142,8 +141,8 @@ public class Room implements FXMLRooms{
     public Room getExit(String direction) {
         return exits.get(direction);
     }
-    
-    public fightsystem.Character getEnemy(){
+
+    public fightsystem.Character getEnemy() {
         return this.enemy;
     }
 
@@ -161,18 +160,18 @@ public class Room implements FXMLRooms{
     public String getEnemyName() {
         return enemy.getName();
     }
-    
+
     @Override
-    public String getFXMLPath(){
+    public String getFXMLPath() {
         return this.FXMLPath;
     }
-    
+
     @Override
-    public void setController(GameWindowsController controller){
+    public void setController(GameWindowsController controller) {
         this.controller = controller;
     }
-    
-    public GameWindowsController getController(){
+
+    public GameWindowsController getController() {
         return this.controller;
     }
 
@@ -216,14 +215,30 @@ public class Room implements FXMLRooms{
         }
         return returnString;
     }
-    
+
     @Override
     public int[] getItemPos(int index) {
-        return items.get(index).getPosition();
+        if (!items.isEmpty()) {
+            return items.get(index).getPosition();
+        } else {
+            return null;
+        }
+
     }
-    
+
+    @Override
     public String getItemImage(int index) {
         return items.get(index).getImgPath();
+    }
+
+    public Item collectItem(int posX, int posY) {
+        for (Item item : this.items) {
+            if (item.getPosition()[0] == posX && item.getPosition()[1] == posY) {
+                this.removeItems(item);
+                return item;
+            }
+        }
+        return null;
     }
 
 }

@@ -51,10 +51,10 @@ public class GameWindowsController implements Initializable {
     private ImageView player;
     @FXML
     private ListView<String> listViewInventory;
-    
+
     private FXMLRooms room;
     private ObservableList<String> items = FXCollections.observableArrayList();
-    
+
     private Runnable delayUpdateStage = new Runnable() {
         public void run() {
             try {
@@ -76,8 +76,6 @@ public class GameWindowsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //items.addAll(GUIController.game.getInventory());
-        //listViewInventory.setItems(items);
     }
 
     @FXML
@@ -145,7 +143,18 @@ public class GameWindowsController implements Initializable {
     }
 
     void setPlayer(ImageView player) {
+        updateInventory();
         this.player = player;
+    }
+
+    public void updateInventory() {
+        if (GUIController.game != null)  {
+            if (GUIController.game.getInventory() != null && GUIController.game.getInventory().length != 0) {
+                items.clear();
+                items.addAll(GUIController.game.getInventory());
+                listViewInventory.setItems(items);
+            }
+        }
     }
 
     @FXML
@@ -179,7 +188,7 @@ public class GameWindowsController implements Initializable {
             Logger.getLogger(GameWindowsController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void delayUpdateStage(FXMLRooms room) {
         this.room = room;
         new Thread(delayUpdateStage).start();

@@ -24,6 +24,7 @@ import javafx.scene.layout.GridPane;
  * @author corga
  */
 public class Cave10Controller extends GameWindowsController implements Initializable {
+
     @FXML
     private ImageView platinumRing;
     @FXML
@@ -47,16 +48,24 @@ public class Cave10Controller extends GameWindowsController implements Initializ
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
-        GridPane.setConstraints(platinumRing, GUIController.getCurrentRoom().getItemPos(0)[0], GUIController.getCurrentRoom().getItemPos(0)[1]);
-        Image image = new Image("/resources/" + GUIController.getCurrentRoom().getItemImage(0) + ".png");
-        platinumRing.setImage(image);
+        if (GUIController.getCurrentRoom().getItemPos(0) != null) {
+            GridPane.setConstraints(platinumRing, GUIController.getCurrentRoom().getItemPos(0)[0], GUIController.getCurrentRoom().getItemPos(0)[1]);
+            Image image = new Image("/resources/" + GUIController.getCurrentRoom().getItemImage(0) + ".png");
+            platinumRing.setImage(image);
+        } else {
+            platinumRing.setImage(null);
+        }
     }
 
     @Override
     void moveCharacter(Node character, int posX, int posY) {
         if ((posX > 0 && posX < 9 && posY > 0 && posY < 5)) {
-            if (posX == GUIController.getCurrentRoom().getItemPos(0)[0] && posY == GUIController.getCurrentRoom().getItemPos(0)[1] ) {
-                
+            if (GUIController.getCurrentRoom().getItemPos(0) != null) {
+                if (posX == GUIController.getCurrentRoom().getItemPos(0)[0] && posY == GUIController.getCurrentRoom().getItemPos(0)[1]) {
+                    GUIController.game.collectItem(posX, posY);
+                    platinumRing.setImage(null);
+                    super.updateInventory();
+                }
             }
             GridPane.setConstraints(character, posX, posY);
         } else if (posX == 6 && posY == 5) {
@@ -64,5 +73,5 @@ public class Cave10Controller extends GameWindowsController implements Initializ
             super.delayUpdateStage(GUIController.goRoom("south"));
         }
     }
-    
+
 }

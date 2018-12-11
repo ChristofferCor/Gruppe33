@@ -49,15 +49,26 @@ public class Cave7Controller extends GameWindowsController implements Initializa
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
-        GridPane.setConstraints(healthPotion, GUIController.getCurrentRoom().getItemPos(0)[0], GUIController.getCurrentRoom().getItemPos(0)[1]);
-        Image image = new Image("/resources/" + GUIController.getCurrentRoom().getItemImage(0) + ".png");
-        healthPotion.setImage(image);
+        if (GUIController.getCurrentRoom().getItemPos(0) != null) {
+            GridPane.setConstraints(healthPotion, GUIController.getCurrentRoom().getItemPos(0)[0], GUIController.getCurrentRoom().getItemPos(0)[1]);
+            Image image = new Image("/resources/" + GUIController.getCurrentRoom().getItemImage(0) + ".png");
+            healthPotion.setImage(image);
+        } else {
+            healthPotion.setImage(null);
+        }
     }
 
     @Override
     void moveCharacter(Node character, int posX, int posY) {
         if ((posX > 0 && posX < 9 && posY > 0 && posY < 5)) {
             GridPane.setConstraints(character, posX, posY);
+            if (GUIController.getCurrentRoom().getItemPos(0) != null) {
+                if (posX == GUIController.getCurrentRoom().getItemPos(0)[0] && posY == GUIController.getCurrentRoom().getItemPos(0)[1]) {
+                    GUIController.game.collectItem(posX, posY);
+                    healthPotion.setImage(null);
+                    super.updateInventory();
+                }
+            }
         } else if (posX == 4 && posY == 0) {
             GridPane.setConstraints(character, posX, posY);
             super.delayUpdateStage(GUIController.goRoom("north"));

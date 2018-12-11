@@ -33,6 +33,7 @@ public class Fight implements fightInformation{
     private Scanner speedTyper;
     private FightTextFormater output;
     private boolean yourTurn;
+    private double maxMonsterHp;
 
     /**
      * The Fight needs to start a fight with two given Character objects.
@@ -43,6 +44,7 @@ public class Fight implements fightInformation{
     public Fight(Character player, Character monster) {
         this.monster = monster;
         this.player = player;
+        this.maxMonsterHp = monster.getHp();
         this.status = this.RUNNING;
         yourTurn = (Math.random()>= 0.5);
 
@@ -174,6 +176,10 @@ public class Fight implements fightInformation{
         } else {
             this.status = FLEE;
         }
+    }
+    
+    public void resetMonster() {
+        this.monster.setHp(maxMonsterHp);
     }
 
     /**

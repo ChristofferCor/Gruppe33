@@ -136,6 +136,8 @@ public class FightController implements Initializable {
             case Fight.VICTORY:
                 this.outputText.setText("You speedtyped your way around the " + fight.getName()[1] + "\n" + "You made it out with " + fight.getHp()[0] + " HP left");
                 System.out.println("Won");
+                GUIController.game.collectItem();
+                this.fight.resetMonster();
                 new Thread(delayUpdateStage).start();
                 break;
             case Fight.FLEE:

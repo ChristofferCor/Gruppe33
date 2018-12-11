@@ -386,11 +386,11 @@ public class Game {
         }
         return false;
     }
-    
+
     public String rest() {
-     Score.increaseRest();
-     this.protagonist.setHp(this.protagonist.getHp() + 25); // Adds 25 HP to the player
-     return ("(DAY " + (Score.getRest() + 1) + ") You rested and got 25 HP. Your total HP is " + protagonist.getHp());
+        Score.increaseRest();
+        this.protagonist.setHp(this.protagonist.getHp() + 25); // Adds 25 HP to the player
+        return ("(DAY " + (Score.getRest() + 1) + ") You rested and got 25 HP. Your total HP is " + protagonist.getHp());
     }
 
     private void victory() {
@@ -407,6 +407,20 @@ public class Game {
         } else {
             System.out.println("Thank you for playing. Goodbye.");
             return true;
+        }
+    }
+
+    public void collectItem(int posX, int posY) {
+        Item collectedItem = currentRoom.collectItem(posX, posY);
+        if (collectedItem != null) {
+            this.protagonist.addToInventory(collectedItem);
+        }
+    }
+
+    public void collectItem() {
+        for (Item i : currentRoom.getEnemy().getInventory()) {
+            protagonist.addToInventory(i);
+            System.out.println("You take " + i + " from the enemy.");
         }
     }
 }
