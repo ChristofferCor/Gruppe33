@@ -7,21 +7,25 @@ package gui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
 /**
  * FXML Controller class
  *
- * @author simon
+ * @author corga
  */
-public class Cave4Controller extends GameWindowsController implements Initializable {
+public class Cave5Controller extends GameWindowsController implements Initializable {
 
+    @FXML
+    private ImageView childhoodBully;
     @FXML
     private ImageView player;
     @FXML
@@ -49,19 +53,19 @@ public class Cave4Controller extends GameWindowsController implements Initializa
     void moveCharacter(Node character, int posX, int posY) {
         if ((posX > 0 && posX < 9 && posY > 0 && posY < 5)) {
             GridPane.setConstraints(character, posX, posY);
-            if (posX == 3 && posY == 2) {
+            if (posX == 5 && posY == 3) {
                 //Start fight
                 super.startFight();
             }
-        } else if (posX == 9 && posY == 2) {
+        } else if (posX == 0 && posY == 3) {
             GridPane.setConstraints(character, posX, posY);
-            super.setOutputText("Loading next room");
-            super.delayUpdateStage(GUIController.goRoom("east"));
-        } else if (posX == 4 && posY == 5) {
+            super.delayUpdateStage(GUIController.goRoom("west"));
+        } else if (posX == 4 && posY == 0) {
             GridPane.setConstraints(character, posX, posY);
-            super.setOutputText("Loading next room");
+            super.delayUpdateStage(GUIController.goRoom("north"));
+        } else if (posX == 6 && posY == 5) {
+            GridPane.setConstraints(character, posX, posY);
             super.delayUpdateStage(GUIController.goRoom("south"));
         }
     }
-
 }
