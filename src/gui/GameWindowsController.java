@@ -154,6 +154,7 @@ public class GameWindowsController implements Initializable {
 
     @FXML
     private void startRest(ActionEvent event) {
+        setOutputText(GUIController.game.rest());
     }
 
     @FXML
