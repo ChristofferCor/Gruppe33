@@ -13,8 +13,8 @@ public class Material extends Item {
 
     private int scoreValue;
 
-    public Material(String name, int id, String description, double value, int scoreValue) {
-        super(name, id, description, value);
+    public Material(String name, int id, String description, double value, int scoreValue, int posX, int posY, String imgPath) {
+        super(name, id, description, value, posX, posY, imgPath);
         this.scoreValue = scoreValue;
     }
 }

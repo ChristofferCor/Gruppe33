@@ -14,8 +14,8 @@ public class Consumables extends Item {
 
     private double potency;
 
-    public Consumables(String name, int id, String description, double value, double potency) {
-        super(name, id, description, value);
+    public Consumables(String name, int id, String description, double value, double potency, int posX, int posY, String imgPath) {
+        super(name, id, description, value, posX, posY, imgPath);
         this.potency = potency;
     }
 
