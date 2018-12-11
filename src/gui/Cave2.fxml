@@ -334,7 +334,7 @@
                         <Image url="@../Resources/coulmn_base.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="goldWatch" fitHeight="42.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                  <ImageView fx:id="goldWatch" fitHeight="42.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                      <image>
                         <Image url="@../Resources/coin_anim_f3.png" />
                      </image>

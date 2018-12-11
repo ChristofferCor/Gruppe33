@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -47,6 +48,9 @@ public class Cave8Controller extends GameWindowsController implements Initializa
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
+        GridPane.setConstraints(iron, GUIController.getCurrentRoom().getItemPos(0)[0], GUIController.getCurrentRoom().getItemPos(0)[1]);
+        Image image = new Image("/resources/" + GUIController.getCurrentRoom().getItemImage(0) + ".png");
+        iron.setImage(image);
     }
 
     @Override

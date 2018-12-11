@@ -238,6 +238,16 @@ public class Game {
         parser.showCommands();
     }
 
+    public String[] getInventory() {
+        String[] returnArray = new String[this.protagonist.getInventory().size()];
+        int i = 0;
+        for (Item item : this.protagonist.getInventory()) {
+            returnArray[i] = item.getName();
+            i++;
+        }
+        return returnArray;
+    }
+
     public Room goRoom(String direction) {
         currentRoom = currentRoom.getExit(direction);
 

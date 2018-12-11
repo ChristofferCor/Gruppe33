@@ -13,4 +13,8 @@ public interface FXMLRooms {
     public String getFXMLPath();
     
     public void setController(GameWindowsController controller);
+    
+    public int[] getItemPos(int index);
+    
+    public String getItemImage(int index);
 }

@@ -216,5 +216,14 @@ public class Room implements FXMLRooms{
         }
         return returnString;
     }
+    
+    @Override
+    public int[] getItemPos(int index) {
+        return items.get(index).getPosition();
+    }
+    
+    public String getItemImage(int index) {
+        return items.get(index).getImgPath();
+    }
 
 }

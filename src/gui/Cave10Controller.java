@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -46,11 +47,17 @@ public class Cave10Controller extends GameWindowsController implements Initializ
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
+        GridPane.setConstraints(platinumRing, GUIController.getCurrentRoom().getItemPos(0)[0], GUIController.getCurrentRoom().getItemPos(0)[1]);
+        Image image = new Image("/resources/" + GUIController.getCurrentRoom().getItemImage(0) + ".png");
+        platinumRing.setImage(image);
     }
 
     @Override
     void moveCharacter(Node character, int posX, int posY) {
         if ((posX > 0 && posX < 9 && posY > 0 && posY < 5)) {
+            if (posX == GUIController.getCurrentRoom().getItemPos(0)[0] && posY == GUIController.getCurrentRoom().getItemPos(0)[1] ) {
+                
+            }
             GridPane.setConstraints(character, posX, posY);
         } else if (posX == 6 && posY == 5) {
             GridPane.setConstraints(character, posX, posY);
