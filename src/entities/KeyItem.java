@@ -12,7 +12,7 @@ package entities;
 public class KeyItem extends Item {
 
     public KeyItem(String name, int id, String description, double value) {
-        super(name, id, description, value);
+        super(name, id, description, value, 0, 0, null);
     }
 
     @Override

@@ -11,8 +11,8 @@ package entities;
  */
 public class Misc extends Item{
     
-    public Misc(String name, int id, String description, double value) {
-        super(name, id, description, value);
+    public Misc(String name, int id, String description, double value, int posX, int posY, String imgPath) {
+        super(name, id, description, value, posX, posY, imgPath);
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package entities;
 import fightsystem.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,12 +17,18 @@ public abstract class Item {
     private int id;
     private String description;
     private double value;
+    private int posX;
+    private int posY;
+    private String imgPath;
 
-    public Item(String name, int id, String description, double value) {
+    public Item(String name, int id, String description, double value, int posX, int posY, String imgPath) {
         this.name = name;
         this.id = id;
         this.description = description;
         this.value = value;
+        this.posX = posX;
+        this.posY = posY;
+        this.imgPath = imgPath;
     }
 
     /**
@@ -77,6 +84,17 @@ public abstract class Item {
     
     public int getScoreValue(){
         return (int)this.value;
+    }
+    
+    public String getImgPath() {
+        return this.imgPath;
+    }
+    
+    public ArrayList<Integer> getPosition() {
+        ArrayList<Integer> position = new ArrayList<>();
+        position.add(posX);
+        position.add(posY);
+        return position;
     }
 
 }
