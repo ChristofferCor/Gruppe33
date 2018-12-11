@@ -386,6 +386,12 @@ public class Game {
         }
         return false;
     }
+    
+    public String rest() {
+     Score.increaseRest();
+     this.protagonist.setHp(this.protagonist.getHp() + 25); // Adds 25 HP to the player
+     return ("(DAY " + (Score.getRest() + 1) + ") You rested and got 25 HP. Your total HP is " + protagonist.getHp());
+    }
 
     private void victory() {
         int calculateScore = score.calculateScore(new Date().getTime(), this.protagonist);
