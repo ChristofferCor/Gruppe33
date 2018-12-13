@@ -182,9 +182,9 @@ public class Room implements FXMLRooms {
             System.out.println("'Shit happens' you think for yourself");
             System.out.println("You gotta look around in the mine for materials for a new pickaxe");
         } else if (this.firstTimeID == 2) {
-            System.out.println("ouch! You stepped on a trap. You take 15 damage. The trap broke after one use, how lucky for you.");
-            protagonist.setHp(protagonist.getHp() - 15);
-            System.out.println("Your current HP is " + protagonist.getHp());
+            //System.out.println("ouch! You stepped on a trap. You take 15 damage. The trap broke after one use, how lucky for you.");
+            //protagonist.setHp(protagonist.getHp() - 15);
+            //System.out.println("Your current HP is " + protagonist.getHp());
         } else if (this.firstTimeID == 3) {
             System.out.println("You hear a rumble through the corridors. You figure it must come from the southern part of the mine");
             this.eventRoom.setEventTrigger(true);

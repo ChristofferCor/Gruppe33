@@ -2,6 +2,7 @@ package framework;
 
 import entities.*;
 import fightsystem.*;
+import gui.FXMLRooms;
 import gui.GUIController;
 import gui.HomeController;
 import gui.fightInformation;
@@ -33,6 +34,7 @@ public class Game {
     private fightsystem.AttackCatalogue browser;
     private ItemCatalogue catalogue = new ItemCatalogue();
     private Room victoryRoom;
+    private Room defeatRoom;
     private boolean finished = false;
     private Score score;
     private boolean isDug = false;
@@ -78,6 +80,7 @@ public class Game {
         cave10 = new Room("You stand in the tenth mine room.", 13, true, 3, "/gui/Cave10.fxml");
         cave11 = new Room("You stand in the eleventh mine room.", 14, "/gui/Cave11.fxml");
         victoryRoom = new Room("You are back at the town square. Nobody noticed you were gone, but you won, hurray!", 15, "/gui/Victory.fxml");
+        defeatRoom = new Room("You have been defeated", 16, "/gui/Defeat.fxml");
 
         home.setExit("east", townSquare);
 
@@ -454,5 +457,9 @@ public class Game {
 
     public String getScore() {
         return "" + score.calculateScore(new Date().getTime(), this.protagonist);
+    }
+    
+    public FXMLRooms getDefeatRoom(){
+        return this.defeatRoom;
     }
 }

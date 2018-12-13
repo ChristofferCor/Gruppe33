@@ -67,6 +67,7 @@ public class FightController implements Initializable {
     private ObservableList<String> items = FXCollections.observableArrayList();
     private boolean acceptInput = false;
     private long startTime;
+    private boolean quit = false;
 
     private Runnable fightLoop = new Runnable() {
         public void run() {
@@ -80,7 +81,11 @@ public class FightController implements Initializable {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    GUIController.getGui().updateStage(GUIController.getCurrentRoom());
+                    if (!quit) {
+                        GUIController.getGui().updateStage(GUIController.getCurrentRoom());
+                    } else {
+                        GUIController.getGui().updateStage(GUIController.game.getDefeatRoom());
+                    }
                 }
             });
         }
@@ -131,6 +136,7 @@ public class FightController implements Initializable {
             case Fight.DEAD:
                 this.outputText.setText("The " + fight.getName()[1] + " defeated you\n" + "It had " + fight.getHp()[1] + " HP left, what a shame!");
                 System.out.println("Died");
+                this.quit = true;
                 new Thread(delayUpdateStage).start();
                 break;
             case Fight.VICTORY:
