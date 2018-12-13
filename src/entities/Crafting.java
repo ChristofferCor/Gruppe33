@@ -25,23 +25,12 @@ public class Crafting {
     public boolean craftPickaxe() {
         ArrayList<Item> craftables = protagonist.getInventory();
         if (craftables.contains(ItemCatalogue.getItem(1)) && craftables.contains(ItemCatalogue.getItem(2)) && craftables.contains(ItemCatalogue.getItem(300))) {
-            input = new Scanner(System.in);
-            while (true) {
-                System.out.println("Do you want to craft a new pickaxe? (Yes/Abort)");
-                String answer = input.next();
-                if (answer.equalsIgnoreCase("Yes")) {
                     protagonist.removeFromInventory(ItemCatalogue.getItem(1));
                     protagonist.removeFromInventory(ItemCatalogue.getItem(2));
                     protagonist.removeFromInventory(ItemCatalogue.getItem(300));
                     protagonist.addToInventory(ItemCatalogue.getItem(1000));
                     System.out.println("You crafted a shiny new " + ItemCatalogue.getItem(1000).getName());
                     return true;
-                } else if (answer.equalsIgnoreCase("Abort")) {
-                    return false;
-                } else {
-                    System.out.println("Could not understand what you wanted to do.");
-                }
-            }
         } else {
             System.out.println("You don't have enough materials, gather more!");
             return false;

@@ -44,4 +44,13 @@ public class ItemCatalogue {
         }
         return null;
     }
+    
+    public static Item getItemFromString(String itemName) {
+        for(Item obj : Catalogue){
+            if (itemName.equals(obj.getName())) {
+                return obj;
+            }
+        }
+        return null;
+    }
 }

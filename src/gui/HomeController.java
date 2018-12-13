@@ -46,6 +46,9 @@ public class HomeController extends GameWindowsController implements Initializab
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
+        if ("west".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 8, 3);
+        }
     }
 
     @Override

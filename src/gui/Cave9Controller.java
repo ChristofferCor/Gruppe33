@@ -47,6 +47,10 @@ public class Cave9Controller extends GameWindowsController implements Initializa
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
+
+        if ("east".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 1, 3);
+        }
     }
 
     @Override
@@ -59,7 +63,6 @@ public class Cave9Controller extends GameWindowsController implements Initializa
             }
         } else if (posX == 0 && posY == 3) {
             GridPane.setConstraints(character, posX, posY);
-            super.setOutputText("Loading next room");
             super.delayUpdateStage(GUIController.goRoom("west"));
         }
     }

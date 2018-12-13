@@ -32,8 +32,9 @@ public class Consumables extends Item {
     }
     
     @Override
-    public void use(fightsystem.Character protagonist) {
+    public String use(fightsystem.Character protagonist) {
         protagonist.setHp(protagonist.getHp() + this.potency);
-        System.out.println("You drink the nasty potion and feel regenerated. Your HP is " + protagonist.getHp());
+        protagonist.removeFromInventory(this);
+        return ("You drink the nasty potion and feel regenerated. Your HP is " + protagonist.getHp());
     }
 }

@@ -44,6 +44,11 @@ public class TownSquareController extends GameWindowsController implements Initi
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
+        if ("east".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 1, 2);
+        } else if ("north".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 5, 4);
+        }
     }
 
     @Override
@@ -52,11 +57,9 @@ public class TownSquareController extends GameWindowsController implements Initi
             GridPane.setConstraints(character, posX, posY);
         } else if (posX == 5 && posY == 5) {
             GridPane.setConstraints(character, posX, posY);
-            super.setOutputText("Loading next room");
             super.delayUpdateStage(GUIController.goRoom("south"));
         } else if (posX == 0 && posY == 2) {
             GridPane.setConstraints(character, posX, posY);
-            super.setOutputText("Loading next room");
             super.delayUpdateStage(GUIController.goRoom("west"));
         }
     }

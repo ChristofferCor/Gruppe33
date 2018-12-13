@@ -45,6 +45,10 @@ public class Cave11Controller extends GameWindowsController implements Initializ
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
+
+        if ("west".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 8, 2);
+        }
     }
 
     @Override

@@ -54,6 +54,7 @@ public class GameWindowsController implements Initializable {
 
     private FXMLRooms room;
     private ObservableList<String> items = FXCollections.observableArrayList();
+    private boolean wantsToCraft = false;
 
     private Runnable delayUpdateStage = new Runnable() {
         public void run() {
@@ -148,7 +149,7 @@ public class GameWindowsController implements Initializable {
     }
 
     public void updateInventory() {
-        if (GUIController.game != null)  {
+        if (GUIController.game != null) {
             if (GUIController.game.getInventory() != null && GUIController.game.getInventory().length != 0) {
                 items.clear();
                 items.addAll(GUIController.game.getInventory());
@@ -159,6 +160,17 @@ public class GameWindowsController implements Initializable {
 
     @FXML
     private void startInventory(ActionEvent event) {
+        ObservableList<String> selectedItem;
+        selectedItem = this.listViewInventory.getSelectionModel().getSelectedItems();
+        for (String each : selectedItem) {
+            System.out.println(each);
+            String outputText = (GUIController.game.useItem(each));
+            this.setOutputText(outputText);
+            this.updateInventory();
+        }
+        if (GUIController.game.getIsDug()) {
+            updateRoom();
+        }
     }
 
     @FXML
@@ -168,14 +180,24 @@ public class GameWindowsController implements Initializable {
 
     @FXML
     private void startCraft(ActionEvent event) {
+        if (!this.wantsToCraft) {
+            this.setOutputText("You are about to use some of your materials! \nThis will create a pickaxe. \n\nPress 'Craft' again to confirm!");
+            this.wantsToCraft = true;
+        } else {
+            this.wantsToCraft = false;
+            String outputText = (GUIController.game.craft()) ? "Succesfully created a shiny new Pickaxe!" : "You don't have enough materials for this action!";
+            this.setOutputText(outputText);
+            this.updateInventory();
+        }
     }
 
     public void setOutputText(String outputText) {
-        this.outputText.setText(outputText);
+        String savedOutputText = this.outputText.getText();
+        this.outputText.setText(savedOutputText + "\n" + outputText);
     }
 
     void moveCharacter(Node character, int posX, int posY) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void startFight() {
@@ -192,6 +214,10 @@ public class GameWindowsController implements Initializable {
     public void delayUpdateStage(FXMLRooms room) {
         this.room = room;
         new Thread(delayUpdateStage).start();
+    }
+    
+    public void updateRoom() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

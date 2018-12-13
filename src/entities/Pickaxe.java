@@ -26,4 +26,10 @@ public class Pickaxe extends KeyItem {
     public int getScoreValue() {
         return (int) (250 * 3);
     }
+    
+    @Override
+    public String use(fightsystem.Character protagonist) {
+        //Todo
+        return ("Pickaxe");
+    }
 }

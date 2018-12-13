@@ -315,7 +315,7 @@
                         <Image url="@../Resources/elf_m_idle_anim_f3.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
+                  <ImageView fx:id="boulder" fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
                      <image>
                         <Image url="@../resources/image_part_049.png" />
                      </image>

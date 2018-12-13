@@ -85,6 +85,7 @@ public class Game {
         townSquare.setExit("south", caveEntrance);
 
         caveEntrance.setExit("east", cave1);
+        caveEntrance.setExit("north", victoryRoom);
 
         cave1.setExit("west", caveEntrance);
         cave1.setExit("north", cave3);
@@ -316,6 +317,16 @@ public class Game {
     }*/
     }
 
+    public boolean craft() {
+        Crafting crafter = new Crafting(this.protagonist);
+        return crafter.craftPickaxe();
+    }
+
+    public boolean craftExtra() {
+        Crafting crafter = new Crafting(this.protagonist);
+        return crafter.craftAddExtra();
+    }
+
     private boolean goRoom(Command command) {
         boolean wantsToQuit = false;
 
@@ -395,9 +406,9 @@ public class Game {
 
     private void victory() {
         int calculateScore = score.calculateScore(new Date().getTime(), this.protagonist);
-        TextFormater output = new TextFormater(70, '#', '-');
-        output.setBothPrint(new String[]{"You feel the burning hot sun on your forehead", "", "You used " + (Score.getRest() + 1) + " days", "Your total score is: " + calculateScore, ""}, new String[]{"Congratulations you escaped the cave!"});
-        Choose.choose();
+        //TextFormater output = new TextFormater(70, '#', '-');
+        //output.setBothPrint(new String[]{"You feel the burning hot sun on your forehead", "", "You used " + (Score.getRest() + 1) + " days", "Your total score is: " + calculateScore, ""}, new String[]{"Congratulations you escaped the cave!"});
+        //Choose.choose();
     }
 
     private boolean quit(Command command) {
@@ -422,5 +433,26 @@ public class Game {
             protagonist.addToInventory(i);
             System.out.println("You take " + i + " from the enemy.");
         }
+    }
+
+    public String useItem(String itemName) {
+        String returnString = (ItemCatalogue.getItemFromString(itemName).use(protagonist));
+        if ("Pickaxe".equals(returnString)) {
+            if (currentRoom.getRoomID() == 3) {
+                returnString = ("You dig a small hole through the rubble for you to fit through. \nYou hear birds singing and see the sun shining. \nYou can now leave the mine.");
+                this.isDug = true;
+            } else {
+                returnString = ("You try to mine something, but get nowhere. You feel stupid.");
+            }
+        }
+        return returnString;
+    }
+
+    public boolean getIsDug() {
+        return this.isDug;
+    }
+
+    public String getScore() {
+        return "" + score.calculateScore(new Date().getTime(), this.protagonist);
     }
 }

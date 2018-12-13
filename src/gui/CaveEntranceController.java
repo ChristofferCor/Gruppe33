@@ -41,6 +41,8 @@ public class CaveEntranceController extends GameWindowsController implements Ini
     private Button buttonRest;
     @FXML
     private Button buttonCraft;
+    @FXML
+    private ImageView boulder;
 
     /**
      * Initializes the controller class.
@@ -48,7 +50,16 @@ public class CaveEntranceController extends GameWindowsController implements Ini
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
-        GridPane.setConstraints(player, 4, 1);
+        
+        if (GUIController.game.getIsDug()) {
+            boulder.setImage(null);
+        }
+        
+        if ("south".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 4, 1);
+        } else if ("west".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 8, 2);
+        }
     }
 
     @Override
@@ -58,7 +69,16 @@ public class CaveEntranceController extends GameWindowsController implements Ini
         } else if (posX == 9 && posY == 2) {
             GridPane.setConstraints(character, posX, posY);
             super.delayUpdateStage(GUIController.goRoom("east"));
+        } else if (posX == 4 && posY == 0 && GUIController.game.getIsDug()) {
+            System.out.println("Victory!");
+            GridPane.setConstraints(character, posX, posX);
+            super.delayUpdateStage(GUIController.goRoom("north"));
         }
+    }
+    
+    @Override
+    public void updateRoom(){
+        boulder.setImage(null);
     }
 
 }

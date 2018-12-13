@@ -24,6 +24,7 @@ import javafx.scene.layout.GridPane;
  * @author corga
  */
 public class Cave7Controller extends GameWindowsController implements Initializable {
+
     @FXML
     private ImageView trap;
     @FXML
@@ -49,6 +50,15 @@ public class Cave7Controller extends GameWindowsController implements Initializa
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
+
+        if ("south".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 4, 1);
+        } else if ("north".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 5, 4);
+        } else if ("west".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 8, 3);
+        }
+
         if (GUIController.getCurrentRoom().getItemPos(0) != null) {
             GridPane.setConstraints(healthPotion, GUIController.getCurrentRoom().getItemPos(0)[0], GUIController.getCurrentRoom().getItemPos(0)[1]);
             Image image = new Image("/resources/" + GUIController.getCurrentRoom().getItemImage(0) + ".png");
@@ -80,5 +90,5 @@ public class Cave7Controller extends GameWindowsController implements Initializa
             super.delayUpdateStage(GUIController.goRoom("east"));
         }
     }
-    
+
 }

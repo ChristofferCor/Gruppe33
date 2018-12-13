@@ -70,8 +70,8 @@ public abstract class Item {
         return name;
     }
 
-    public void use(fightsystem.Character protagonist) {
-        System.out.println("The item can't be used");
+    public String use(fightsystem.Character protagonist) {
+        return ("The item can't be used");
     }
 
     public boolean droppable() {

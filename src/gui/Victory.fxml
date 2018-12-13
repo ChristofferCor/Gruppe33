@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -10,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.StartWindowController">
+<GridPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VictoryController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -36,9 +35,6 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="buttonStart" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0" prefWidth="200.0" text="START" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="buttonQuit" mnemonicParsing="false" onAction="#startQuit" prefHeight="40.0" prefWidth="200.0" text="QUIT" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Button fx:id="buttonHelp" mnemonicParsing="false" onAction="#startHelp" prefHeight="40.0" prefWidth="200.0" text="HELP" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
@@ -64,6 +60,47 @@
                         <Image url="@../resources/image_part_235.png" />
                      </image>
                   </ImageView>
+               </children>
+            </AnchorPane>
+            <Label alignment="TOP_CENTER" prefHeight="64.0" prefWidth="200.0" text="You escaped the mine!" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_CENTER" prefHeight="24.0" prefWidth="200.0" text="Congratulations!" GridPane.columnIndex="1">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <Label alignment="TOP_CENTER" prefHeight="17.0" prefWidth="202.0" text="Your final score is" textAlignment="CENTER">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="scoreLabel" alignment="TOP_CENTER" layoutY="33.0" prefHeight="17.0" prefWidth="202.0" text="850">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <children>
+                  <Label layoutX="37.0" layoutY="27.0" text="Christoffer Peter Jensen" />
+                  <Label layoutX="37.0" layoutY="48.0" text="Sebastian Diderik Moldt" />
+                  <Label alignment="TOP_CENTER" prefHeight="28.0" prefWidth="200.0" text="Made by:">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <children>
+                  <Label layoutX="43.0" layoutY="5.0" text="Simon Holland Flarup" />
+                  <Label layoutX="8.0" layoutY="27.0" text="Tobias Bolvig Rasmussen Bielefeldt" />
                </children>
             </AnchorPane>
          </children>

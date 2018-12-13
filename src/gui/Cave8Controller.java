@@ -48,6 +48,13 @@ public class Cave8Controller extends GameWindowsController implements Initializa
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.setPlayer(player);
+
+        if ("south".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 4, 1);
+        } else if ("east".equals(GUIController.getOriginDirection())) {
+            GridPane.setConstraints(player, 1, 3);
+        }
+
         if (GUIController.getCurrentRoom().getItemPos(0) != null) {
             GridPane.setConstraints(iron, GUIController.getCurrentRoom().getItemPos(0)[0], GUIController.getCurrentRoom().getItemPos(0)[1]);
             Image image = new Image("/resources/" + GUIController.getCurrentRoom().getItemImage(0) + ".png");

@@ -32,7 +32,7 @@ public class Score {
         this.rest = 0;
     }
     
-    public int calculateScore(long endTime, Character protagonist){ //NEEDS FIXING!
+    public int calculateScore(long endTime, Character protagonist){
         int score = this.score;
         for(Item obj : protagonist.getInventory()){
             score += obj.getScoreValue();
