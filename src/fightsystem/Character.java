@@ -25,7 +25,7 @@ public class Character {
      *
      */
     public Character() {
-        this(null, 1, 100, 100, "elf_m_idle_anim_f1");
+        this(null, 100, 100, 100, "elf_m_idle_anim_f1");
     }
     /**
      *
